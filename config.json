@@ -1,0 +1,1556 @@
+{
+  "players": [
+    {
+      "discord_id": 520994132458471400,
+      "player_id": 56
+    },
+    {
+      "discord_id": 429624986114850800,
+      "player_id": 80
+    },
+    {
+      "discord_id": 329035388326772740,
+      "player_id": 82
+    }
+  ],
+  "modCombination": [
+    {
+      "mods": "NM",
+      "modNumber": 0
+    },
+    {
+      "mods": "NF",
+      "modNumber": 1
+    },
+    {
+      "mods": "EZ",
+      "modNumber": 2
+    },
+    {
+      "mods": "HD",
+      "modNumber": 8
+    },
+    {
+      "mods": "HR",
+      "modNumber": 16
+    },
+    {
+      "mods": "DT",
+      "modNumber": 64
+    },
+    {
+      "mods": "HT",
+      "modNumber": 256
+    },
+    {
+      "mods": "NC",
+      "modNumber": 576
+    },
+    {
+      "mods": "FL",
+      "modNumber": 1024
+    },
+    {
+      "mods": "SO",
+      "modNumber": 4096
+    },
+    {
+      "mods": "SD",
+      "modNumber": 32
+    },
+    {
+      "mods": "PF",
+      "modNumber": 16416
+    },
+    {
+      "mods": "NFEZ",
+      "modNumber": 3
+    },
+    {
+      "mods": "NFHD",
+      "modNumber": 9
+    },
+    {
+      "mods": "NFHR",
+      "modNumber": 17
+    },
+    {
+      "mods": "NFDT",
+      "modNumber": 65
+    },
+    {
+      "mods": "NFHT",
+      "modNumber": 257
+    },
+    {
+      "mods": "NFNC",
+      "modNumber": 577
+    },
+    {
+      "mods": "NFFL",
+      "modNumber": 1025
+    },
+    {
+      "mods": "NFSO",
+      "modNumber": 4097
+    },
+    {
+      "mods": "EZHD",
+      "modNumber": 10
+    },
+    {
+      "mods": "EZDT",
+      "modNumber": 66
+    },
+    {
+      "mods": "EZHT",
+      "modNumber": 258
+    },
+    {
+      "mods": "EZNC",
+      "modNumber": 578
+    },
+    {
+      "mods": "EZFL",
+      "modNumber": 1026
+    },
+    {
+      "mods": "EZSO",
+      "modNumber": 4098
+    },
+    {
+      "mods": "EZSD",
+      "modNumber": 34
+    },
+    {
+      "mods": "EZPF",
+      "modNumber": 16418
+    },
+    {
+      "mods": "HDHR",
+      "modNumber": 24
+    },
+    {
+      "mods": "HDDT",
+      "modNumber": 72
+    },
+    {
+      "mods": "HDHT",
+      "modNumber": 264
+    },
+    {
+      "mods": "HDNC",
+      "modNumber": 584
+    },
+    {
+      "mods": "HDFL",
+      "modNumber": 1032
+    },
+    {
+      "mods": "HDSO",
+      "modNumber": 4104
+    },
+    {
+      "mods": "HDSD",
+      "modNumber": 40
+    },
+    {
+      "mods": "HDPF",
+      "modNumber": 16424
+    },
+    {
+      "mods": "HRDT",
+      "modNumber": 80
+    },
+    {
+      "mods": "HRHT",
+      "modNumber": 272
+    },
+    {
+      "mods": "HRNC",
+      "modNumber": 592
+    },
+    {
+      "mods": "HRFL",
+      "modNumber": 1040
+    },
+    {
+      "mods": "HRSO",
+      "modNumber": 4112
+    },
+    {
+      "mods": "HRSD",
+      "modNumber": 48
+    },
+    {
+      "mods": "HRPF",
+      "modNumber": 16432
+    },
+    {
+      "mods": "DTFL",
+      "modNumber": 1088
+    },
+    {
+      "mods": "DTSO",
+      "modNumber": 4160
+    },
+    {
+      "mods": "DTSD",
+      "modNumber": 96
+    },
+    {
+      "mods": "DTPF",
+      "modNumber": 16480
+    },
+    {
+      "mods": "HTFL",
+      "modNumber": 1280
+    },
+    {
+      "mods": "HTSO",
+      "modNumber": 4352
+    },
+    {
+      "mods": "HTSD",
+      "modNumber": 288
+    },
+    {
+      "mods": "HTPF",
+      "modNumber": 16672
+    },
+    {
+      "mods": "NCFL",
+      "modNumber": 1600
+    },
+    {
+      "mods": "NCSO",
+      "modNumber": 4672
+    },
+    {
+      "mods": "NCSD",
+      "modNumber": 608
+    },
+    {
+      "mods": "NCPF",
+      "modNumber": 16992
+    },
+    {
+      "mods": "FLSO",
+      "modNumber": 5120
+    },
+    {
+      "mods": "FLSD",
+      "modNumber": 1056
+    },
+    {
+      "mods": "FLPF",
+      "modNumber": 17440
+    },
+    {
+      "mods": "SOSD",
+      "modNumber": 4128
+    },
+    {
+      "mods": "SOPF",
+      "modNumber": 20512
+    },
+    {
+      "mods": "NFEZHD",
+      "modNumber": 11
+    },
+    {
+      "mods": "NFEZDT",
+      "modNumber": 67
+    },
+    {
+      "mods": "NFEZHT",
+      "modNumber": 259
+    },
+    {
+      "mods": "NFEZNC",
+      "modNumber": 579
+    },
+    {
+      "mods": "NFEZFL",
+      "modNumber": 1027
+    },
+    {
+      "mods": "NFEZSO",
+      "modNumber": 4099
+    },
+    {
+      "mods": "NFHDHR",
+      "modNumber": 25
+    },
+    {
+      "mods": "NFHDDT",
+      "modNumber": 73
+    },
+    {
+      "mods": "NFHDHT",
+      "modNumber": 265
+    },
+    {
+      "mods": "NFHDNC",
+      "modNumber": 585
+    },
+    {
+      "mods": "NFHDFL",
+      "modNumber": 1033
+    },
+    {
+      "mods": "NFHDSO",
+      "modNumber": 4105
+    },
+    {
+      "mods": "NFHRDT",
+      "modNumber": 81
+    },
+    {
+      "mods": "NFHRHT",
+      "modNumber": 273
+    },
+    {
+      "mods": "NFHRNC",
+      "modNumber": 593
+    },
+    {
+      "mods": "NFHRFL",
+      "modNumber": 1041
+    },
+    {
+      "mods": "NFHRSO",
+      "modNumber": 4113
+    },
+    {
+      "mods": "NFDTFL",
+      "modNumber": 1089
+    },
+    {
+      "mods": "NFDTSO",
+      "modNumber": 4161
+    },
+    {
+      "mods": "NFHTFL",
+      "modNumber": 1281
+    },
+    {
+      "mods": "NFHTSO",
+      "modNumber": 4353
+    },
+    {
+      "mods": "NFNCFL",
+      "modNumber": 1601
+    },
+    {
+      "mods": "NFNCSO",
+      "modNumber": 4673
+    },
+    {
+      "mods": "NFFLSO",
+      "modNumber": 5121
+    },
+    {
+      "mods": "EZHDDT",
+      "modNumber": 74
+    },
+    {
+      "mods": "EZHDHT",
+      "modNumber": 266
+    },
+    {
+      "mods": "EZHDNC",
+      "modNumber": 586
+    },
+    {
+      "mods": "EZHDFL",
+      "modNumber": 1034
+    },
+    {
+      "mods": "EZHDSO",
+      "modNumber": 4106
+    },
+    {
+      "mods": "EZHDSD",
+      "modNumber": 42
+    },
+    {
+      "mods": "EZHDPF",
+      "modNumber": 16426
+    },
+    {
+      "mods": "EZDTFL",
+      "modNumber": 1090
+    },
+    {
+      "mods": "EZDTSO",
+      "modNumber": 4162
+    },
+    {
+      "mods": "EZDTSD",
+      "modNumber": 98
+    },
+    {
+      "mods": "EZDTPF",
+      "modNumber": 16482
+    },
+    {
+      "mods": "EZHTFL",
+      "modNumber": 1282
+    },
+    {
+      "mods": "EZHTSO",
+      "modNumber": 4354
+    },
+    {
+      "mods": "EZHTSD",
+      "modNumber": 290
+    },
+    {
+      "mods": "EZHTPF",
+      "modNumber": 16674
+    },
+    {
+      "mods": "EZNCFL",
+      "modNumber": 1602
+    },
+    {
+      "mods": "EZNCSO",
+      "modNumber": 4674
+    },
+    {
+      "mods": "EZNCSD",
+      "modNumber": 610
+    },
+    {
+      "mods": "EZNCPF",
+      "modNumber": 16994
+    },
+    {
+      "mods": "EZFLSO",
+      "modNumber": 5122
+    },
+    {
+      "mods": "EZFLSD",
+      "modNumber": 1058
+    },
+    {
+      "mods": "EZFLPF",
+      "modNumber": 17442
+    },
+    {
+      "mods": "EZSOSD",
+      "modNumber": 4130
+    },
+    {
+      "mods": "EZSOPF",
+      "modNumber": 20514
+    },
+    {
+      "mods": "HDHRDT",
+      "modNumber": 88
+    },
+    {
+      "mods": "HDHRHT",
+      "modNumber": 280
+    },
+    {
+      "mods": "HDHRNC",
+      "modNumber": 600
+    },
+    {
+      "mods": "HDHRFL",
+      "modNumber": 1048
+    },
+    {
+      "mods": "HDHRSO",
+      "modNumber": 4120
+    },
+    {
+      "mods": "HDHRSD",
+      "modNumber": 56
+    },
+    {
+      "mods": "HDHRPF",
+      "modNumber": 16440
+    },
+    {
+      "mods": "HDDTFL",
+      "modNumber": 1096
+    },
+    {
+      "mods": "HDDTSO",
+      "modNumber": 4168
+    },
+    {
+      "mods": "HDDTSD",
+      "modNumber": 104
+    },
+    {
+      "mods": "HDDTPF",
+      "modNumber": 16488
+    },
+    {
+      "mods": "HDHTFL",
+      "modNumber": 1288
+    },
+    {
+      "mods": "HDHTSO",
+      "modNumber": 4360
+    },
+    {
+      "mods": "HDHTSD",
+      "modNumber": 296
+    },
+    {
+      "mods": "HDHTPF",
+      "modNumber": 16680
+    },
+    {
+      "mods": "HDNCFL",
+      "modNumber": 1608
+    },
+    {
+      "mods": "HDNCSO",
+      "modNumber": 4680
+    },
+    {
+      "mods": "HDNCSD",
+      "modNumber": 616
+    },
+    {
+      "mods": "HDNCPF",
+      "modNumber": 17000
+    },
+    {
+      "mods": "HDFLSO",
+      "modNumber": 5128
+    },
+    {
+      "mods": "HDFLSD",
+      "modNumber": 1064
+    },
+    {
+      "mods": "HDFLPF",
+      "modNumber": 17448
+    },
+    {
+      "mods": "HDSOSD",
+      "modNumber": 4136
+    },
+    {
+      "mods": "HDSOPF",
+      "modNumber": 20520
+    },
+    {
+      "mods": "HRDTFL",
+      "modNumber": 1104
+    },
+    {
+      "mods": "HRDTSO",
+      "modNumber": 4176
+    },
+    {
+      "mods": "HRDTSD",
+      "modNumber": 112
+    },
+    {
+      "mods": "HRDTPF",
+      "modNumber": 16496
+    },
+    {
+      "mods": "HRHTFL",
+      "modNumber": 1296
+    },
+    {
+      "mods": "HRHTSO",
+      "modNumber": 4368
+    },
+    {
+      "mods": "HRHTSD",
+      "modNumber": 304
+    },
+    {
+      "mods": "HRHTPF",
+      "modNumber": 16688
+    },
+    {
+      "mods": "HRNCFL",
+      "modNumber": 1616
+    },
+    {
+      "mods": "HRNCSO",
+      "modNumber": 4688
+    },
+    {
+      "mods": "HRNCSD",
+      "modNumber": 624
+    },
+    {
+      "mods": "HRNCPF",
+      "modNumber": 17008
+    },
+    {
+      "mods": "HRFLSO",
+      "modNumber": 5136
+    },
+    {
+      "mods": "HRFLSD",
+      "modNumber": 1072
+    },
+    {
+      "mods": "HRFLPF",
+      "modNumber": 17456
+    },
+    {
+      "mods": "HRSOSD",
+      "modNumber": 4144
+    },
+    {
+      "mods": "HRSOPF",
+      "modNumber": 20528
+    },
+    {
+      "mods": "DTFLSO",
+      "modNumber": 5184
+    },
+    {
+      "mods": "DTFLSD",
+      "modNumber": 1120
+    },
+    {
+      "mods": "DTFLPF",
+      "modNumber": 17504
+    },
+    {
+      "mods": "DTSOSD",
+      "modNumber": 4192
+    },
+    {
+      "mods": "DTSOPF",
+      "modNumber": 20576
+    },
+    {
+      "mods": "HTFLSO",
+      "modNumber": 5376
+    },
+    {
+      "mods": "HTFLSD",
+      "modNumber": 1312
+    },
+    {
+      "mods": "HTFLPF",
+      "modNumber": 17696
+    },
+    {
+      "mods": "HTSOSD",
+      "modNumber": 4384
+    },
+    {
+      "mods": "HTSOPF",
+      "modNumber": 20768
+    },
+    {
+      "mods": "NCFLSO",
+      "modNumber": 5696
+    },
+    {
+      "mods": "NCFLSD",
+      "modNumber": 1632
+    },
+    {
+      "mods": "NCFLPF",
+      "modNumber": 18016
+    },
+    {
+      "mods": "NCSOSD",
+      "modNumber": 4704
+    },
+    {
+      "mods": "NCSOPF",
+      "modNumber": 21088
+    },
+    {
+      "mods": "FLSOSD",
+      "modNumber": 5152
+    },
+    {
+      "mods": "FLSOPF",
+      "modNumber": 21536
+    },
+    {
+      "mods": "NFEZHDDT",
+      "modNumber": 75
+    },
+    {
+      "mods": "NFEZHDHT",
+      "modNumber": 267
+    },
+    {
+      "mods": "NFEZHDNC",
+      "modNumber": 587
+    },
+    {
+      "mods": "NFEZHDFL",
+      "modNumber": 1035
+    },
+    {
+      "mods": "NFEZHDSO",
+      "modNumber": 4107
+    },
+    {
+      "mods": "NFEZDTFL",
+      "modNumber": 1091
+    },
+    {
+      "mods": "NFEZDTSO",
+      "modNumber": 4163
+    },
+    {
+      "mods": "NFEZHTFL",
+      "modNumber": 1283
+    },
+    {
+      "mods": "NFEZHTSO",
+      "modNumber": 4355
+    },
+    {
+      "mods": "NFEZNCFL",
+      "modNumber": 1603
+    },
+    {
+      "mods": "NFEZNCSO",
+      "modNumber": 4675
+    },
+    {
+      "mods": "NFEZFLSO",
+      "modNumber": 5123
+    },
+    {
+      "mods": "NFHDHRDT",
+      "modNumber": 89
+    },
+    {
+      "mods": "NFHDHRHT",
+      "modNumber": 281
+    },
+    {
+      "mods": "NFHDHRNC",
+      "modNumber": 601
+    },
+    {
+      "mods": "NFHDHRFL",
+      "modNumber": 1049
+    },
+    {
+      "mods": "NFHDHRSO",
+      "modNumber": 4121
+    },
+    {
+      "mods": "NFHDDTFL",
+      "modNumber": 1097
+    },
+    {
+      "mods": "NFHDDTSO",
+      "modNumber": 4169
+    },
+    {
+      "mods": "NFHDHTFL",
+      "modNumber": 1289
+    },
+    {
+      "mods": "NFHDHTSO",
+      "modNumber": 4361
+    },
+    {
+      "mods": "NFHDNCFL",
+      "modNumber": 1609
+    },
+    {
+      "mods": "NFHDNCSO",
+      "modNumber": 4681
+    },
+    {
+      "mods": "NFHDFLSO",
+      "modNumber": 5129
+    },
+    {
+      "mods": "NFHRDTFL",
+      "modNumber": 1105
+    },
+    {
+      "mods": "NFHRDTSO",
+      "modNumber": 4177
+    },
+    {
+      "mods": "NFHRHTFL",
+      "modNumber": 1297
+    },
+    {
+      "mods": "NFHRHTSO",
+      "modNumber": 4369
+    },
+    {
+      "mods": "NFHRNCFL",
+      "modNumber": 1617
+    },
+    {
+      "mods": "NFHRNCSO",
+      "modNumber": 4689
+    },
+    {
+      "mods": "NFHRFLSO",
+      "modNumber": 5137
+    },
+    {
+      "mods": "NFDTFLSO",
+      "modNumber": 5185
+    },
+    {
+      "mods": "NFHTFLSO",
+      "modNumber": 5377
+    },
+    {
+      "mods": "NFNCFLSO",
+      "modNumber": 5697
+    },
+    {
+      "mods": "EZHDDTFL",
+      "modNumber": 1098
+    },
+    {
+      "mods": "EZHDDTSO",
+      "modNumber": 4170
+    },
+    {
+      "mods": "EZHDDTSD",
+      "modNumber": 106
+    },
+    {
+      "mods": "EZHDDTPF",
+      "modNumber": 16490
+    },
+    {
+      "mods": "EZHDHTFL",
+      "modNumber": 1290
+    },
+    {
+      "mods": "EZHDHTSO",
+      "modNumber": 4362
+    },
+    {
+      "mods": "EZHDHTSD",
+      "modNumber": 298
+    },
+    {
+      "mods": "EZHDHTPF",
+      "modNumber": 16682
+    },
+    {
+      "mods": "EZHDNCFL",
+      "modNumber": 1610
+    },
+    {
+      "mods": "EZHDNCSO",
+      "modNumber": 4682
+    },
+    {
+      "mods": "EZHDNCSD",
+      "modNumber": 618
+    },
+    {
+      "mods": "EZHDNCPF",
+      "modNumber": 17002
+    },
+    {
+      "mods": "EZHDFLSO",
+      "modNumber": 5130
+    },
+    {
+      "mods": "EZHDFLSD",
+      "modNumber": 1066
+    },
+    {
+      "mods": "EZHDFLPF",
+      "modNumber": 17450
+    },
+    {
+      "mods": "EZHDSOSD",
+      "modNumber": 4138
+    },
+    {
+      "mods": "EZHDSOPF",
+      "modNumber": 20522
+    },
+    {
+      "mods": "EZDTFLSO",
+      "modNumber": 5186
+    },
+    {
+      "mods": "EZDTFLSD",
+      "modNumber": 1122
+    },
+    {
+      "mods": "EZDTFLPF",
+      "modNumber": 17506
+    },
+    {
+      "mods": "EZDTSOSD",
+      "modNumber": 4194
+    },
+    {
+      "mods": "EZDTSOPF",
+      "modNumber": 20578
+    },
+    {
+      "mods": "EZHTFLSO",
+      "modNumber": 5378
+    },
+    {
+      "mods": "EZHTFLSD",
+      "modNumber": 1314
+    },
+    {
+      "mods": "EZHTFLPF",
+      "modNumber": 17698
+    },
+    {
+      "mods": "EZHTSOSD",
+      "modNumber": 4386
+    },
+    {
+      "mods": "EZHTSOPF",
+      "modNumber": 20770
+    },
+    {
+      "mods": "EZNCFLSO",
+      "modNumber": 5698
+    },
+    {
+      "mods": "EZNCFLSD",
+      "modNumber": 1634
+    },
+    {
+      "mods": "EZNCFLPF",
+      "modNumber": 18018
+    },
+    {
+      "mods": "EZNCSOSD",
+      "modNumber": 4706
+    },
+    {
+      "mods": "EZNCSOPF",
+      "modNumber": 21090
+    },
+    {
+      "mods": "EZFLSOSD",
+      "modNumber": 5154
+    },
+    {
+      "mods": "EZFLSOPF",
+      "modNumber": 21538
+    },
+    {
+      "mods": "HDHRDTFL",
+      "modNumber": 1112
+    },
+    {
+      "mods": "HDHRDTSO",
+      "modNumber": 4184
+    },
+    {
+      "mods": "HDHRDTSD",
+      "modNumber": 120
+    },
+    {
+      "mods": "HDHRDTPF",
+      "modNumber": 16504
+    },
+    {
+      "mods": "HDHRHTFL",
+      "modNumber": 1304
+    },
+    {
+      "mods": "HDHRHTSO",
+      "modNumber": 4376
+    },
+    {
+      "mods": "HDHRHTSD",
+      "modNumber": 312
+    },
+    {
+      "mods": "HDHRHTPF",
+      "modNumber": 16696
+    },
+    {
+      "mods": "HDHRNCFL",
+      "modNumber": 1624
+    },
+    {
+      "mods": "HDHRNCSO",
+      "modNumber": 4696
+    },
+    {
+      "mods": "HDHRNCSD",
+      "modNumber": 632
+    },
+    {
+      "mods": "HDHRNCPF",
+      "modNumber": 17016
+    },
+    {
+      "mods": "HDHRFLSO",
+      "modNumber": 5144
+    },
+    {
+      "mods": "HDHRFLSD",
+      "modNumber": 1080
+    },
+    {
+      "mods": "HDHRFLPF",
+      "modNumber": 17464
+    },
+    {
+      "mods": "HDHRSOSD",
+      "modNumber": 4152
+    },
+    {
+      "mods": "HDHRSOPF",
+      "modNumber": 20536
+    },
+    {
+      "mods": "HDDTFLSO",
+      "modNumber": 5192
+    },
+    {
+      "mods": "HDDTFLSD",
+      "modNumber": 1128
+    },
+    {
+      "mods": "HDDTFLPF",
+      "modNumber": 17512
+    },
+    {
+      "mods": "HDDTSOSD",
+      "modNumber": 4200
+    },
+    {
+      "mods": "HDDTSOPF",
+      "modNumber": 20584
+    },
+    {
+      "mods": "HDHTFLSO",
+      "modNumber": 5384
+    },
+    {
+      "mods": "HDHTFLSD",
+      "modNumber": 1320
+    },
+    {
+      "mods": "HDHTFLPF",
+      "modNumber": 17704
+    },
+    {
+      "mods": "HDHTSOSD",
+      "modNumber": 4392
+    },
+    {
+      "mods": "HDHTSOPF",
+      "modNumber": 20776
+    },
+    {
+      "mods": "HDNCFLSO",
+      "modNumber": 5704
+    },
+    {
+      "mods": "HDNCFLSD",
+      "modNumber": 1640
+    },
+    {
+      "mods": "HDNCFLPF",
+      "modNumber": 18024
+    },
+    {
+      "mods": "HDNCSOSD",
+      "modNumber": 4712
+    },
+    {
+      "mods": "HDNCSOPF",
+      "modNumber": 21096
+    },
+    {
+      "mods": "HDFLSOSD",
+      "modNumber": 5160
+    },
+    {
+      "mods": "HDFLSOPF",
+      "modNumber": 21544
+    },
+    {
+      "mods": "HRDTFLSO",
+      "modNumber": 5200
+    },
+    {
+      "mods": "HRDTFLSD",
+      "modNumber": 1136
+    },
+    {
+      "mods": "HRDTFLPF",
+      "modNumber": 17520
+    },
+    {
+      "mods": "HRDTSOSD",
+      "modNumber": 4208
+    },
+    {
+      "mods": "HRDTSOPF",
+      "modNumber": 20592
+    },
+    {
+      "mods": "HRHTFLSO",
+      "modNumber": 5392
+    },
+    {
+      "mods": "HRHTFLSD",
+      "modNumber": 1328
+    },
+    {
+      "mods": "HRHTFLPF",
+      "modNumber": 17712
+    },
+    {
+      "mods": "HRHTSOSD",
+      "modNumber": 4400
+    },
+    {
+      "mods": "HRHTSOPF",
+      "modNumber": 20784
+    },
+    {
+      "mods": "HRNCFLSO",
+      "modNumber": 5712
+    },
+    {
+      "mods": "HRNCFLSD",
+      "modNumber": 1648
+    },
+    {
+      "mods": "HRNCFLPF",
+      "modNumber": 18032
+    },
+    {
+      "mods": "HRNCSOSD",
+      "modNumber": 4720
+    },
+    {
+      "mods": "HRNCSOPF",
+      "modNumber": 21104
+    },
+    {
+      "mods": "HRFLSOSD",
+      "modNumber": 5168
+    },
+    {
+      "mods": "HRFLSOPF",
+      "modNumber": 21552
+    },
+    {
+      "mods": "DTFLSOSD",
+      "modNumber": 5216
+    },
+    {
+      "mods": "DTFLSOPF",
+      "modNumber": 21600
+    },
+    {
+      "mods": "HTFLSOSD",
+      "modNumber": 5408
+    },
+    {
+      "mods": "HTFLSOPF",
+      "modNumber": 21792
+    },
+    {
+      "mods": "NCFLSOSD",
+      "modNumber": 5728
+    },
+    {
+      "mods": "NCFLSOPF",
+      "modNumber": 22112
+    },
+    {
+      "mods": "NFEZHDDTFL",
+      "modNumber": 1099
+    },
+    {
+      "mods": "NFEZHDDTSO",
+      "modNumber": 4171
+    },
+    {
+      "mods": "NFEZHDHTFL",
+      "modNumber": 1291
+    },
+    {
+      "mods": "NFEZHDHTSO",
+      "modNumber": 4363
+    },
+    {
+      "mods": "NFEZHDNCFL",
+      "modNumber": 1611
+    },
+    {
+      "mods": "NFEZHDNCSO",
+      "modNumber": 4683
+    },
+    {
+      "mods": "NFEZHDFLSO",
+      "modNumber": 5131
+    },
+    {
+      "mods": "NFEZDTFLSO",
+      "modNumber": 5187
+    },
+    {
+      "mods": "NFEZHTFLSO",
+      "modNumber": 5379
+    },
+    {
+      "mods": "NFEZNCFLSO",
+      "modNumber": 5699
+    },
+    {
+      "mods": "NFHDHRDTFL",
+      "modNumber": 1113
+    },
+    {
+      "mods": "NFHDHRDTSO",
+      "modNumber": 4185
+    },
+    {
+      "mods": "NFHDHRHTFL",
+      "modNumber": 1305
+    },
+    {
+      "mods": "NFHDHRHTSO",
+      "modNumber": 4377
+    },
+    {
+      "mods": "NFHDHRNCFL",
+      "modNumber": 1625
+    },
+    {
+      "mods": "NFHDHRNCSO",
+      "modNumber": 4697
+    },
+    {
+      "mods": "NFHDHRFLSO",
+      "modNumber": 5145
+    },
+    {
+      "mods": "NFHDDTFLSO",
+      "modNumber": 5193
+    },
+    {
+      "mods": "NFHDHTFLSO",
+      "modNumber": 5385
+    },
+    {
+      "mods": "NFHDNCFLSO",
+      "modNumber": 5705
+    },
+    {
+      "mods": "NFHRDTFLSO",
+      "modNumber": 5201
+    },
+    {
+      "mods": "NFHRHTFLSO",
+      "modNumber": 5393
+    },
+    {
+      "mods": "NFHRNCFLSO",
+      "modNumber": 5713
+    },
+    {
+      "mods": "EZHDDTFLSO",
+      "modNumber": 5194
+    },
+    {
+      "mods": "EZHDDTFLSD",
+      "modNumber": 1130
+    },
+    {
+      "mods": "EZHDDTFLPF",
+      "modNumber": 17514
+    },
+    {
+      "mods": "EZHDDTSOSD",
+      "modNumber": 4202
+    },
+    {
+      "mods": "EZHDDTSOPF",
+      "modNumber": 20586
+    },
+    {
+      "mods": "EZHDHTFLSO",
+      "modNumber": 5386
+    },
+    {
+      "mods": "EZHDHTFLSD",
+      "modNumber": 1322
+    },
+    {
+      "mods": "EZHDHTFLPF",
+      "modNumber": 17706
+    },
+    {
+      "mods": "EZHDHTSOSD",
+      "modNumber": 4394
+    },
+    {
+      "mods": "EZHDHTSOPF",
+      "modNumber": 20778
+    },
+    {
+      "mods": "EZHDNCFLSO",
+      "modNumber": 5706
+    },
+    {
+      "mods": "EZHDNCFLSD",
+      "modNumber": 1642
+    },
+    {
+      "mods": "EZHDNCFLPF",
+      "modNumber": 18026
+    },
+    {
+      "mods": "EZHDNCSOSD",
+      "modNumber": 4714
+    },
+    {
+      "mods": "EZHDNCSOPF",
+      "modNumber": 21098
+    },
+    {
+      "mods": "EZHDFLSOSD",
+      "modNumber": 5162
+    },
+    {
+      "mods": "EZHDFLSOPF",
+      "modNumber": 21546
+    },
+    {
+      "mods": "EZDTFLSOSD",
+      "modNumber": 5218
+    },
+    {
+      "mods": "EZDTFLSOPF",
+      "modNumber": 21602
+    },
+    {
+      "mods": "EZHTFLSOSD",
+      "modNumber": 5410
+    },
+    {
+      "mods": "EZHTFLSOPF",
+      "modNumber": 21794
+    },
+    {
+      "mods": "EZNCFLSOSD",
+      "modNumber": 5730
+    },
+    {
+      "mods": "EZNCFLSOPF",
+      "modNumber": 22114
+    },
+    {
+      "mods": "HDHRDTFLSO",
+      "modNumber": 5208
+    },
+    {
+      "mods": "HDHRDTFLSD",
+      "modNumber": 1144
+    },
+    {
+      "mods": "HDHRDTFLPF",
+      "modNumber": 17528
+    },
+    {
+      "mods": "HDHRDTSOSD",
+      "modNumber": 4216
+    },
+    {
+      "mods": "HDHRDTSOPF",
+      "modNumber": 20600
+    },
+    {
+      "mods": "HDHRHTFLSO",
+      "modNumber": 5400
+    },
+    {
+      "mods": "HDHRHTFLSD",
+      "modNumber": 1336
+    },
+    {
+      "mods": "HDHRHTFLPF",
+      "modNumber": 17720
+    },
+    {
+      "mods": "HDHRHTSOSD",
+      "modNumber": 4408
+    },
+    {
+      "mods": "HDHRHTSOPF",
+      "modNumber": 20792
+    },
+    {
+      "mods": "HDHRNCFLSO",
+      "modNumber": 5720
+    },
+    {
+      "mods": "HDHRNCFLSD",
+      "modNumber": 1656
+    },
+    {
+      "mods": "HDHRNCFLPF",
+      "modNumber": 18040
+    },
+    {
+      "mods": "HDHRNCSOSD",
+      "modNumber": 4728
+    },
+    {
+      "mods": "HDHRNCSOPF",
+      "modNumber": 21112
+    },
+    {
+      "mods": "HDHRFLSOSD",
+      "modNumber": 5176
+    },
+    {
+      "mods": "HDHRFLSOPF",
+      "modNumber": 21560
+    },
+    {
+      "mods": "HDDTFLSOSD",
+      "modNumber": 5224
+    },
+    {
+      "mods": "HDDTFLSOPF",
+      "modNumber": 21608
+    },
+    {
+      "mods": "HDHTFLSOSD",
+      "modNumber": 5416
+    },
+    {
+      "mods": "HDHTFLSOPF",
+      "modNumber": 21800
+    },
+    {
+      "mods": "HDNCFLSOSD",
+      "modNumber": 5736
+    },
+    {
+      "mods": "HDNCFLSOPF",
+      "modNumber": 22120
+    },
+    {
+      "mods": "HRDTFLSOSD",
+      "modNumber": 5232
+    },
+    {
+      "mods": "HRDTFLSOPF",
+      "modNumber": 21616
+    },
+    {
+      "mods": "HRHTFLSOSD",
+      "modNumber": 5424
+    },
+    {
+      "mods": "HRHTFLSOPF",
+      "modNumber": 21808
+    },
+    {
+      "mods": "HRNCFLSOSD",
+      "modNumber": 5744
+    },
+    {
+      "mods": "HRNCFLSOPF",
+      "modNumber": 22128
+    },
+    {
+      "mods": "NFEZHDDTFLSO",
+      "modNumber": 5195
+    },
+    {
+      "mods": "NFEZHDHTFLSO",
+      "modNumber": 5387
+    },
+    {
+      "mods": "NFEZHDNCFLSO",
+      "modNumber": 5707
+    },
+    {
+      "mods": "NFHDHRDTFLSO",
+      "modNumber": 5209
+    },
+    {
+      "mods": "NFHDHRHTFLSO",
+      "modNumber": 5401
+    },
+    {
+      "mods": "NFHDHRNCFLSO",
+      "modNumber": 5721
+    },
+    {
+      "mods": "EZHDDTFLSOSD",
+      "modNumber": 5226
+    },
+    {
+      "mods": "EZHDDTFLSOPF",
+      "modNumber": 21610
+    },
+    {
+      "mods": "EZHDHTFLSOSD",
+      "modNumber": 5418
+    },
+    {
+      "mods": "EZHDHTFLSOPF",
+      "modNumber": 21802
+    },
+    {
+      "mods": "EZHDNCFLSOSD",
+      "modNumber": 5738
+    },
+    {
+      "mods": "EZHDNCFLSOPF",
+      "modNumber": 22122
+    },
+    {
+      "mods": "HDHRDTFLSOSD",
+      "modNumber": 5240
+    },
+    {
+      "mods": "HDHRDTFLSOPF",
+      "modNumber": 21624
+    },
+    {
+      "mods": "HDHRHTFLSOSD",
+      "modNumber": 5432
+    },
+    {
+      "mods": "HDHRHTFLSOPF",
+      "modNumber": 21816
+    },
+    {
+      "mods": "HDHRNCFLSOSD",
+      "modNumber": 5752
+    },
+    {
+      "mods": "HDHRNCFLSOPF",
+      "modNumber": 22136
+    }
+  ]
+}
+
+
