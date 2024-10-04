@@ -1,14 +1,13 @@
-import Axios from 'axios'
 import * as Interfaces from '../interfaces/interfaces.export'
+import APICalls from '../api/apiCalls'
 
-export default async function getRecentScores(player: number | null): Promise<Interfaces.ScoreInterface | null> {
+const api = new APICalls()
+
+export default async function getRecentScores(player: number): Promise<Interfaces.ScoreInterface | null> {
     let recentScore: Interfaces.ScoreInterface | null = null
-    try {
-        let response = await Axios.get(`https://api.takuji.nkrw.dev/v1/get_player_scores?id=${player}&mode=0&scope=recent&limit=1`)
-        recentScore = response.data
-    } catch {
-        console.error('Player not found')
-    }
+    let response = await api.getRecentScoreById(player)
+
+    if(response) recentScore = response
 
     return recentScore
 }
