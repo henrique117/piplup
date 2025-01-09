@@ -3,20 +3,26 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/index.js",
-    "build": "tsc",
-    "dev": "ts-node-dev src/index.ts"
+    "dev": "nodemon src/index.ts",
+    "build": "tsc && node dist/deployCommands.js",
+    "feedDB": "node dist/database/createDatabase.js && node dist/loadingDatabase.js",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@types/node": "^22.7.4",
-    "axios": "^1.7.7",
-    "discord.js": "^14.16.2",
-    "dotenv": "^16.4.5",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.6.2"
+    "axios": "^1.7.9",
+    "discord.js": "^14.17.3",
+    "dotenv": "^16.4.7",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "@types/sqlite3": "^3.1.11",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.1.6"
   }
 }

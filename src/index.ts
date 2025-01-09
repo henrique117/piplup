@@ -1,88 +1,55 @@
-import { Client, GatewayIntentBits } from 'discord.js'
-import dotenv from 'dotenv'
-import * as Functions from './functions/functions.export'
+import { Client, Collection, GatewayIntentBits, Interaction, Message } from 'discord.js'
+import * as dotenv from 'dotenv'
+import * as fs from 'fs'
+import * as path from 'path'
+import { register } from './functions/functions.export'
 
 dotenv.config()
 
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers]
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent
+    ]
 })
 
-client.once('ready', () => {
-    console.log(`Bot conectado como ${client.user?.tag}`);
-})
+client.commands = new Collection()
 
-client.on('messageCreate', async (message) => {
-    if (message.content.startsWith('&rs') || message.content.startsWith('&recentscore')) {
-        if (message.channel.id === '1175411697922605136' || message.channel.id === '1147991522407633086') {
-            let playerId: number | null
+const commandsPath = path.join(__dirname, "slashcommands")
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'))
 
-            const mentionedUser = message.mentions?.users.first()
-
-            if(mentionedUser !== undefined) {
-                playerId = await Functions.getPlayerId(parseInt(mentionedUser.id))
-            } else {
-                playerId = await Functions.getPlayerId(parseInt(message.author.id))
-            }
-            
-            if(!playerId) {
-                message.reply('User não encontrado! Se registre usando o comando &su <seu ID do Takuji> ou &setuser <seu ID do Takuji>')
-            } else {
-                const response = await Functions.getRecentScore(playerId)
-
-                if(response) {
-                    response
-                    const embed = await Functions.scoreEmbedCreator(response)
-                    message.channel.send({ embeds: [embed] })
-                }
-            }
-        } else nerd(message)     
-    }
-
-    if(message.content.startsWith('&top34563456365634')) {
-        if (message.channel.id === '1175411697922605136' || message.channel.id === '1147991522407633086') {
-            let playerId: number | null
-
-            const mentionedUser = message.mentions?.users.first()
-
-            if(mentionedUser !== undefined) {
-                playerId = await Functions.getPlayerId(parseInt(mentionedUser.id))
-            } else {
-                playerId = await Functions.getPlayerId(parseInt(message.author.id))
-            }
-
-            if(!playerId) {
-                message.reply('User não encontrado! Se registre usando o comando &su <seu ID do Takuji> ou &setuser <seu ID do Takuji>')
-            } else {
-                let isLoading = false
-
-                try {
-                    isLoading = true
-                    console.log('Carregando...')
-
-                    let response = await Functions.getTopScores(playerId)
-                    console.log(response)
-                } catch (error) {
-                    console.error(error)
-                } finally {
-                    isLoading = false
-                    console.log('Dados carregados')
-                }
-            }
-        } else nerd(message)
-    }
-
-    if(message.content.startsWith('&su') || message.content.startsWith('&setuser')) {
-        if (message.channel.id === '1175411697922605136' || message.channel.id === '1147991522407633086') {
-            const response = await Functions.setUser(parseInt(message.content.split(' ')[1]), parseInt(message.author.id))
-            message.reply(response)
-        } else nerd(message)
-    }
-})
-
-function nerd(event: any) {
-    event.react('☝️')
-    event.react('🤓')
+for (const file of commandFiles) {
+    const command = require(`./slashcommands/${file}`)
+    client.commands.set(command.data.name, command)
 }
 
-client.login(process.env.TOKEN)
+client.once('ready', () => {
+    console.log(`Bot online como ${client.user?.tag}`)
+})
+
+client.on('interactionCreate', async (interaction: Interaction) => {
+    if(!interaction.isCommand()) return
+
+    const command = client.commands.get(interaction.commandName);
+
+    if (!command) {
+        console.error(`Command not found: ${interaction.commandName}`)
+        return
+    }
+
+    try {
+        await command.execute(interaction);
+    } catch (error) {
+        console.error(`Error on executing command: `, error);
+        await interaction.reply({ content: 'Error on executing command', ephemeral: true });
+    }
+})
+
+client.on('messageCreate', async (interaction: Message) => {
+    if(interaction.author.bot) return
+
+    if(interaction.content === '&register' || interaction.content === '&reg') await register(interaction)
+})
+
+client.login(process.env.DISCORD_TOKEN)
