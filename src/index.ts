@@ -2,7 +2,7 @@ import { Client, Collection, GatewayIntentBits, Interaction, Message } from 'dis
 import * as dotenv from 'dotenv'
 import * as fs from 'fs'
 import * as path from 'path'
-import { register } from './functions/functions.export'
+import { register, transfer } from './functions/functions.export'
 
 dotenv.config()
 
@@ -50,6 +50,7 @@ client.on('messageCreate', async (interaction: Message) => {
     if(interaction.author.bot) return
 
     if(interaction.content === '&register' || interaction.content === '&reg') await register(interaction)
+    if(interaction.content.startsWith('&transfer') || interaction.content.startsWith('&pix')) await transfer(interaction)
 })
 
 client.login(process.env.DISCORD_TOKEN)

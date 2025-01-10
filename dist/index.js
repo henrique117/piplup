@@ -44,5 +44,7 @@ client.on('messageCreate', async (interaction) => {
         return;
     if (interaction.content === '&register' || interaction.content === '&reg')
         await (0, functions_export_1.register)(interaction);
+    if (interaction.content.startsWith('&transfer') || interaction.content.startsWith('&pix'))
+        await (0, functions_export_1.transfer)(interaction);
 });
 client.login(process.env.DISCORD_TOKEN);

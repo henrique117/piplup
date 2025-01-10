@@ -4,7 +4,7 @@ import { transfer } from '../functions/functions.export'
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('transfer')
-        .setDescription('Add coins to a user (Admin command)')
+        .setDescription('Transfer coins to a user')
         .addUserOption(option => 
             option.setName('user')
             .setDescription('User to transfer coins')
