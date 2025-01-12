@@ -1,5 +1,5 @@
 import db from './createDatabase'
-import { ItemInterface, UserInterface } from '../interfaces/interfaces.export'
+import { ItemInterface, PlayerInterface, UserInterface } from '../interfaces/interfaces.export'
 
 export const insertPlayer = async (player_name: string, player_rank: number, player_pfp: string): Promise<void> => {
     const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, user_id)
@@ -74,11 +74,11 @@ export const insertItem = async (item_name: string, item_description: string | n
     })
 }
 
-export const findPlayer = async (player_name: string) => {
+export const findPlayer = async (player_name: string): Promise<PlayerInterface> => {
     const query = [`SELECT * FROM Players WHERE player_name = ?`, player_name]
 
     return new Promise((resolve, reject) => {
-        db.get(query[0], query[1], (err, row) => {
+        db.get(query[0], query[1], (err, row: PlayerInterface) => {
             if(err) {
                 console.error(`Error fetching player: ${err.message}`)
                 reject(err)
@@ -168,6 +168,21 @@ export const deleteItem = async (item_id: number) => {
         db.run(query, [item_id], (err) => {
             if(err) {
                 console.error(`Error on delete item: ${err.message}`)
+                reject(err)
+            } else {
+                resolve()
+            }
+        })
+    })
+}
+
+export const deletePlayer = async (player_name: string) => {
+    const query = `DELETE FROM Players WHERE player_name = ?`
+
+    return new Promise<void>((resolve, reject) => {
+        db.run(query, [player_name], (err) => {
+            if(err) {
+                console.error(`Error on delete player: ${err.message}`)
                 reject(err)
             } else {
                 resolve()

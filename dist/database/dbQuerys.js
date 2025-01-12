@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteItem = exports.deleteUser = exports.updateUserCoins = exports.findItem = exports.findUser = exports.findPlayer = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
+exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updateUserCoins = exports.findItem = exports.findUser = exports.findPlayer = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
 const createDatabase_1 = require("./createDatabase");
 const insertPlayer = async (player_name, player_rank, player_pfp) => {
     const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, user_id)
@@ -173,3 +173,18 @@ const deleteItem = async (item_id) => {
     });
 };
 exports.deleteItem = deleteItem;
+const deletePlayer = async (player_name) => {
+    const query = `DELETE FROM Players WHERE player_name = ?`;
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.run(query, [player_name], (err) => {
+            if (err) {
+                console.error(`Error on delete player: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve();
+            }
+        });
+    });
+};
+exports.deletePlayer = deletePlayer;

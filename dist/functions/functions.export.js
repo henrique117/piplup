@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteitem = exports.newitem = exports.deleteU = exports.insert = exports.transfer = exports.remove = exports.add = exports.register = void 0;
+exports.deleteplayer = exports.balance = exports.deleteitem = exports.newitem = exports.deleteU = exports.insert = exports.transfer = exports.remove = exports.add = exports.register = void 0;
 var register_1 = require("./register");
 Object.defineProperty(exports, "register", { enumerable: true, get: function () { return register_1.default; } });
 var add_1 = require("./add");
@@ -17,3 +17,7 @@ var newitem_1 = require("./newitem");
 Object.defineProperty(exports, "newitem", { enumerable: true, get: function () { return newitem_1.default; } });
 var deleteitem_1 = require("./deleteitem");
 Object.defineProperty(exports, "deleteitem", { enumerable: true, get: function () { return deleteitem_1.default; } });
+var balance_1 = require("./balance");
+Object.defineProperty(exports, "balance", { enumerable: true, get: function () { return balance_1.default; } });
+var deleteplayer_1 = require("./deleteplayer");
+Object.defineProperty(exports, "deleteplayer", { enumerable: true, get: function () { return deleteplayer_1.default; } });
