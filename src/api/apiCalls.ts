@@ -1,6 +1,7 @@
 import Axios from 'axios'
 import getAuthToken from './apiAuth'
 import { insertPlayersInArray } from '../database/dbQuerys'
+import { PlayerInterface } from '../interfaces/interfaces.export'
 
 export default class ApiCalls {
     public async updatePlayers(): Promise<void> {
@@ -60,5 +61,35 @@ export default class ApiCalls {
         }
     
         console.log('Process ended')
-    }    
+    }
+
+    public async getPlayerById(id: string): Promise<PlayerInterface | null> {
+        const token = await getAuthToken()
+
+        let player: PlayerInterface
+
+        try {
+
+            const response = await Axios.get(`https://osu.ppy.sh/api/v2/users/${id}/osu`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            const data = response.data
+
+            player = {
+                player_name: data.username,
+                player_pfp: data.avatar_url,
+                player_rank: data.statistics.global_rank
+            }
+
+            return player
+
+        } catch (err) {
+            console.error(`Error fetching player: ${id}`, err)
+            return null
+        }      
+    }
 }

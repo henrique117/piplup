@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserCoins = exports.findUser = exports.findPlayer = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
+exports.deleteItem = exports.deleteUser = exports.updateUserCoins = exports.findItem = exports.findUser = exports.findPlayer = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
 const createDatabase_1 = require("./createDatabase");
 const insertPlayer = async (player_name, player_rank, player_pfp) => {
-    const query = `INSERT INTO Players (player_name, player_rank, player_cost, user_id)
+    const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, user_id)
                    VALUES (?, ?, ?, ?, NULL)`;
     const player_cost = (1700 / Math.pow(player_rank, 0.1727) - 178) + (-0.0020500205002 * player_rank + 205);
     return new Promise((resolve, reject) => {
@@ -55,6 +55,22 @@ const insertPlayersInArray = async (data) => {
     });
 };
 exports.insertPlayersInArray = insertPlayersInArray;
+const insertItem = async (item_name, item_description, item_cost) => {
+    const query = `INSERT INTO Items (item_name, item_description, item_cost) VALUES (?, ?, ?)`;
+    const description = item_description ? item_description : 'NULL';
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.run(query, [item_name, description, item_cost], (err) => {
+            if (err) {
+                console.error(`Error inserting item: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve();
+            }
+        });
+    });
+};
+exports.insertItem = insertItem;
 const findPlayer = async (player_name) => {
     const query = [`SELECT * FROM Players WHERE player_name = ?`, player_name];
     return new Promise((resolve, reject) => {
@@ -85,6 +101,21 @@ const findUser = async (user_id) => {
     });
 };
 exports.findUser = findUser;
+const findItem = async (item_id) => {
+    const query = `SELECT * FROM Items WHERE item_id = ?`;
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.get(query, item_id, (err, row) => {
+            if (err) {
+                console.error(`Error fetching item: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve(row);
+            }
+        });
+    });
+};
+exports.findItem = findItem;
 const updateUserCoins = async (user_id, new_coins) => {
     const query = `UPDATE Users SET user_coins = ? WHERE user_id = ?`;
     return new Promise((resolve, reject) => {
@@ -100,3 +131,45 @@ const updateUserCoins = async (user_id, new_coins) => {
     });
 };
 exports.updateUserCoins = updateUserCoins;
+const deleteUser = async (user_id) => {
+    const query = [
+        `UPDATE Players SET user_id = NULL WHERE user_id = ?`,
+        `DELETE FROM Users WHERE user_id = ?`
+    ];
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.run(query[0], [user_id], (err) => {
+            if (err) {
+                console.error(`Error updating player: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve();
+            }
+        });
+        createDatabase_1.default.run(query[1], [user_id], (err) => {
+            if (err) {
+                console.error(`Error deleting user: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve();
+            }
+        });
+    });
+};
+exports.deleteUser = deleteUser;
+const deleteItem = async (item_id) => {
+    const query = `DELETE FROM Items WHERE item_id = ?`;
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.run(query, [item_id], (err) => {
+            if (err) {
+                console.error(`Error on delete item: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve();
+            }
+        });
+    });
+};
+exports.deleteItem = deleteItem;

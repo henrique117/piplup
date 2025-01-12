@@ -1,7 +1,7 @@
 import { CommandInteraction, Message, MessageFlags } from 'discord.js'
 import { updateUserCoins, findUser } from '../database/dbQuerys'
 
-export default async function transfer(interaction: CommandInteraction | Message) {
+export default async function transfer(interaction: CommandInteraction | Message): Promise<void> {
 
     if(interaction instanceof CommandInteraction) {
         try {

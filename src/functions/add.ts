@@ -1,7 +1,7 @@
 import { CommandInteraction, MessageFlags } from 'discord.js'
 import { updateUserCoins, findUser } from '../database/dbQuerys'
 
-export default async function add(interaction: CommandInteraction) {
+export default async function add(interaction: CommandInteraction): Promise<void> {
 
     if(interaction.user.id !== '520994132458471438') {
         interaction.reply({ content: "You don't have permissions to use this command", flags: MessageFlags.Ephemeral })

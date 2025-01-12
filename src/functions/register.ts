@@ -1,7 +1,7 @@
 import { CommandInteraction, Message, MessageFlags } from 'discord.js'
 import { insertUser } from '../database/dbQuerys'
 
-export default async function register(interaction: CommandInteraction | Message) {
+export default async function register(interaction: CommandInteraction | Message): Promise<void> {
     if(interaction instanceof CommandInteraction) {
         try {
             await insertUser(interaction.user.id, interaction.user.username, interaction.user.globalName)

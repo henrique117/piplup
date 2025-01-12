@@ -1,8 +1,8 @@
 import db from './createDatabase'
-import { UserInterface } from '../interfaces/interfaces.export'
+import { ItemInterface, UserInterface } from '../interfaces/interfaces.export'
 
 export const insertPlayer = async (player_name: string, player_rank: number, player_pfp: string): Promise<void> => {
-    const query = `INSERT INTO Players (player_name, player_rank, player_cost, user_id)
+    const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, user_id)
                    VALUES (?, ?, ?, ?, NULL)`
 
     const player_cost = (1700 / Math.pow(player_rank, 0.1727) - 178) + (-0.0020500205002 * player_rank + 205)
@@ -57,6 +57,23 @@ export const insertPlayersInArray = async (data: {player_name: string, player_ra
     })
 }
 
+export const insertItem = async (item_name: string, item_description: string | null, item_cost: number) => {
+    const query = `INSERT INTO Items (item_name, item_description, item_cost) VALUES (?, ?, ?)`
+
+    const description = item_description ? item_description : 'NULL'
+
+    return new Promise<void>((resolve, reject) => {
+        db.run(query, [item_name, description, item_cost], (err) => {
+            if(err) {
+                console.error(`Error inserting item: ${err.message}`)
+                reject(err)
+            } else {
+                resolve()
+            }
+        })
+    })
+}
+
 export const findPlayer = async (player_name: string) => {
     const query = [`SELECT * FROM Players WHERE player_name = ?`, player_name]
 
@@ -87,6 +104,21 @@ export const findUser = async (user_id: string): Promise<UserInterface> => {
     })
 }
 
+export const findItem = async (item_id: number): Promise<ItemInterface> => {
+    const query = `SELECT * FROM Items WHERE item_id = ?`
+
+    return new Promise((resolve, reject) => {
+        db.get(query, item_id, (err, row: ItemInterface) => {
+            if(err) {
+                console.error(`Error fetching item: ${err.message}`)
+                reject(err)
+            } else {
+                resolve(row)
+            }
+        })
+    })
+}
+
 export const updateUserCoins = async (user_id: string, new_coins: number) => {
     const query = `UPDATE Users SET user_coins = ? WHERE user_id = ?`
 
@@ -94,6 +126,48 @@ export const updateUserCoins = async (user_id: string, new_coins: number) => {
         db.run(query, [new_coins, user_id], (err) => {
             if(err) {
                 console.error(`Error updating user: ${err.message}`)
+                reject(err)
+            } else {
+                resolve()
+            }
+        })
+    })
+}
+
+export const deleteUser = async (user_id: string) => {
+    const query = [
+        `UPDATE Players SET user_id = NULL WHERE user_id = ?`,
+        `DELETE FROM Users WHERE user_id = ?`
+    ]
+
+    return new Promise<void>((resolve, reject) => {
+        db.run(query[0], [user_id], (err) => {
+            if(err) {
+                console.error(`Error updating player: ${err.message}`)
+                reject(err)
+            } else {
+                resolve()
+            }
+        })
+
+        db.run(query[1], [user_id], (err) => {
+            if(err) {
+                console.error(`Error deleting user: ${err.message}`)
+                reject(err)
+            } else {
+                resolve()
+            }
+        })
+    })
+}
+
+export const deleteItem = async (item_id: number) => {
+    const query = `DELETE FROM Items WHERE item_id = ?`
+
+    return new Promise<void>((resolve, reject) => {
+        db.run(query, [item_id], (err) => {
+            if(err) {
+                console.error(`Error on delete item: ${err.message}`)
                 reject(err)
             } else {
                 resolve()

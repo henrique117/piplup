@@ -57,5 +57,28 @@ class ApiCalls {
         }
         console.log('Process ended');
     }
+    async getPlayerById(id) {
+        const token = await (0, apiAuth_1.default)();
+        let player;
+        try {
+            const response = await axios_1.default.get(`https://osu.ppy.sh/api/v2/users/${id}/osu`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            const data = response.data;
+            player = {
+                player_name: data.username,
+                player_pfp: data.avatar_url,
+                player_rank: data.statistics.global_rank
+            };
+            return player;
+        }
+        catch (err) {
+            console.error(`Error fetching player: ${id}`, err);
+            return null;
+        }
+    }
 }
 exports.default = ApiCalls;
