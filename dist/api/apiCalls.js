@@ -32,7 +32,8 @@ class ApiCalls {
                             players.push({
                                 player_name: player.user.username,
                                 player_rank: player.global_rank,
-                                player_pfp: player.user.avatar_url
+                                player_pfp: player.user.avatar_url,
+                                player_flag: player.user.country_code
                             });
                         }
                     });
@@ -71,7 +72,8 @@ class ApiCalls {
             player = {
                 player_name: data.username,
                 player_pfp: data.avatar_url,
-                player_rank: data.statistics.global_rank
+                player_rank: data.statistics.global_rank,
+                player_flag: data.country_code
             };
             return player;
         }

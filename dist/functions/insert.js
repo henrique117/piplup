@@ -23,7 +23,7 @@ async function insert(interaction) {
         return;
     }
     try {
-        await (0, dbQuerys_1.insertPlayer)(player.player_name, player.player_rank, player.player_pfp);
+        await (0, dbQuerys_1.insertPlayer)(player.player_name, player.player_rank, player.player_pfp, player.player_flag);
         interaction.reply(`Player ${player.player_name} registered successfully!`);
     }
     catch (err) {

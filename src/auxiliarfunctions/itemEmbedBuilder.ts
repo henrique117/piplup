@@ -1,5 +1,5 @@
 import { EmbedBuilder } from 'discord.js'
-import { ItemInterface } from '../interfaces/interfaces.export';
+import { ItemInterface } from '../interfaces/interfaces.export'
 
 export default async function shopEmbedBuilder(item: ItemInterface): Promise<EmbedBuilder> {
 

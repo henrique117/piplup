@@ -2,7 +2,7 @@ import { Client, Collection, GatewayIntentBits, Interaction, Message } from 'dis
 import * as dotenv from 'dotenv'
 import * as fs from 'fs'
 import * as path from 'path'
-import { register, transfer, balance, shop, info, buy } from './functions/functions.export'
+import { register, transfer, balance, shop, info, buy, player } from './functions/functions.export'
 
 dotenv.config()
 
@@ -55,6 +55,7 @@ client.on('messageCreate', async (interaction: Message) => {
     if(interaction.content === '&shop' || interaction.content === '&s') await shop(interaction)
     if(interaction.content.startsWith('&info') || interaction.content.startsWith('&i')) await info(interaction)
     if(interaction.content.startsWith('&buy')) await buy(interaction)
+    if(interaction.content.startsWith('&player') || interaction.content.startsWith('&p')) await player(interaction)
 
 })
 

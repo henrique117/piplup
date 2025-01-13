@@ -33,6 +33,8 @@ CREATE TABLE IF NOT EXISTS Players (
     player_rank INT NOT NULL,
     player_pfp TEXT NOT NULL,
     player_cost INT NOT NULL,
+    player_weight DOUBLE NOT NULL,
+    player_flag TEXT NOT NULL,
     user_id TEXT,
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );`

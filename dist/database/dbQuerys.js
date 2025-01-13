@@ -1,13 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updateUserPacks = exports.updateUserCoins = exports.itemsList = exports.findItem = exports.findUser = exports.findPlayer = exports.newPurchase = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
+exports.getPlayersForPack = exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updateUserPacks = exports.updateUserCoins = exports.itemsList = exports.findItem = exports.findUser = exports.findPlayerById = exports.findPlayer = exports.newPurchase = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
 const createDatabase_1 = require("./createDatabase");
-const insertPlayer = async (player_name, player_rank, player_pfp) => {
+const insertPlayer = async (player_name, player_rank, player_pfp, player_flag) => {
     const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, user_id)
-                   VALUES (?, ?, ?, ?, NULL)`;
+                   VALUES (?, ?, ?, ?, ?, ?, NULL)`;
     const player_cost = (1700 / Math.pow(player_rank, 0.1727) - 178) + (-0.0020500205002 * player_rank + 205);
+    const player_weight = 1 / Math.pow(player_cost, 2);
     return new Promise((resolve, reject) => {
-        createDatabase_1.default.run(query, [player_name, player_rank, player_pfp, Math.round(player_cost)], (err) => {
+        createDatabase_1.default.run(query, [player_name, player_rank, player_pfp, Math.round(player_cost), player_weight, player_flag], (err) => {
             if (err) {
                 console.error(`Error inserting player: ${err.message}`);
                 reject(err);
@@ -39,9 +40,10 @@ exports.insertUser = insertUser;
 const insertPlayersInArray = async (data) => {
     const values = data.map(d => {
         const player_cost = (1700 / Math.pow(d.player_rank, 0.1727) - 178) + (-0.0020500205002 * d.player_rank + 205);
-        return `('${d.player_name}', ${d.player_rank}, '${d.player_pfp}', ${Math.round(player_cost)}, NULL)`;
+        const player_weight = 1 / Math.pow(player_cost, 2);
+        return `('${d.player_name}', ${d.player_rank}, '${d.player_pfp}', ${Math.round(player_cost)}, ${player_weight}, '${d.player_flag}', NULL)`;
     }).join(', ');
-    const query = `INSERT INTO players (player_name, player_rank, player_pfp, player_cost, user_id) VALUES ${values}`;
+    const query = `INSERT INTO players (player_name, player_rank, player_pfp, player_cost, player_weight, player_flag, user_id) VALUES ${values}`;
     return new Promise((resolve, reject) => {
         createDatabase_1.default.run(query, (err) => {
             if (err) {
@@ -87,9 +89,9 @@ const newPurchase = async (user_id, item_id) => {
 };
 exports.newPurchase = newPurchase;
 const findPlayer = async (player_name) => {
-    const query = [`SELECT * FROM Players WHERE player_name = ?`, player_name];
+    const query = `SELECT * FROM Players WHERE player_name = ?`;
     return new Promise((resolve, reject) => {
-        createDatabase_1.default.get(query[0], query[1], (err, row) => {
+        createDatabase_1.default.get(query, [player_name], (err, row) => {
             if (err) {
                 console.error(`Error fetching player: ${err.message}`);
                 reject(err);
@@ -101,6 +103,21 @@ const findPlayer = async (player_name) => {
     });
 };
 exports.findPlayer = findPlayer;
+const findPlayerById = async (player_id) => {
+    const query = `SELECT * FROM Players WHERE player_id = ?`;
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.get(query, player_id, (err, row) => {
+            if (err) {
+                console.error(`Error fetching player: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve(row);
+            }
+        });
+    });
+};
+exports.findPlayerById = findPlayerById;
 const findUser = async (user_id) => {
     const query = `SELECT * FROM Users WHERE user_id = ?`;
     return new Promise((resolve, reject) => {
@@ -243,3 +260,94 @@ const deletePlayer = async (player_name) => {
     });
 };
 exports.deletePlayer = deletePlayer;
+const getPlayersForPack = async (pack_type) => {
+    let query;
+    switch (pack_type) {
+        case 'ultimate':
+            query = `
+                SELECT player_id, player_name, player_rank, player_cost, player_flag, user_id
+                FROM Players
+                ORDER BY RANDOM() * player_weight DESC
+                LIMIT 2;
+            `;
+            query += `
+                UNION
+                SELECT player_id, player_name, player_rank, player_cost, player_flag, user_id
+                FROM Players
+                WHERE player_rank < 101
+                ORDER BY RANDOM() * player_weight DESC
+                LIMIT 1;
+            `;
+            break;
+        case 'legendary':
+            query = `
+                SELECT player_id, player_name, player_rank, player_cost, player_flag, user_id
+                FROM Players
+                ORDER BY RANDOM() * player_weight DESC
+                LIMIT 2;
+            `;
+            query += `
+                UNION
+                SELECT player_id, player_name, player_rank, player_cost, player_flag, user_id
+                FROM Players
+                WHERE player_rank BETWEEN 101 AND 1000
+                ORDER BY RANDOM() * player_weight DESC
+                LIMIT 1;
+            `;
+            break;
+        case 'epic':
+            query = `
+                SELECT player_id, player_name, player_rank, player_cost, player_flag, user_id
+                FROM Players
+                ORDER BY RANDOM() * player_weight DESC
+                LIMIT ;
+            `;
+            query += `
+                UNION
+                SELECT player_id, player_name, player_rank, player_cost, player_flag, user_id
+                FROM Players
+                WHERE player_rank BETWEEN 1001 AND 10000
+                ORDER BY RANDOM() * player_weight DESC
+                LIMIT 1;
+            `;
+            break;
+        case 'rare':
+            query = `
+                SELECT player_id, player_name, player_rank, player_cost, player_flag, user_id
+                FROM Players
+                ORDER BY RANDOM() * player_weight DESC
+                LIMIT 2;
+            `;
+            query += `
+                UNION
+                SELECT player_id, player_name, player_rank, player_cost, player_flag, user_id
+                FROM Players
+                WHERE player_rank BETWEEN 10001 AND 50000
+                ORDER BY RANDOM() * player_weight DESC
+                LIMIT 1;
+            `;
+            break;
+        case 'common':
+            query = `
+                SELECT player_id, player_name, player_rank, player_cost, player_flag, user_id
+                FROM Players
+                ORDER BY RANDOM() * player_weight DESC
+                LIMIT 3;
+            `;
+            break;
+        default:
+            throw new Error("Invalid pack type");
+    }
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.all(query, [], (err, rows) => {
+            if (err) {
+                console.error(`Error fetching players: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve(rows);
+            }
+        });
+    });
+};
+exports.getPlayersForPack = getPlayersForPack;

@@ -1,5 +1,5 @@
 import ApiCalls from "./api/apiCalls"
 
-const api = new ApiCalls
+const api = new ApiCalls()
 
 api.updatePlayers()
