@@ -48,7 +48,9 @@ client.on('messageCreate', async (interaction) => {
         await (0, functions_export_1.transfer)(interaction);
     if (interaction.content.startsWith('&balance') || interaction.content.startsWith('&bal'))
         await (0, functions_export_1.balance)(interaction);
-    if (interaction.content === '&shop')
+    if (interaction.content === '&shop' || interaction.content === '&s')
         await (0, functions_export_1.shop)(interaction);
+    if (interaction.content.startsWith('&info') || interaction.content.startsWith('&i'))
+        await (0, functions_export_1.info)(interaction);
 });
 client.login(process.env.DISCORD_TOKEN);

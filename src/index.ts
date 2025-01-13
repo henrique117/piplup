@@ -2,7 +2,7 @@ import { Client, Collection, GatewayIntentBits, Interaction, Message } from 'dis
 import * as dotenv from 'dotenv'
 import * as fs from 'fs'
 import * as path from 'path'
-import { register, transfer, balance, shop } from './functions/functions.export'
+import { register, transfer, balance, shop, info } from './functions/functions.export'
 
 dotenv.config()
 
@@ -52,7 +52,8 @@ client.on('messageCreate', async (interaction: Message) => {
     if(interaction.content === '&register' || interaction.content === '&reg') await register(interaction)
     if(interaction.content.startsWith('&transfer') || interaction.content.startsWith('&pix')) await transfer(interaction)
     if(interaction.content.startsWith('&balance') || interaction.content.startsWith('&bal')) await balance(interaction)
-    if(interaction.content === '&shop') await shop(interaction)
+    if(interaction.content === '&shop' || interaction.content === '&s') await shop(interaction)
+    if(interaction.content.startsWith('&info') || interaction.content.startsWith('&i')) await info(interaction)
 
 })
 
