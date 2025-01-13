@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updateUserCoins = exports.findItem = exports.findUser = exports.findPlayer = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
+exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updateUserCoins = exports.itemsList = exports.findItem = exports.findUser = exports.findPlayer = exports.newPurchase = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
 const createDatabase_1 = require("./createDatabase");
 const insertPlayer = async (player_name, player_rank, player_pfp) => {
     const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, user_id)
@@ -71,6 +71,21 @@ const insertItem = async (item_name, item_description, item_cost) => {
     });
 };
 exports.insertItem = insertItem;
+const newPurchase = async (user_id, item_id) => {
+    const query = `INSERT INTO Items_Users (user_id, item_id) VALUES (?, ?)`;
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.run(query, [user_id, item_id], (err) => {
+            if (err) {
+                console.error(`Error inserting new purchase: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve();
+            }
+        });
+    });
+};
+exports.newPurchase = newPurchase;
 const findPlayer = async (player_name) => {
     const query = [`SELECT * FROM Players WHERE player_name = ?`, player_name];
     return new Promise((resolve, reject) => {
@@ -116,6 +131,21 @@ const findItem = async (item_id) => {
     });
 };
 exports.findItem = findItem;
+const itemsList = async () => {
+    const query = `SELECT * FROM Items`;
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.all(query, [], (err, rows) => {
+            if (err) {
+                console.error(`Error fetching items: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve(rows);
+            }
+        });
+    });
+};
+exports.itemsList = itemsList;
 const updateUserCoins = async (user_id, new_coins) => {
     const query = `UPDATE Users SET user_coins = ? WHERE user_id = ?`;
     return new Promise((resolve, reject) => {

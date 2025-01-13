@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS Items_Users (
     purchase_id INTEGER PRIMARY KEY AUTOINCREMENT,
     purchase_data TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     user_id TEXT NOT NULL,
-    item_id TEXT NOT NULL,
+    item_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
     FOREIGN KEY (item_id) REFERENCES Items(item_id)
 );`

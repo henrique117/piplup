@@ -74,6 +74,21 @@ export const insertItem = async (item_name: string, item_description: string | n
     })
 }
 
+export const newPurchase = async (user_id: string, item_id: number): Promise<void> => {
+    const query = `INSERT INTO Items_Users (user_id, item_id) VALUES (?, ?)`
+
+    return new Promise<void>((resolve, reject) => {
+        db.run(query, [user_id, item_id], (err) => {
+            if(err) {
+                console.error(`Error inserting new purchase: ${err.message}`)
+                reject(err)
+            } else {
+                resolve()
+            }
+        })
+    })
+}
+
 export const findPlayer = async (player_name: string): Promise<PlayerInterface> => {
     const query = [`SELECT * FROM Players WHERE player_name = ?`, player_name]
 
@@ -114,6 +129,21 @@ export const findItem = async (item_id: number): Promise<ItemInterface> => {
                 reject(err)
             } else {
                 resolve(row)
+            }
+        })
+    })
+}
+
+export const itemsList = async (): Promise<ItemInterface[]> => {
+    const query = `SELECT * FROM Items`
+
+    return new Promise((resolve, reject) => {
+        db.all(query, [], (err, rows: ItemInterface[]) => {
+            if(err) {
+                console.error(`Error fetching items: ${err.message}`)
+                reject(err)
+            } else {
+                resolve(rows)
             }
         })
     })
