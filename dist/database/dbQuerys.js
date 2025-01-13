@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updateUserCoins = exports.itemsList = exports.findItem = exports.findUser = exports.findPlayer = exports.newPurchase = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
+exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updateUserPacks = exports.updateUserCoins = exports.itemsList = exports.findItem = exports.findUser = exports.findPlayer = exports.newPurchase = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
 const createDatabase_1 = require("./createDatabase");
 const insertPlayer = async (player_name, player_rank, player_pfp) => {
     const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, user_id)
@@ -161,6 +161,31 @@ const updateUserCoins = async (user_id, new_coins) => {
     });
 };
 exports.updateUserCoins = updateUserCoins;
+const updateUserPacks = async (user_id, pack_type) => {
+    const validPackTypes = [
+        "user_commonPacks",
+        "user_rarePacks",
+        "user_epicPacks",
+        "user_legendaryPacks",
+        "user_ultimatePacks"
+    ];
+    if (!validPackTypes.includes(pack_type)) {
+        throw new Error('Invalid pack type');
+    }
+    const query = `UPDATE Users SET ${pack_type} = ${pack_type} + 1 WHERE user_id = ?`;
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.run(query, [user_id], (err) => {
+            if (err) {
+                console.error(`Error updating user: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve();
+            }
+        });
+    });
+};
+exports.updateUserPacks = updateUserPacks;
 const deleteUser = async (user_id) => {
     const query = [
         `UPDATE Players SET user_id = NULL WHERE user_id = ?`,

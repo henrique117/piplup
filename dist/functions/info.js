@@ -11,13 +11,20 @@ async function info(interaction) {
             console.error('Bruh');
             return;
         }
-        const item_db = await (0, dbQuerys_1.findItem)(parseInt(item_id));
-        if (!item_db) {
-            interaction.reply({ content: "There is no item with this ID!", flags: discord_js_1.MessageFlags.Ephemeral });
+        try {
+            const item_db = await (0, dbQuerys_1.findItem)(parseInt(item_id));
+            if (!item_db) {
+                interaction.reply({ content: "There is no item with this ID!", flags: discord_js_1.MessageFlags.Ephemeral });
+                return;
+            }
+            const itemEmbed = await (0, auxiliarfunctions_export_1.itemEmbedBuilder)(item_db);
+            interaction.reply({ embeds: [itemEmbed] });
+        }
+        catch (err) {
+            interaction.reply({ content: `Error fetching item: ${item_id}`, flags: discord_js_1.MessageFlags.Ephemeral });
+            console.error(`Error fetching item: ${item_id}`);
             return;
         }
-        const itemEmbed = await (0, auxiliarfunctions_export_1.itemEmbedBuilder)(item_db);
-        interaction.reply({ embeds: [itemEmbed] });
     }
     if (interaction instanceof discord_js_1.Message) {
         const regex = /^.+\s\d+$/;
@@ -31,13 +38,20 @@ async function info(interaction) {
             console.error('Bruh');
             return;
         }
-        const item_db = await (0, dbQuerys_1.findItem)(parseInt(item_id));
-        if (!item_db) {
-            interaction.reply("There is no item with this ID!");
+        try {
+            const item_db = await (0, dbQuerys_1.findItem)(parseInt(item_id));
+            if (!item_db) {
+                interaction.reply("There is no item with this ID!");
+                return;
+            }
+            const itemEmbed = await (0, auxiliarfunctions_export_1.itemEmbedBuilder)(item_db);
+            interaction.reply({ embeds: [itemEmbed] });
+        }
+        catch (err) {
+            interaction.reply(`Error fetching item: ${item_id}`);
+            console.error(`Error fetching item: ${item_id}`);
             return;
         }
-        const itemEmbed = await (0, auxiliarfunctions_export_1.itemEmbedBuilder)(item_db);
-        interaction.reply({ embeds: [itemEmbed] });
     }
 }
 exports.default = info;

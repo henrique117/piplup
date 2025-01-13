@@ -37,7 +37,7 @@ export const insertUser = async (user_id: string, user_username: string, user_gl
     })
 }
 
-export const insertPlayersInArray = async (data: {player_name: string, player_rank: number, player_pfp: string}[]) => {
+export const insertPlayersInArray = async (data: {player_name: string, player_rank: number, player_pfp: string}[]): Promise<void> => {
     const values = data.map(d => {
         const player_cost = (1700 / Math.pow(d.player_rank, 0.1727) - 178) + (-0.0020500205002 * d.player_rank + 205)
         return `('${d.player_name}', ${d.player_rank}, '${d.player_pfp}', ${Math.round(player_cost)}, NULL)`
@@ -57,7 +57,7 @@ export const insertPlayersInArray = async (data: {player_name: string, player_ra
     })
 }
 
-export const insertItem = async (item_name: string, item_description: string | null, item_cost: number) => {
+export const insertItem = async (item_name: string, item_description: string | null, item_cost: number): Promise<void> => {
     const query = `INSERT INTO Items (item_name, item_description, item_cost) VALUES (?, ?, ?)`
 
     const description = item_description ? item_description : 'NULL'
@@ -149,11 +149,39 @@ export const itemsList = async (): Promise<ItemInterface[]> => {
     })
 }
 
-export const updateUserCoins = async (user_id: string, new_coins: number) => {
+export const updateUserCoins = async (user_id: string, new_coins: number): Promise<void> => {
     const query = `UPDATE Users SET user_coins = ? WHERE user_id = ?`
 
     return new Promise<void>((resolve, reject) => {
         db.run(query, [new_coins, user_id], (err) => {
+            if(err) {
+                console.error(`Error updating user: ${err.message}`)
+                reject(err)
+            } else {
+                resolve()
+            }
+        })
+    })
+}
+
+export const updateUserPacks = async (user_id: string, pack_type: string): Promise<void> => {
+
+    const validPackTypes = [
+        "user_commonPacks",
+        "user_rarePacks",
+        "user_epicPacks",
+        "user_legendaryPacks",
+        "user_ultimatePacks"
+    ]
+
+    if (!validPackTypes.includes(pack_type)) {
+        throw new Error('Invalid pack type')
+    }
+
+    const query = `UPDATE Users SET ${pack_type} = ${pack_type} + 1 WHERE user_id = ?`
+
+    return new Promise<void>((resolve, reject) => {
+        db.run(query, [user_id], (err) => {
             if(err) {
                 console.error(`Error updating user: ${err.message}`)
                 reject(err)
@@ -191,7 +219,7 @@ export const deleteUser = async (user_id: string) => {
     })
 }
 
-export const deleteItem = async (item_id: number) => {
+export const deleteItem = async (item_id: number): Promise<void> => {
     const query = `DELETE FROM Items WHERE item_id = ?`
 
     return new Promise<void>((resolve, reject) => {
@@ -206,7 +234,7 @@ export const deleteItem = async (item_id: number) => {
     })
 }
 
-export const deletePlayer = async (player_name: string) => {
+export const deletePlayer = async (player_name: string): Promise<void> => {
     const query = `DELETE FROM Players WHERE player_name = ?`
 
     return new Promise<void>((resolve, reject) => {

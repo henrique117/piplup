@@ -52,5 +52,7 @@ client.on('messageCreate', async (interaction) => {
         await (0, functions_export_1.shop)(interaction);
     if (interaction.content.startsWith('&info') || interaction.content.startsWith('&i'))
         await (0, functions_export_1.info)(interaction);
+    if (interaction.content.startsWith('&buy'))
+        await (0, functions_export_1.buy)(interaction);
 });
 client.login(process.env.DISCORD_TOKEN);

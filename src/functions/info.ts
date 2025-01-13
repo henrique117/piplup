@@ -14,17 +14,24 @@ export default async function info(interaction: CommandInteraction | Message): P
             return
         }
 
-        const item_db = await findItem(parseInt(item_id))
+        try {
 
-        if(!item_db) {
-            interaction.reply({ content: "There is no item with this ID!", flags: MessageFlags.Ephemeral})
+            const item_db = await findItem(parseInt(item_id))
+
+            if(!item_db) {
+                interaction.reply({ content: "There is no item with this ID!", flags: MessageFlags.Ephemeral})
+                return
+            }
+
+            const itemEmbed = await itemEmbedBuilder(item_db)
+
+            interaction.reply({ embeds: [itemEmbed] })
+
+        } catch (err) {
+            interaction.reply({ content: `Error fetching item: ${item_id}`, flags: MessageFlags.Ephemeral})
+            console.error(`Error fetching item: ${item_id}`)
             return
         }
-
-        const itemEmbed = await itemEmbedBuilder(item_db)
-
-        interaction.reply({ embeds: [itemEmbed] })
-
     }
 
     if(interaction instanceof Message) {
@@ -44,16 +51,23 @@ export default async function info(interaction: CommandInteraction | Message): P
             return
         }
 
-        const item_db = await findItem(parseInt(item_id))
+        try {
 
-        if(!item_db) {
-            interaction.reply("There is no item with this ID!")
+            const item_db = await findItem(parseInt(item_id))
+
+            if(!item_db) {
+                interaction.reply("There is no item with this ID!")
+                return
+            }
+
+            const itemEmbed = await itemEmbedBuilder(item_db)
+
+            interaction.reply({ embeds: [itemEmbed] })
+
+        } catch (err) {
+            interaction.reply(`Error fetching item: ${item_id}`)
+            console.error(`Error fetching item: ${item_id}`)
             return
         }
-
-        const itemEmbed = await itemEmbedBuilder(item_db)
-
-        interaction.reply({ embeds: [itemEmbed] })
-
     }
 }
