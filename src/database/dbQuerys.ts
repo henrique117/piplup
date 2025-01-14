@@ -22,7 +22,7 @@ export const insertPlayer = async (player_name: string, player_rank: number, pla
 
 export const insertUser = async (user_id: string, user_username: string, user_globalName: string | null): Promise<void> => {
     const query = `INSERT INTO Users (user_id, user_username, user_globalname, user_coins, user_commonPacks, user_rarePacks, user_epicPacks, user_legendaryPacks, user_ultimatePacks)
-                   VALUES (?, ?, ?, 50, 0, 0, 0, 0, 0)`
+                   VALUES (?, ?, ?, 50, 2, 0, 0, 0, 0)`
 
     const globalName = user_globalName ? user_globalName : null
 

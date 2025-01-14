@@ -22,7 +22,7 @@ const insertPlayer = async (player_name, player_rank, player_pfp, player_flag) =
 exports.insertPlayer = insertPlayer;
 const insertUser = async (user_id, user_username, user_globalName) => {
     const query = `INSERT INTO Users (user_id, user_username, user_globalname, user_coins, user_commonPacks, user_rarePacks, user_epicPacks, user_legendaryPacks, user_ultimatePacks)
-                   VALUES (?, ?, ?, 50, 0, 0, 0, 0, 0)`;
+                   VALUES (?, ?, ?, 50, 2, 0, 0, 0, 0)`;
     const globalName = user_globalName ? user_globalName : null;
     return new Promise((resolve, reject) => {
         createDatabase_1.default.run(query, [user_id, user_username, globalName], (err) => {
