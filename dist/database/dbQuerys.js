@@ -6,7 +6,7 @@ const insertPlayer = async (player_name, player_rank, player_pfp, player_flag) =
     const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, user_id)
                    VALUES (?, ?, ?, ?, ?, ?, NULL)`;
     const player_cost = (1700 / Math.pow(player_rank, 0.1727) - 178) + (-0.0020500205002 * player_rank + 205);
-    const player_weight = 1 / Math.pow(player_cost, 0.009727);
+    const player_weight = Math.exp(player_cost / 72.7);
     return new Promise((resolve, reject) => {
         createDatabase_1.default.run(query, [player_name, player_rank, player_pfp, Math.round(player_cost), player_weight, player_flag], (err) => {
             if (err) {
@@ -40,7 +40,7 @@ exports.insertUser = insertUser;
 const insertPlayersInArray = async (data) => {
     const values = data.map(d => {
         const player_cost = (1700 / Math.pow(d.player_rank, 0.1727) - 178) + (-0.0020500205002 * d.player_rank + 205);
-        const player_weight = 1 / Math.pow(player_cost, 0.009727);
+        const player_weight = Math.exp(player_cost / 72.7);
         return `('${d.player_name}', ${d.player_rank}, '${d.player_pfp}', ${Math.round(player_cost)}, ${player_weight}, '${d.player_flag}', NULL)`;
     }).join(', ');
     const query = `INSERT INTO players (player_name, player_rank, player_pfp, player_cost, player_weight, player_flag, user_id) VALUES ${values}`;
@@ -294,7 +294,7 @@ const getPlayersForPack = async (pack_type) => {
     let query = `
         SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
         FROM Players
-        ORDER BY (ABS(RANDOM()) * player_weight) DESC
+        ORDER BY player_weight * ABS(RANDOM())
         LIMIT 2;
     `;
     const players = await new Promise((resolve, reject) => {
@@ -314,7 +314,7 @@ const getPlayersForPack = async (pack_type) => {
                 SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
                 FROM Players
                 WHERE player_rank < 101
-                ORDER BY (ABS(RANDOM()) * player_weight) DESC
+                ORDER BY player_weight * ABS(RANDOM())
                 LIMIT 1;
             `;
             const ultimate_player = await new Promise((resolve, reject) => {
@@ -335,7 +335,7 @@ const getPlayersForPack = async (pack_type) => {
                 SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
                 FROM Players
                 WHERE player_rank < 1001
-                ORDER BY (ABS(RANDOM()) * player_weight) DESC
+                ORDER BY player_weight * ABS(RANDOM())
                 LIMIT 1;
             `;
             const legendary_player = await new Promise((resolve, reject) => {
@@ -356,7 +356,7 @@ const getPlayersForPack = async (pack_type) => {
                 SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
                 FROM Players
                 WHERE player_rank < 10001
-                ORDER BY (ABS(RANDOM()) * player_weight) DESC
+                ORDER BY player_weight * ABS(RANDOM())
                 LIMIT 1;
             `;
             const epic_player = await new Promise((resolve, reject) => {
@@ -377,7 +377,7 @@ const getPlayersForPack = async (pack_type) => {
                 SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
                 FROM Players
                 WHERE player_rank < 50001
-                ORDER BY (ABS(RANDOM()) * player_weight) DESC
+                ORDER BY player_weight * ABS(RANDOM())
                 LIMIT 1;
             `;
             const rare_player = await new Promise((resolve, reject) => {
@@ -397,7 +397,7 @@ const getPlayersForPack = async (pack_type) => {
             query = `
                 SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
                 FROM Players
-                ORDER BY (ABS(RANDOM()) * player_weight) DESC
+                ORDER BY player_weight * ABS(RANDOM())
                 LIMIT 1;
             `;
             const common_player = await new Promise((resolve, reject) => {

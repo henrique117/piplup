@@ -6,7 +6,7 @@ export const insertPlayer = async (player_name: string, player_rank: number, pla
                    VALUES (?, ?, ?, ?, ?, ?, NULL)`
 
     const player_cost = (1700 / Math.pow(player_rank, 0.1727) - 178) + (-0.0020500205002 * player_rank + 205)
-    const player_weight = 1 / Math.pow(player_cost, 0.009727)
+    const player_weight = Math.exp(player_cost / 72.7)
 
     return new Promise<void>((resolve, reject) => {
         db.run(query, [player_name, player_rank, player_pfp, Math.round(player_cost), player_weight, player_flag], (err) => {
@@ -41,7 +41,8 @@ export const insertUser = async (user_id: string, user_username: string, user_gl
 export const insertPlayersInArray = async (data: {player_name: string, player_rank: number, player_pfp: string, player_flag: string}[]): Promise<void> => {
     const values = data.map(d => {
         const player_cost = (1700 / Math.pow(d.player_rank, 0.1727) - 178) + (-0.0020500205002 * d.player_rank + 205)
-        const player_weight = 1 / Math.pow(player_cost, 0.009727)
+        const player_weight = Math.exp(player_cost / 72.7)
+
         return `('${d.player_name}', ${d.player_rank}, '${d.player_pfp}', ${Math.round(player_cost)}, ${player_weight}, '${d.player_flag}', NULL)`
     }).join(', ')
 
@@ -300,7 +301,7 @@ export const getPlayersForPack = async (pack_type: string): Promise<PlayerInterf
     let query: string = `
         SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
         FROM Players
-        ORDER BY (ABS(RANDOM()) * player_weight) DESC
+        ORDER BY player_weight * ABS(RANDOM())
         LIMIT 2;
     `
 
@@ -321,7 +322,7 @@ export const getPlayersForPack = async (pack_type: string): Promise<PlayerInterf
                 SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
                 FROM Players
                 WHERE player_rank < 101
-                ORDER BY (ABS(RANDOM()) * player_weight) DESC
+                ORDER BY player_weight * ABS(RANDOM())
                 LIMIT 1;
             `
             const ultimate_player = await new Promise<PlayerInterface>((resolve, reject) => {
@@ -342,7 +343,7 @@ export const getPlayersForPack = async (pack_type: string): Promise<PlayerInterf
                 SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
                 FROM Players
                 WHERE player_rank < 1001
-                ORDER BY (ABS(RANDOM()) * player_weight) DESC
+                ORDER BY player_weight * ABS(RANDOM())
                 LIMIT 1;
             `
             const legendary_player = await new Promise<PlayerInterface>((resolve, reject) => {
@@ -363,7 +364,7 @@ export const getPlayersForPack = async (pack_type: string): Promise<PlayerInterf
                 SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
                 FROM Players
                 WHERE player_rank < 10001
-                ORDER BY (ABS(RANDOM()) * player_weight) DESC
+                ORDER BY player_weight * ABS(RANDOM())
                 LIMIT 1;
             `
             const epic_player = await new Promise<PlayerInterface>((resolve, reject) => {
@@ -384,7 +385,7 @@ export const getPlayersForPack = async (pack_type: string): Promise<PlayerInterf
                 SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
                 FROM Players
                 WHERE player_rank < 50001
-                ORDER BY (ABS(RANDOM()) * player_weight) DESC
+                ORDER BY player_weight * ABS(RANDOM())
                 LIMIT 1;
             `
             const rare_player = await new Promise<PlayerInterface>((resolve, reject) => {
@@ -404,7 +405,7 @@ export const getPlayersForPack = async (pack_type: string): Promise<PlayerInterf
             query = `
                 SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
                 FROM Players
-                ORDER BY (ABS(RANDOM()) * player_weight) DESC
+                ORDER BY player_weight * ABS(RANDOM())
                 LIMIT 1;
             `
             const common_player = await new Promise<PlayerInterface>((resolve, reject) => {
