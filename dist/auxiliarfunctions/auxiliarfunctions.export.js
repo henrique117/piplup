@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.myplayersEmbedBuilder = exports.githubEmbedBuilder = exports.playerEmbedBuilder = exports.itemEmbedBuilder = exports.shopEmbedBuilder = exports.embedPagination = void 0;
+exports.helpEmbedBuilder = exports.myplayersEmbedBuilder = exports.githubEmbedBuilder = exports.playerEmbedBuilder = exports.itemEmbedBuilder = exports.shopEmbedBuilder = exports.embedPagination = void 0;
 var embedPagination_1 = require("./embedPagination");
 Object.defineProperty(exports, "embedPagination", { enumerable: true, get: function () { return embedPagination_1.default; } });
 var shopEmbedBuilder_1 = require("./shopEmbedBuilder");
@@ -13,3 +13,5 @@ var githubEmbedBuilder_1 = require("./githubEmbedBuilder");
 Object.defineProperty(exports, "githubEmbedBuilder", { enumerable: true, get: function () { return githubEmbedBuilder_1.default; } });
 var myplayersEmbedBuilder_1 = require("./myplayersEmbedBuilder");
 Object.defineProperty(exports, "myplayersEmbedBuilder", { enumerable: true, get: function () { return myplayersEmbedBuilder_1.default; } });
+var helpEmbedBuilder_1 = require("./helpEmbedBuilder");
+Object.defineProperty(exports, "helpEmbedBuilder", { enumerable: true, get: function () { return helpEmbedBuilder_1.default; } });

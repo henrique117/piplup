@@ -1,5 +1,5 @@
 import { CommandInteraction, Message, PermissionsBitField } from 'discord.js'
-import { newChannel } from '../database/dbQuerys'
+import { findChannel, newChannel } from '../database/dbQuerys'
 
 export default async function setchannel(interaction: CommandInteraction | Message): Promise<void> {
     const user = interaction.member
@@ -8,6 +8,13 @@ export default async function setchannel(interaction: CommandInteraction | Messa
         if (user.permissions.has('Administrator')) {
 
             if(interaction.channel?.id && interaction.guild?.id) {
+
+                const channel = await findChannel(interaction.channel.id, interaction.guild.id)
+
+                if(channel) {
+                    interaction.reply('This channel is already seted!')
+                    return
+                }
 
                 await newChannel(interaction.channel.id, interaction.guild.id)
                 interaction.reply('Channel set successfully!')

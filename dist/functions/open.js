@@ -27,7 +27,7 @@ async function open(interaction) {
                 }
                 break;
             case 'rare':
-                if (user_db.user_commonPacks < 1) {
+                if (user_db.user_rarePacks < 1) {
                     interaction.reply({ content: `You don't have any ${pack_type} packs!`, flags: discord_js_1.MessageFlags.Ephemeral });
                     return;
                 }
@@ -36,7 +36,7 @@ async function open(interaction) {
                 }
                 break;
             case 'epic':
-                if (user_db.user_commonPacks < 1) {
+                if (user_db.user_epicPacks < 1) {
                     interaction.reply({ content: `You don't have any ${pack_type} packs!`, flags: discord_js_1.MessageFlags.Ephemeral });
                     return;
                 }
@@ -45,7 +45,7 @@ async function open(interaction) {
                 }
                 break;
             case 'legendary':
-                if (user_db.user_commonPacks < 1) {
+                if (user_db.user_legendaryPacks < 1) {
                     interaction.reply({ content: `You don't have any ${pack_type} packs!`, flags: discord_js_1.MessageFlags.Ephemeral });
                     return;
                 }
@@ -54,7 +54,7 @@ async function open(interaction) {
                 }
                 break;
             case 'ultimate':
-                if (user_db.user_commonPacks < 1) {
+                if (user_db.user_ultimatePacks < 1) {
                     interaction.reply({ content: `You don't have any ${pack_type} packs!`, flags: discord_js_1.MessageFlags.Ephemeral });
                     return;
                 }
@@ -124,7 +124,7 @@ async function open(interaction) {
                 }
                 break;
             case 'rare':
-                if (user_db.user_commonPacks < 1) {
+                if (user_db.user_rarePacks < 1) {
                     interaction.reply(`You don't have any ${pack_type} packs!`);
                     return;
                 }
@@ -133,7 +133,7 @@ async function open(interaction) {
                 }
                 break;
             case 'epic':
-                if (user_db.user_commonPacks < 1) {
+                if (user_db.user_epicPacks < 1) {
                     interaction.reply(`You don't have any ${pack_type} packs!`);
                     return;
                 }
@@ -142,7 +142,7 @@ async function open(interaction) {
                 }
                 break;
             case 'legendary':
-                if (user_db.user_commonPacks < 1) {
+                if (user_db.user_legendaryPacks < 1) {
                     interaction.reply(`You don't have any ${pack_type} packs!`);
                     return;
                 }
@@ -151,7 +151,7 @@ async function open(interaction) {
                 }
                 break;
             case 'ultimate':
-                if (user_db.user_commonPacks < 1) {
+                if (user_db.user_ultimatePacks < 1) {
                     interaction.reply(`You don't have any ${pack_type} packs!`);
                     return;
                 }

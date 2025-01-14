@@ -87,7 +87,9 @@ const messageCommands = {
     '&sell': functions_export_1.sell,
     '&sl': functions_export_1.sell,
     '&setchannel': functions_export_1.setchannel,
-    '&unsetchannel': functions_export_1.unsetchannel
+    '&unsetchannel': functions_export_1.unsetchannel,
+    '&help': functions_export_1.help,
+    '&h': functions_export_1.help
 };
 client.on('messageCreate', async (message) => {
     if (message.author.bot)

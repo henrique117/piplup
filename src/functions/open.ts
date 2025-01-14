@@ -30,7 +30,7 @@ export default async function open(interaction: CommandInteraction | Message) {
                 }
                 break
             case 'rare':
-                if(user_db.user_commonPacks < 1) {
+                if(user_db.user_rarePacks < 1) {
                     interaction.reply({ content: `You don't have any ${pack_type} packs!`, flags: MessageFlags.Ephemeral})
                     return
                 } else {
@@ -38,7 +38,7 @@ export default async function open(interaction: CommandInteraction | Message) {
                 }
                 break
             case 'epic':
-                if(user_db.user_commonPacks < 1) {
+                if(user_db.user_epicPacks < 1) {
                     interaction.reply({ content: `You don't have any ${pack_type} packs!`, flags: MessageFlags.Ephemeral})
                     return
                 } else {
@@ -46,7 +46,7 @@ export default async function open(interaction: CommandInteraction | Message) {
                 }
                 break
             case 'legendary':
-                if(user_db.user_commonPacks < 1) {
+                if(user_db.user_legendaryPacks < 1) {
                     interaction.reply({ content: `You don't have any ${pack_type} packs!`, flags: MessageFlags.Ephemeral})
                     return
                 } else {
@@ -54,7 +54,7 @@ export default async function open(interaction: CommandInteraction | Message) {
                 }
                 break
             case 'ultimate':
-                if(user_db.user_commonPacks < 1) {
+                if(user_db.user_ultimatePacks < 1) {
                     interaction.reply({ content: `You don't have any ${pack_type} packs!`, flags: MessageFlags.Ephemeral})
                     return
                 } else {
@@ -134,7 +134,7 @@ export default async function open(interaction: CommandInteraction | Message) {
                 }
                 break
             case 'rare':
-                if(user_db.user_commonPacks < 1) {
+                if(user_db.user_rarePacks < 1) {
                     interaction.reply(`You don't have any ${pack_type} packs!`)
                     return
                 } else {
@@ -142,7 +142,7 @@ export default async function open(interaction: CommandInteraction | Message) {
                 }
                 break
             case 'epic':
-                if(user_db.user_commonPacks < 1) {
+                if(user_db.user_epicPacks < 1) {
                     interaction.reply(`You don't have any ${pack_type} packs!`)
                     return
                 } else {
@@ -150,7 +150,7 @@ export default async function open(interaction: CommandInteraction | Message) {
                 }
                 break
             case 'legendary':
-                if(user_db.user_commonPacks < 1) {
+                if(user_db.user_legendaryPacks < 1) {
                     interaction.reply(`You don't have any ${pack_type} packs!`)
                     return
                 } else {
@@ -158,7 +158,7 @@ export default async function open(interaction: CommandInteraction | Message) {
                 }
                 break
             case 'ultimate':
-                if(user_db.user_commonPacks < 1) {
+                if(user_db.user_ultimatePacks < 1) {
                     interaction.reply(`You don't have any ${pack_type} packs!`)
                     return
                 } else {

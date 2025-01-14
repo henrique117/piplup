@@ -7,6 +7,11 @@ async function setchannel(interaction) {
     if (user && 'permissions' in user && user.permissions instanceof discord_js_1.PermissionsBitField) {
         if (user.permissions.has('Administrator')) {
             if (interaction.channel?.id && interaction.guild?.id) {
+                const channel = await (0, dbQuerys_1.findChannel)(interaction.channel.id, interaction.guild.id);
+                if (channel) {
+                    interaction.reply('This channel is already seted!');
+                    return;
+                }
                 await (0, dbQuerys_1.newChannel)(interaction.channel.id, interaction.guild.id);
                 interaction.reply('Channel set successfully!');
                 return;
