@@ -60,5 +60,7 @@ client.on('messageCreate', async (interaction) => {
         await (0, functions_export_1.mypacks)(interaction);
     if (interaction.content.startsWith('&open') || interaction.content.startsWith('&o'))
         await (0, functions_export_1.open)(interaction);
+    if (interaction.content === '&github' || interaction.content === '&git')
+        await (0, functions_export_1.github)(interaction);
 });
 client.login(process.env.DISCORD_TOKEN);
