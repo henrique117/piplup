@@ -1,5 +1,5 @@
 import db from './createDatabase'
-import { ItemInterface, PlayerInterface, UserInterface } from '../interfaces/interfaces.export'
+import { ChannelInterface, ItemInterface, PlayerInterface, UserInterface } from '../interfaces/interfaces.export'
 
 export const insertPlayer = async (player_name: string, player_rank: number, player_pfp: string, player_flag: string): Promise<void> => {
     const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, user_id)
@@ -92,6 +92,36 @@ export const newPurchase = async (user_id: string, item_id: number): Promise<voi
     })
 }
 
+export const newGuild = async (guild_id: string, guild_name: string): Promise<void> => {
+    const query = `INSERT INTO Guilds (guild_id, guild_name) VALUES (?, ?)`
+
+    return new Promise<void>((resolve, reject) => {
+        db.run(query, [guild_id, guild_name], (err) => {
+            if(err) {
+                console.error(`Error inserting new guild: ${err.message}`)
+                reject(err)
+            } else {
+                resolve()
+            }
+        })
+    })
+}
+
+export const newChannel = async (channel_id: string, channel_name: string, guild_id: string): Promise<void> => {
+    const query = `INSERT INTO Channels (channel_id, channel_name, guild_id) VALUES (?, ?, ?)`
+
+    return new Promise<void>((resolve, reject) => {
+        db.run(query, [channel_id, channel_name, guild_id], (err) => {
+            if(err) {
+                console.error(`Error inserting new guild: ${err.message}`)
+                reject(err)
+            } else {
+                resolve()
+            }
+        })
+    })
+}
+
 export const findPlayer = async (player_name: string): Promise<PlayerInterface> => {
     const query = `SELECT * FROM Players WHERE player_name = ?`
 
@@ -174,6 +204,36 @@ export const myPlayersList = async (user_id: string): Promise<PlayerInterface[]>
         db.all(query, [user_id], (err, rows: PlayerInterface[]) => {
             if(err) {
                 console.error(`Error fetching items: ${err.message}`)
+                reject(err)
+            } else {
+                resolve(rows)
+            }
+        })
+    })
+}
+
+export const usersList = async (): Promise<UserInterface[]> => {
+    const query = `SELECT * FROM Users`
+
+    return new Promise((resolve, reject) => {
+        db.all(query, [], (err, rows: UserInterface[]) => {
+            if(err) {
+                console.error(`Error fetching users: ${err.message}`)
+                reject(err)
+            } else {
+                resolve(rows)
+            }
+        })
+    })
+}
+
+export const channelList = async (guild_id: string): Promise<ChannelInterface[]> => {
+    const query = `SELECT * FROM Channels WHERE guild_id = ?`
+
+    return new Promise((resolve, reject) => {
+        db.all(query, [guild_id], (err, rows: ChannelInterface[]) => {
+            if(err) {
+                console.error(`Error fetching users: ${err.message}`)
                 reject(err)
             } else {
                 resolve(rows)

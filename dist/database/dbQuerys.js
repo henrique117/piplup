@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPlayersForPack = exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updatePlayerStatus = exports.updateUserPacks = exports.updateUserCoins = exports.myPlayersList = exports.itemsList = exports.findItem = exports.findUser = exports.findPlayerById = exports.findPlayer = exports.newPurchase = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
+exports.getPlayersForPack = exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updatePlayerStatus = exports.updateUserPacks = exports.updateUserCoins = exports.channelList = exports.usersList = exports.myPlayersList = exports.itemsList = exports.findItem = exports.findUser = exports.findPlayerById = exports.findPlayer = exports.newChannel = exports.newGuild = exports.newPurchase = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
 const createDatabase_1 = require("./createDatabase");
 const insertPlayer = async (player_name, player_rank, player_pfp, player_flag) => {
     const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, user_id)
@@ -88,6 +88,36 @@ const newPurchase = async (user_id, item_id) => {
     });
 };
 exports.newPurchase = newPurchase;
+const newGuild = async (guild_id, guild_name) => {
+    const query = `INSERT INTO Guilds (guild_id, guild_name) VALUES (?, ?)`;
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.run(query, [guild_id, guild_name], (err) => {
+            if (err) {
+                console.error(`Error inserting new guild: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve();
+            }
+        });
+    });
+};
+exports.newGuild = newGuild;
+const newChannel = async (channel_id, channel_name, guild_id) => {
+    const query = `INSERT INTO Channels (channel_id, channel_name, guild_id) VALUES (?, ?, ?)`;
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.run(query, [channel_id, channel_name, guild_id], (err) => {
+            if (err) {
+                console.error(`Error inserting new guild: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve();
+            }
+        });
+    });
+};
+exports.newChannel = newChannel;
 const findPlayer = async (player_name) => {
     const query = `SELECT * FROM Players WHERE player_name = ?`;
     return new Promise((resolve, reject) => {
@@ -178,6 +208,36 @@ const myPlayersList = async (user_id) => {
     });
 };
 exports.myPlayersList = myPlayersList;
+const usersList = async () => {
+    const query = `SELECT * FROM Users`;
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.all(query, [], (err, rows) => {
+            if (err) {
+                console.error(`Error fetching users: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve(rows);
+            }
+        });
+    });
+};
+exports.usersList = usersList;
+const channelList = async (guild_id) => {
+    const query = `SELECT * FROM Channels WHERE guild_id = ?`;
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.all(query, [guild_id], (err, rows) => {
+            if (err) {
+                console.error(`Error fetching users: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve(rows);
+            }
+        });
+    });
+};
+exports.channelList = channelList;
 const updateUserCoins = async (user_id, new_coins) => {
     const query = `UPDATE Users SET user_coins = ? WHERE user_id = ?`;
     return new Promise((resolve, reject) => {

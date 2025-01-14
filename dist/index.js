@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const fs = require("fs");
 const path = require("path");
 const functions_export_1 = require("./functions/functions.export");
+const dbQuerys_1 = require("./database/dbQuerys");
 dotenv.config();
 const client = new discord_js_1.Client({
     intents: [
@@ -20,6 +21,24 @@ for (const file of commandFiles) {
     const command = require(`./slashcommands/${file}`);
     client.commands.set(command.data.name, command);
 }
+let lastHour = new Date().getUTCHours();
+setInterval(async () => {
+    const currentHour = new Date().getUTCHours();
+    if (currentHour !== lastHour) {
+        lastHour = currentHour;
+        try {
+            const usersArray = await (0, dbQuerys_1.usersList)();
+            for (const user of usersArray) {
+                await (0, dbQuerys_1.updateUserPacks)(user.user_id, 'user_commonPacks', true);
+                await (0, dbQuerys_1.updateUserPacks)(user.user_id, 'user_rarePacks', true);
+            }
+            console.log('Pacotes atualizados com sucesso');
+        }
+        catch (err) {
+            console.error('Erro ao atualizar pacotes', err);
+        }
+    }
+}, 60000);
 client.once('ready', () => {
     console.log(`Bot online como ${client.user?.tag}`);
 });
@@ -35,36 +54,49 @@ client.on('interactionCreate', async (interaction) => {
         await command.execute(interaction);
     }
     catch (error) {
-        console.error(`Error on executing command: `, error);
+        console.error('Error on executing command', error);
         await interaction.reply({ content: 'Error on executing command', ephemeral: true });
     }
 });
-client.on('messageCreate', async (interaction) => {
-    if (interaction.author.bot)
+const messageCommands = {
+    '&register': functions_export_1.register,
+    '&reg': functions_export_1.register,
+    '&transfer': functions_export_1.transfer,
+    '&pix': functions_export_1.transfer,
+    '&balance': functions_export_1.balance,
+    '&bal': functions_export_1.balance,
+    '&shop': functions_export_1.shop,
+    '&s': functions_export_1.shop,
+    '&info': functions_export_1.info,
+    '&i': functions_export_1.info,
+    '&buy': functions_export_1.buy,
+    '&player': functions_export_1.player,
+    '&p': functions_export_1.player,
+    '&mypacks': functions_export_1.mypacks,
+    '&mp': functions_export_1.mypacks,
+    '&open': functions_export_1.open,
+    '&o': functions_export_1.open,
+    '&github': functions_export_1.github,
+    '&git': functions_export_1.github,
+    '&myplayers': functions_export_1.myplayers,
+    '&mpl': functions_export_1.myplayers,
+    '&sell': functions_export_1.sell,
+    '&sl': functions_export_1.sell
+};
+client.on('messageCreate', async (message) => {
+    if (message.author.bot)
         return;
-    if (interaction.content === '&register' || interaction.content === '&reg')
-        await (0, functions_export_1.register)(interaction);
-    if (interaction.content.startsWith('&transfer') || interaction.content.startsWith('&pix'))
-        await (0, functions_export_1.transfer)(interaction);
-    if (interaction.content.startsWith('&balance') || interaction.content.startsWith('&bal'))
-        await (0, functions_export_1.balance)(interaction);
-    if (interaction.content === '&shop' || interaction.content === '&s')
-        await (0, functions_export_1.shop)(interaction);
-    if (interaction.content.startsWith('&info') || interaction.content.startsWith('&i'))
-        await (0, functions_export_1.info)(interaction);
-    if (interaction.content.startsWith('&buy'))
-        await (0, functions_export_1.buy)(interaction);
-    if (interaction.content.startsWith('&player') || interaction.content.startsWith('&p'))
-        await (0, functions_export_1.player)(interaction);
-    if (interaction.content === '&mypacks' || interaction.content === '&mp')
-        await (0, functions_export_1.mypacks)(interaction);
-    if (interaction.content.startsWith('&open') || interaction.content.startsWith('&o'))
-        await (0, functions_export_1.open)(interaction);
-    if (interaction.content === '&github' || interaction.content === '&git')
-        await (0, functions_export_1.github)(interaction);
-    if (interaction.content.startsWith('&myplayers') || interaction.content.startsWith('&mpl'))
-        await (0, functions_export_1.myplayers)(interaction);
-    if (interaction.content.startsWith('&sell') || interaction.content.startsWith('&sl'))
-        await (0, functions_export_1.sell)(interaction);
+    const guild_id = message.guild?.id;
+    const channel_id = message.channel.id;
+    if (!guild_id || !(await canBotSendMessage(guild_id, channel_id)))
+        return;
+    const command = Object.keys(messageCommands).find(cmd => message.content.startsWith(cmd));
+    if (command) {
+        await messageCommands[command](message);
+    }
 });
+async function canBotSendMessage(guild_id, channel_id) {
+    const guildChannels = await (0, dbQuerys_1.channelList)(guild_id);
+    return guildChannels.some(channel => channel.channel_id === channel_id);
+}
 client.login(process.env.DISCORD_TOKEN);
