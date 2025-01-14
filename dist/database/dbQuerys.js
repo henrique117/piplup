@@ -319,7 +319,7 @@ const getPlayersForPack = async (pack_type) => {
             query = `
                 SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
                 FROM Players
-                WHERE player_rank BETWEEN 101 AND 1000
+                WHERE player_rank < 1001
                 ORDER BY (ABS(RANDOM()) * player_weight) DESC
                 LIMIT 1;
             `;
@@ -340,7 +340,7 @@ const getPlayersForPack = async (pack_type) => {
             query = `
                 SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
                 FROM Players
-                WHERE player_rank BETWEEN 1001 AND 10000
+                WHERE player_rank < 10001
                 ORDER BY (ABS(RANDOM()) * player_weight) DESC
                 LIMIT 1;
             `;
@@ -361,7 +361,7 @@ const getPlayersForPack = async (pack_type) => {
             query = `
                 SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
                 FROM Players
-                WHERE player_rank BETWEEN 10001 AND 50000
+                WHERE player_rank < 50001
                 ORDER BY (ABS(RANDOM()) * player_weight) DESC
                 LIMIT 1;
             `;
