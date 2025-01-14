@@ -5,7 +5,7 @@ const auxiliarfunctions_export_1 = require("../auxiliarfunctions/auxiliarfunctio
 const dbQuerys_1 = require("../database/dbQuerys");
 async function info(interaction) {
     if (interaction instanceof discord_js_1.CommandInteraction) {
-        const query = interaction.options.get('query')?.value?.toString();
+        const query = interaction.options.get('query', true).value?.toString();
         if (!query) {
             interaction.reply({ content: 'Bruh', flags: discord_js_1.MessageFlags.Ephemeral });
             console.error('Bruh');
@@ -33,6 +33,7 @@ async function info(interaction) {
         }
         const playerEmbed = await (0, auxiliarfunctions_export_1.playerEmbedBuilder)(player_db);
         interaction.reply({ embeds: [playerEmbed] });
+        return;
     }
     if (interaction instanceof discord_js_1.Message) {
         const query = interaction.content;

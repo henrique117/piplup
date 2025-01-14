@@ -17,13 +17,15 @@ export default async function balance(interaction: CommandInteraction | Message)
         const user_db = await findUser(user.id)
 
         if(!user_db) {
-            interaction.reply({ content: `User ${user.username} not found on database`, flags: MessageFlags.Ephemeral })
+            interaction.reply({ content: `You have to register yourself to check your coins!`, flags: MessageFlags.Ephemeral })
             return
         }
 
         const name = user_db.user_globalName ? user_db.user_globalName : user_db.user_globalName
 
         interaction.reply({ content: `User ${name} has **${user_db.user_coins} coins**`, flags: MessageFlags.Ephemeral})
+
+        return
     }
 
     if(interaction instanceof Message) {

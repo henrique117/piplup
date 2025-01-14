@@ -13,6 +13,7 @@ async function shop(interaction) {
         if (interaction instanceof discord_js_1.CommandInteraction) {
             interaction.reply({ content: 'Error on fetching items', flags: discord_js_1.MessageFlags.Ephemeral });
             console.error('Error fetching items list');
+            return;
         }
         if (interaction instanceof discord_js_1.Message) {
             interaction.reply('Error on fetching items');

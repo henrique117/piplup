@@ -56,5 +56,9 @@ client.on('messageCreate', async (interaction) => {
         await (0, functions_export_1.buy)(interaction);
     if (interaction.content.startsWith('&player') || interaction.content.startsWith('&p'))
         await (0, functions_export_1.player)(interaction);
+    if (interaction.content === '&mypacks' || interaction.content === '&mp')
+        await (0, functions_export_1.mypacks)(interaction);
+    if (interaction.content.startsWith('&open') || interaction.content.startsWith('&o'))
+        await (0, functions_export_1.open)(interaction);
 });
 client.login(process.env.DISCORD_TOKEN);

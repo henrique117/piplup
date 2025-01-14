@@ -12,6 +12,7 @@ async function register(interaction) {
             interaction.reply({ content: "If you already registered yourself you can use the bot by running other commands! Otherwise, I'm sorry...", flags: discord_js_1.MessageFlags.Ephemeral });
             console.error(`Error on register the user: ${interaction.user.username} | ${interaction.user.id}`);
         }
+        return;
     }
     if (interaction instanceof discord_js_1.Message) {
         try {

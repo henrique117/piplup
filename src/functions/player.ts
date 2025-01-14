@@ -6,7 +6,7 @@ import { PlayerInterface } from '../interfaces/interfaces.export'
 export default async function info(interaction: CommandInteraction | Message): Promise<void> {
 
     if(interaction instanceof CommandInteraction) {
-        const query = interaction.options.get('query')?.value?.toString()
+        const query = interaction.options.get('query', true).value?.toString()
 
         if(!query) {
             interaction.reply({ content: 'Bruh', flags: MessageFlags.Ephemeral})
@@ -40,6 +40,7 @@ export default async function info(interaction: CommandInteraction | Message): P
         const playerEmbed = await playerEmbedBuilder(player_db)
 
         interaction.reply({ embeds: [playerEmbed] })
+        return
     }
 
     if(interaction instanceof Message) {

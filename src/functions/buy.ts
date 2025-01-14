@@ -5,7 +5,7 @@ export default async function buy(interaction: CommandInteraction | Message): Pr
 
     if(interaction instanceof CommandInteraction) {
 
-        const item_id = interaction.options.get('itemid')?.value?.toString()
+        const item_id = interaction.options.get('itemid', true).value?.toString()
         const user_id = interaction.user.id
         
         if(!item_id || !user_id) {
@@ -45,15 +45,15 @@ export default async function buy(interaction: CommandInteraction | Message): Pr
 
             if(itemName.includes('pack')) {
                 if(itemName.includes('common')) {
-                    await updateUserPacks(user_db.user_id, 'user_commonPacks')
-                } else if (itemName.includes("rare")) {
-                    await updateUserPacks(user_id, "user_rarePacks")
-                } else if (itemName.includes("epic")) {
-                    await updateUserPacks(user_id, "user_epicPacks")
-                } else if (itemName.includes("legendary")) {
-                    await updateUserPacks(user_id, "user_legendaryPacks")
-                } else if (itemName.includes("ultimate")) {
-                    await updateUserPacks(user_id, "user_ultimatePacks")
+                    await updateUserPacks(user_db.user_id, 'user_commonPacks', true)
+                } else if (itemName.includes('rare')) {
+                    await updateUserPacks(user_id, 'user_rarePacks', true)
+                } else if (itemName.includes('epic')) {
+                    await updateUserPacks(user_id, 'user_epicPacks', true)
+                } else if (itemName.includes('legendary')) {
+                    await updateUserPacks(user_id, 'user_legendaryPacks', true)
+                } else if (itemName.includes('ultimate')) {
+                    await updateUserPacks(user_id, 'user_ultimatePacks', true)
                 } else {
                     throw new Error('Invalid pack type')
                 }
@@ -61,9 +61,11 @@ export default async function buy(interaction: CommandInteraction | Message): Pr
 
         } catch (err) {
             interaction.reply({ content: 'Error on buying function', flags: MessageFlags.Ephemeral })
-            console.error('Error on buying function')
+            console.error('Error on buying function:', interaction.user.id)
             return
         }
+
+        return
     }
 
     if(interaction instanceof Message) {
@@ -115,15 +117,15 @@ export default async function buy(interaction: CommandInteraction | Message): Pr
 
             if(itemName.includes('pack')) {
                 if(itemName.includes('common')) {
-                    await updateUserPacks(user_db.user_id, 'user_commonPacks')
-                } else if (itemName.includes("rare")) {
-                    await updateUserPacks(user_id, "user_rarePacks")
-                } else if (itemName.includes("epic")) {
-                    await updateUserPacks(user_id, "user_epicPacks")
-                } else if (itemName.includes("legendary")) {
-                    await updateUserPacks(user_id, "user_legendaryPacks")
-                } else if (itemName.includes("ultimate")) {
-                    await updateUserPacks(user_id, "user_ultimatePacks")
+                    await updateUserPacks(user_db.user_id, 'user_commonPacks', true)
+                } else if (itemName.includes('rare')) {
+                    await updateUserPacks(user_id, 'user_rarePacks', true)
+                } else if (itemName.includes('epic')) {
+                    await updateUserPacks(user_id, 'user_epicPacks', true)
+                } else if (itemName.includes('legendary')) {
+                    await updateUserPacks(user_id, 'user_legendaryPacks', true)
+                } else if (itemName.includes('ultimate')) {
+                    await updateUserPacks(user_id, 'user_ultimatePacks', true)
                 } else {
                     throw new Error('Invalid pack type')
                 }
@@ -131,7 +133,7 @@ export default async function buy(interaction: CommandInteraction | Message): Pr
 
         } catch (err) {
             interaction.reply('Error on the purchase function')
-            console.error('Error on the purchase function')
+            console.error('Error on the purchase function:', interaction.author.id)
             return
         }
     }

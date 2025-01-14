@@ -14,11 +14,12 @@ async function balance(interaction) {
         }
         const user_db = await (0, dbQuerys_1.findUser)(user.id);
         if (!user_db) {
-            interaction.reply({ content: `User ${user.username} not found on database`, flags: discord_js_1.MessageFlags.Ephemeral });
+            interaction.reply({ content: `You have to register yourself to check your coins!`, flags: discord_js_1.MessageFlags.Ephemeral });
             return;
         }
         const name = user_db.user_globalName ? user_db.user_globalName : user_db.user_globalName;
         interaction.reply({ content: `User ${name} has **${user_db.user_coins} coins**`, flags: discord_js_1.MessageFlags.Ephemeral });
+        return;
     }
     if (interaction instanceof discord_js_1.Message) {
         const option = interaction.mentions.users.first() ? interaction.mentions.users.first() : interaction.author;

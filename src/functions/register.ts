@@ -10,6 +10,8 @@ export default async function register(interaction: CommandInteraction | Message
             interaction.reply({ content: "If you already registered yourself you can use the bot by running other commands! Otherwise, I'm sorry...", flags: MessageFlags.Ephemeral })
             console.error(`Error on register the user: ${interaction.user.username} | ${interaction.user.id}`)
         }
+
+        return
     }
 
     if(interaction instanceof Message) {

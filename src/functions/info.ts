@@ -6,7 +6,7 @@ export default async function info(interaction: CommandInteraction | Message): P
 
     if(interaction instanceof CommandInteraction) {
 
-        const item_id = interaction.options.get('itemid')?.value?.toString()
+        const item_id = interaction.options.get('itemid', true).value?.toString()
         
         if(!item_id) {
             interaction.reply({ content: 'Bruh', flags: MessageFlags.Ephemeral})
@@ -32,6 +32,8 @@ export default async function info(interaction: CommandInteraction | Message): P
             console.error(`Error fetching item: ${item_id}`)
             return
         }
+
+        return
     }
 
     if(interaction instanceof Message) {

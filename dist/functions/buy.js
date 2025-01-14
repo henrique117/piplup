@@ -4,7 +4,7 @@ const discord_js_1 = require("discord.js");
 const dbQuerys_1 = require("../database/dbQuerys");
 async function buy(interaction) {
     if (interaction instanceof discord_js_1.CommandInteraction) {
-        const item_id = interaction.options.get('itemid')?.value?.toString();
+        const item_id = interaction.options.get('itemid', true).value?.toString();
         const user_id = interaction.user.id;
         if (!item_id || !user_id) {
             interaction.reply({ content: 'Bruh', flags: discord_js_1.MessageFlags.Ephemeral });
@@ -33,19 +33,19 @@ async function buy(interaction) {
             const itemName = item_db.item_name.toLowerCase();
             if (itemName.includes('pack')) {
                 if (itemName.includes('common')) {
-                    await (0, dbQuerys_1.updateUserPacks)(user_db.user_id, 'user_commonPacks');
+                    await (0, dbQuerys_1.updateUserPacks)(user_db.user_id, 'user_commonPacks', true);
                 }
-                else if (itemName.includes("rare")) {
-                    await (0, dbQuerys_1.updateUserPacks)(user_id, "user_rarePacks");
+                else if (itemName.includes('rare')) {
+                    await (0, dbQuerys_1.updateUserPacks)(user_id, 'user_rarePacks', true);
                 }
-                else if (itemName.includes("epic")) {
-                    await (0, dbQuerys_1.updateUserPacks)(user_id, "user_epicPacks");
+                else if (itemName.includes('epic')) {
+                    await (0, dbQuerys_1.updateUserPacks)(user_id, 'user_epicPacks', true);
                 }
-                else if (itemName.includes("legendary")) {
-                    await (0, dbQuerys_1.updateUserPacks)(user_id, "user_legendaryPacks");
+                else if (itemName.includes('legendary')) {
+                    await (0, dbQuerys_1.updateUserPacks)(user_id, 'user_legendaryPacks', true);
                 }
-                else if (itemName.includes("ultimate")) {
-                    await (0, dbQuerys_1.updateUserPacks)(user_id, "user_ultimatePacks");
+                else if (itemName.includes('ultimate')) {
+                    await (0, dbQuerys_1.updateUserPacks)(user_id, 'user_ultimatePacks', true);
                 }
                 else {
                     throw new Error('Invalid pack type');
@@ -54,9 +54,10 @@ async function buy(interaction) {
         }
         catch (err) {
             interaction.reply({ content: 'Error on buying function', flags: discord_js_1.MessageFlags.Ephemeral });
-            console.error('Error on buying function');
+            console.error('Error on buying function:', interaction.user.id);
             return;
         }
+        return;
     }
     if (interaction instanceof discord_js_1.Message) {
         const regex = /^.+\s\d+$/;
@@ -93,19 +94,19 @@ async function buy(interaction) {
             const itemName = item_db.item_name.toLowerCase();
             if (itemName.includes('pack')) {
                 if (itemName.includes('common')) {
-                    await (0, dbQuerys_1.updateUserPacks)(user_db.user_id, 'user_commonPacks');
+                    await (0, dbQuerys_1.updateUserPacks)(user_db.user_id, 'user_commonPacks', true);
                 }
-                else if (itemName.includes("rare")) {
-                    await (0, dbQuerys_1.updateUserPacks)(user_id, "user_rarePacks");
+                else if (itemName.includes('rare')) {
+                    await (0, dbQuerys_1.updateUserPacks)(user_id, 'user_rarePacks', true);
                 }
-                else if (itemName.includes("epic")) {
-                    await (0, dbQuerys_1.updateUserPacks)(user_id, "user_epicPacks");
+                else if (itemName.includes('epic')) {
+                    await (0, dbQuerys_1.updateUserPacks)(user_id, 'user_epicPacks', true);
                 }
-                else if (itemName.includes("legendary")) {
-                    await (0, dbQuerys_1.updateUserPacks)(user_id, "user_legendaryPacks");
+                else if (itemName.includes('legendary')) {
+                    await (0, dbQuerys_1.updateUserPacks)(user_id, 'user_legendaryPacks', true);
                 }
-                else if (itemName.includes("ultimate")) {
-                    await (0, dbQuerys_1.updateUserPacks)(user_id, "user_ultimatePacks");
+                else if (itemName.includes('ultimate')) {
+                    await (0, dbQuerys_1.updateUserPacks)(user_id, 'user_ultimatePacks', true);
                 }
                 else {
                     throw new Error('Invalid pack type');
@@ -114,7 +115,7 @@ async function buy(interaction) {
         }
         catch (err) {
             interaction.reply('Error on the purchase function');
-            console.error('Error on the purchase function');
+            console.error('Error on the purchase function:', interaction.author.id);
             return;
         }
     }

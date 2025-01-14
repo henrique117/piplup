@@ -16,6 +16,7 @@ export default async function shop(interaction: CommandInteraction | Message): P
         if(interaction instanceof CommandInteraction) {
             interaction.reply({ content: 'Error on fetching items', flags: MessageFlags.Ephemeral })
             console.error('Error fetching items list')
+            return
         }
 
         if(interaction instanceof Message) {

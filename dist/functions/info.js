@@ -5,7 +5,7 @@ const dbQuerys_1 = require("../database/dbQuerys");
 const auxiliarfunctions_export_1 = require("../auxiliarfunctions/auxiliarfunctions.export");
 async function info(interaction) {
     if (interaction instanceof discord_js_1.CommandInteraction) {
-        const item_id = interaction.options.get('itemid')?.value?.toString();
+        const item_id = interaction.options.get('itemid', true).value?.toString();
         if (!item_id) {
             interaction.reply({ content: 'Bruh', flags: discord_js_1.MessageFlags.Ephemeral });
             console.error('Bruh');
@@ -25,6 +25,7 @@ async function info(interaction) {
             console.error(`Error fetching item: ${item_id}`);
             return;
         }
+        return;
     }
     if (interaction instanceof discord_js_1.Message) {
         const regex = /^.+\s\d+$/;

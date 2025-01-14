@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon src/index.ts",
     "build": "tsc && node dist/deployCommands.js",
-    "feedDB": "node dist/database/createDatabase.js && node dist/loadingDatabase.js",
+    "feedDB": "node dist/loadingDatabase.js",
     "start": "node dist/index.js"
   },
   "keywords": [],

@@ -6,7 +6,7 @@ export const insertPlayer = async (player_name: string, player_rank: number, pla
                    VALUES (?, ?, ?, ?, ?, ?, NULL)`
 
     const player_cost = (1700 / Math.pow(player_rank, 0.1727) - 178) + (-0.0020500205002 * player_rank + 205)
-    const player_weight = 1 / Math.pow(player_cost, 2)
+    const player_weight = 1 / Math.pow(player_cost, 0.009727)
 
     return new Promise<void>((resolve, reject) => {
         db.run(query, [player_name, player_rank, player_pfp, Math.round(player_cost), player_weight, player_flag], (err) => {
@@ -41,7 +41,7 @@ export const insertUser = async (user_id: string, user_username: string, user_gl
 export const insertPlayersInArray = async (data: {player_name: string, player_rank: number, player_pfp: string, player_flag: string}[]): Promise<void> => {
     const values = data.map(d => {
         const player_cost = (1700 / Math.pow(d.player_rank, 0.1727) - 178) + (-0.0020500205002 * d.player_rank + 205)
-        const player_weight = 1 / Math.pow(player_cost, 2)
+        const player_weight = 1 / Math.pow(player_cost, 0.009727)
         return `('${d.player_name}', ${d.player_rank}, '${d.player_pfp}', ${Math.round(player_cost)}, ${player_weight}, '${d.player_flag}', NULL)`
     }).join(', ')
 
@@ -181,7 +181,7 @@ export const updateUserCoins = async (user_id: string, new_coins: number): Promi
     })
 }
 
-export const updateUserPacks = async (user_id: string, pack_type: string): Promise<void> => {
+export const updateUserPacks = async (user_id: string, pack_type: string, increase: boolean): Promise<void> => {
 
     const validPackTypes = [
         "user_commonPacks",
@@ -195,10 +195,25 @@ export const updateUserPacks = async (user_id: string, pack_type: string): Promi
         throw new Error('Invalid pack type')
     }
 
-    const query = `UPDATE Users SET ${pack_type} = ${pack_type} + 1 WHERE user_id = ?`
+    const query = `UPDATE Users SET ${pack_type} = ${pack_type} ${increase ? '+' : '-'} 1 WHERE user_id = ?`
 
     return new Promise<void>((resolve, reject) => {
         db.run(query, [user_id], (err) => {
+            if(err) {
+                console.error(`Error updating user: ${err.message}`)
+                reject(err)
+            } else {
+                resolve()
+            }
+        })
+    })
+}
+
+export const updatePlayerStatus = async (player_id: number, user_id: string): Promise<void> => {
+    const query = `UPDATE Players SET user_id = ? WHERE player_id = ?`
+
+    return new Promise<void>((resolve, reject) => {
+        db.run(query, [user_id, player_id], (err) => {
             if(err) {
                 console.error(`Error updating user: ${err.message}`)
                 reject(err)
@@ -267,94 +282,14 @@ export const deletePlayer = async (player_name: string): Promise<void> => {
 }
 
 export const getPlayersForPack = async (pack_type: string): Promise<PlayerInterface[]> => {
-    let query: string
+    let query: string = `
+        SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
+        FROM Players
+        ORDER BY (ABS(RANDOM()) * player_weight) DESC
+        LIMIT 2;
+    `
 
-    switch (pack_type) {
-        case 'ultimate':
-            query = `
-                SELECT player_id, player_name, player_rank, player_cost, player_flag, user_id
-                FROM Players
-                ORDER BY RANDOM() * player_weight DESC
-                LIMIT 2;
-            `
-            query += `
-                UNION
-                SELECT player_id, player_name, player_rank, player_cost, player_flag, user_id
-                FROM Players
-                WHERE player_rank < 101
-                ORDER BY RANDOM() * player_weight DESC
-                LIMIT 1;
-            `
-            break
-
-        case 'legendary':
-            query = `
-                SELECT player_id, player_name, player_rank, player_cost, player_flag, user_id
-                FROM Players
-                ORDER BY RANDOM() * player_weight DESC
-                LIMIT 2;
-            `
-
-            query += `
-                UNION
-                SELECT player_id, player_name, player_rank, player_cost, player_flag, user_id
-                FROM Players
-                WHERE player_rank BETWEEN 101 AND 1000
-                ORDER BY RANDOM() * player_weight DESC
-                LIMIT 1;
-            `
-            break
-
-        case 'epic':
-            query = `
-                SELECT player_id, player_name, player_rank, player_cost, player_flag, user_id
-                FROM Players
-                ORDER BY RANDOM() * player_weight DESC
-                LIMIT ;
-            `
-
-            query += `
-                UNION
-                SELECT player_id, player_name, player_rank, player_cost, player_flag, user_id
-                FROM Players
-                WHERE player_rank BETWEEN 1001 AND 10000
-                ORDER BY RANDOM() * player_weight DESC
-                LIMIT 1;
-            `
-            break
-
-        case 'rare':
-            query = `
-                SELECT player_id, player_name, player_rank, player_cost, player_flag, user_id
-                FROM Players
-                ORDER BY RANDOM() * player_weight DESC
-                LIMIT 2;
-            `
-
-            query += `
-                UNION
-                SELECT player_id, player_name, player_rank, player_cost, player_flag, user_id
-                FROM Players
-                WHERE player_rank BETWEEN 10001 AND 50000
-                ORDER BY RANDOM() * player_weight DESC
-                LIMIT 1;
-            `
-            break
-
-        case 'common':
-            query = `
-                SELECT player_id, player_name, player_rank, player_cost, player_flag, user_id
-                FROM Players
-                ORDER BY RANDOM() * player_weight DESC
-                LIMIT 3;
-            `
-            break
-
-        default:
-            throw new Error("Invalid pack type")
-    }
-
-    return new Promise((resolve, reject) => {
+    const players: PlayerInterface[] = await new Promise((resolve, reject) => {
         db.all(query, [], (err, rows: PlayerInterface[]) => {
             if (err) {
                 console.error(`Error fetching players: ${err.message}`)
@@ -364,4 +299,115 @@ export const getPlayersForPack = async (pack_type: string): Promise<PlayerInterf
             }
         })
     })
+
+    switch (pack_type) {
+        case 'ultimate':
+            query = `
+                SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
+                FROM Players
+                WHERE player_rank < 101
+                ORDER BY (ABS(RANDOM()) * player_weight) DESC
+                LIMIT 1;
+            `
+            const ultimate_player = await new Promise<PlayerInterface>((resolve, reject) => {
+                db.get(query, [], (err, row: PlayerInterface) => {
+                    if (err) {
+                        console.error(`Error fetching players: ${err.message}`)
+                        reject(err)
+                    } else {
+                        resolve(row)
+                    }
+                })
+            })
+            players.push(ultimate_player)
+            break
+
+        case 'legendary':
+            query = `
+                SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
+                FROM Players
+                WHERE player_rank < 1001
+                ORDER BY (ABS(RANDOM()) * player_weight) DESC
+                LIMIT 1;
+            `
+            const legendary_player = await new Promise<PlayerInterface>((resolve, reject) => {
+                db.get(query, [], (err, row: PlayerInterface) => {
+                    if (err) {
+                        console.error(`Error fetching players: ${err.message}`)
+                        reject(err)
+                    } else {
+                        resolve(row)
+                    }
+                })
+            })
+            players.push(legendary_player);
+            break
+
+        case 'epic':
+            query = `
+                SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
+                FROM Players
+                WHERE player_rank < 10001
+                ORDER BY (ABS(RANDOM()) * player_weight) DESC
+                LIMIT 1;
+            `
+            const epic_player = await new Promise<PlayerInterface>((resolve, reject) => {
+                db.get(query, [], (err, row: PlayerInterface) => {
+                    if (err) {
+                        console.error(`Error fetching players: ${err.message}`)
+                        reject(err)
+                    } else {
+                        resolve(row)
+                    }
+                })
+            })
+            players.push(epic_player);
+            break
+
+        case 'rare':
+            query = `
+                SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
+                FROM Players
+                WHERE player_rank < 50001
+                ORDER BY (ABS(RANDOM()) * player_weight) DESC
+                LIMIT 1;
+            `
+            const rare_player = await new Promise<PlayerInterface>((resolve, reject) => {
+                db.get(query, [], (err, row: PlayerInterface) => {
+                    if (err) {
+                        console.error(`Error fetching players: ${err.message}`)
+                        reject(err)
+                    } else {
+                        resolve(row)
+                    }
+                })
+            })
+            players.push(rare_player)
+            break
+
+        case 'common':
+            query = `
+                SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id
+                FROM Players
+                ORDER BY (ABS(RANDOM()) * player_weight) DESC
+                LIMIT 1;
+            `
+            const common_player = await new Promise<PlayerInterface>((resolve, reject) => {
+                db.get(query, [], (err, row: PlayerInterface) => {
+                    if (err) {
+                        console.error(`Error fetching players: ${err.message}`)
+                        reject(err)
+                    } else {
+                        resolve(row)
+                    }
+                })
+            })
+            players.push(common_player)
+            break
+
+        default:
+            throw new Error("Invalid pack type")
+    }
+
+    return players
 }

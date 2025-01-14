@@ -44,6 +44,7 @@ async function transfer(interaction) {
             interaction.reply({ content: 'An error occurred on updating user!', flags: discord_js_1.MessageFlags.Ephemeral });
             console.error('An error occurred on updating user!');
         }
+        return;
     }
     if (interaction instanceof discord_js_1.Message) {
         try {

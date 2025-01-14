@@ -55,6 +55,8 @@ export default async function transfer(interaction: CommandInteraction | Message
             interaction.reply({ content: 'An error occurred on updating user!', flags: MessageFlags.Ephemeral })
             console.error('An error occurred on updating user!')
         }
+
+        return
     }
 
     if(interaction instanceof Message) {
