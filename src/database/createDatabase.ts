@@ -57,18 +57,10 @@ CREATE TABLE IF NOT EXISTS Items_Users (
     FOREIGN KEY (item_id) REFERENCES Items(item_id)
 );`
 
-const createGuildsTable = `
-CREATE TABLE IF NOT EXISTS Guilds (
-    guild_id TEXT PRIMARY KEY UNIQUE,
-    guild_name TEXT NOT NULL
-);`
-
 const createChannelsTable = `
 CREATE TABLE IF NOT EXISTS Channels (
     channel_id TEXT PRIMARY KEY UNIQUE,
-    channel_name TEXT NOT NULL,
-    server_id TEXT NOT NULL,
-    FOREIGN KEY (guild_id) REFERENCES Guild(guild_id)
+    guild_id TEXT NOT NULL
 );`
 
 const runQuery = (query: string) => {
@@ -90,6 +82,7 @@ const initializeDatabase = async () => {
         await runQuery(createPlayersTable)
         await runQuery(createItemsTable)
         await runQuery(createItemsUsersTable)
+        await runQuery(createChannelsTable)
         console.log('Tables created or already exist')
     } catch (error) {
         console.error('Failed to create tables', error)

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPlayersForPack = exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updatePlayerStatus = exports.updateUserPacks = exports.updateUserCoins = exports.channelList = exports.usersList = exports.myPlayersList = exports.itemsList = exports.findItem = exports.findUser = exports.findPlayerById = exports.findPlayer = exports.newChannel = exports.newGuild = exports.newPurchase = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
+exports.getPlayersForPack = exports.deleteChannel = exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updatePlayerStatus = exports.updateUserPacks = exports.updateUserCoins = exports.channelList = exports.usersList = exports.myPlayersList = exports.itemsList = exports.findChannel = exports.findItem = exports.findUser = exports.findPlayerById = exports.findPlayer = exports.newChannel = exports.newPurchase = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
 const createDatabase_1 = require("./createDatabase");
 const insertPlayer = async (player_name, player_rank, player_pfp, player_flag) => {
     const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, user_id)
@@ -88,25 +88,10 @@ const newPurchase = async (user_id, item_id) => {
     });
 };
 exports.newPurchase = newPurchase;
-const newGuild = async (guild_id, guild_name) => {
-    const query = `INSERT INTO Guilds (guild_id, guild_name) VALUES (?, ?)`;
+const newChannel = async (channel_id, guild_id) => {
+    const query = `INSERT INTO Channels (channel_id, guild_id) VALUES (?, ?)`;
     return new Promise((resolve, reject) => {
-        createDatabase_1.default.run(query, [guild_id, guild_name], (err) => {
-            if (err) {
-                console.error(`Error inserting new guild: ${err.message}`);
-                reject(err);
-            }
-            else {
-                resolve();
-            }
-        });
-    });
-};
-exports.newGuild = newGuild;
-const newChannel = async (channel_id, channel_name, guild_id) => {
-    const query = `INSERT INTO Channels (channel_id, channel_name, guild_id) VALUES (?, ?, ?)`;
-    return new Promise((resolve, reject) => {
-        createDatabase_1.default.run(query, [channel_id, channel_name, guild_id], (err) => {
+        createDatabase_1.default.run(query, [channel_id, guild_id], (err) => {
             if (err) {
                 console.error(`Error inserting new guild: ${err.message}`);
                 reject(err);
@@ -178,6 +163,21 @@ const findItem = async (item_id) => {
     });
 };
 exports.findItem = findItem;
+const findChannel = async (channel_id, guild_id) => {
+    const query = `SELECT * FROM Channels WHERE channel_id = ? AND guild_id = ?`;
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.get(query, [channel_id, guild_id], (err, row) => {
+            if (err) {
+                console.error(`Error fetching item: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve(row);
+            }
+        });
+    });
+};
+exports.findChannel = findChannel;
 const itemsList = async () => {
     const query = `SELECT * FROM Items`;
     return new Promise((resolve, reject) => {
@@ -350,6 +350,21 @@ const deletePlayer = async (player_name) => {
     });
 };
 exports.deletePlayer = deletePlayer;
+const deleteChannel = async (channel_id, guild_id) => {
+    const query = `DELETE FROM Channels WHERE channel_id = ? AND guild_id = ?`;
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.run(query, [channel_id, guild_id], (err) => {
+            if (err) {
+                console.error(`Error on delete player: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve();
+            }
+        });
+    });
+};
+exports.deleteChannel = deleteChannel;
 const getPlayersForPack = async (pack_type) => {
     let query = `
         SELECT player_id, player_name, player_rank, player_pfp, player_cost, player_flag, user_id

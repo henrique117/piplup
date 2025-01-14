@@ -15,7 +15,7 @@ const client = new discord_js_1.Client({
     ]
 });
 client.commands = new discord_js_1.Collection();
-const commandsPath = path.join(__dirname, "slashcommands");
+const commandsPath = path.join(__dirname, 'slashcommands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
     const command = require(`./slashcommands/${file}`);
@@ -38,7 +38,7 @@ setInterval(async () => {
             console.error('Erro ao atualizar pacotes', err);
         }
     }
-}, 60000);
+}, 10000);
 client.once('ready', () => {
     console.log(`Bot online como ${client.user?.tag}`);
 });
@@ -51,6 +51,10 @@ client.on('interactionCreate', async (interaction) => {
         return;
     }
     try {
+        if ((!interaction.guild?.id || !interaction.channel?.id || !(await canBotSendMessage(interaction.guild.id, interaction.channel.id))) && interaction.commandName !== 'unsetchannel' && interaction.commandName !== 'setchannel') {
+            interaction.reply("I can't send messages in this channel :x:");
+            return;
+        }
         await command.execute(interaction);
     }
     catch (error) {
@@ -81,18 +85,30 @@ const messageCommands = {
     '&myplayers': functions_export_1.myplayers,
     '&mpl': functions_export_1.myplayers,
     '&sell': functions_export_1.sell,
-    '&sl': functions_export_1.sell
+    '&sl': functions_export_1.sell,
+    '&setchannel': functions_export_1.setchannel,
+    '&unsetchannel': functions_export_1.unsetchannel
 };
 client.on('messageCreate', async (message) => {
     if (message.author.bot)
         return;
     const guild_id = message.guild?.id;
     const channel_id = message.channel.id;
-    if (!guild_id || !(await canBotSendMessage(guild_id, channel_id)))
-        return;
-    const command = Object.keys(messageCommands).find(cmd => message.content.startsWith(cmd));
-    if (command) {
-        await messageCommands[command](message);
+    const [command, ...args] = message.content.trim().split(/\s+/);
+    if (messageCommands[command]) {
+        if ((!guild_id || !channel_id || !(await canBotSendMessage(guild_id, channel_id)))
+            && command !== '&unsetchannel'
+            && command !== '&setchannel') {
+            message.reply("I can't send messages in this channel :x:");
+            return;
+        }
+        try {
+            await messageCommands[command](message, args);
+        }
+        catch (err) {
+            console.error(`Erro ao executar o comando ${command}:`, err);
+            message.reply('Houve um erro ao executar este comando :x:');
+        }
     }
 });
 async function canBotSendMessage(guild_id, channel_id) {

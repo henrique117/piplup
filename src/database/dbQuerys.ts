@@ -92,26 +92,11 @@ export const newPurchase = async (user_id: string, item_id: number): Promise<voi
     })
 }
 
-export const newGuild = async (guild_id: string, guild_name: string): Promise<void> => {
-    const query = `INSERT INTO Guilds (guild_id, guild_name) VALUES (?, ?)`
+export const newChannel = async (channel_id: string, guild_id: string): Promise<void> => {
+    const query = `INSERT INTO Channels (channel_id, guild_id) VALUES (?, ?)`
 
     return new Promise<void>((resolve, reject) => {
-        db.run(query, [guild_id, guild_name], (err) => {
-            if(err) {
-                console.error(`Error inserting new guild: ${err.message}`)
-                reject(err)
-            } else {
-                resolve()
-            }
-        })
-    })
-}
-
-export const newChannel = async (channel_id: string, channel_name: string, guild_id: string): Promise<void> => {
-    const query = `INSERT INTO Channels (channel_id, channel_name, guild_id) VALUES (?, ?, ?)`
-
-    return new Promise<void>((resolve, reject) => {
-        db.run(query, [channel_id, channel_name, guild_id], (err) => {
+        db.run(query, [channel_id, guild_id], (err) => {
             if(err) {
                 console.error(`Error inserting new guild: ${err.message}`)
                 reject(err)
@@ -172,6 +157,21 @@ export const findItem = async (item_id: number): Promise<ItemInterface> => {
 
     return new Promise((resolve, reject) => {
         db.get(query, item_id, (err, row: ItemInterface) => {
+            if(err) {
+                console.error(`Error fetching item: ${err.message}`)
+                reject(err)
+            } else {
+                resolve(row)
+            }
+        })
+    })
+}
+
+export const findChannel = async (channel_id: string, guild_id: string): Promise<ItemInterface> => {
+    const query = `SELECT * FROM Channels WHERE channel_id = ? AND guild_id = ?`
+
+    return new Promise((resolve, reject) => {
+        db.get(query, [channel_id, guild_id], (err, row: ItemInterface) => {
             if(err) {
                 console.error(`Error fetching item: ${err.message}`)
                 reject(err)
@@ -347,6 +347,21 @@ export const deletePlayer = async (player_name: string): Promise<void> => {
 
     return new Promise<void>((resolve, reject) => {
         db.run(query, [player_name], (err) => {
+            if(err) {
+                console.error(`Error on delete player: ${err.message}`)
+                reject(err)
+            } else {
+                resolve()
+            }
+        })
+    })
+}
+
+export const deleteChannel = async (channel_id: string, guild_id: string): Promise<void> => {
+    const query = `DELETE FROM Channels WHERE channel_id = ? AND guild_id = ?`
+
+    return new Promise<void>((resolve, reject) => {
+        db.run(query, [channel_id, guild_id], (err) => {
             if(err) {
                 console.error(`Error on delete player: ${err.message}`)
                 reject(err)

@@ -2,7 +2,7 @@ import { Client, Collection, GatewayIntentBits, Interaction, Message } from 'dis
 import * as dotenv from 'dotenv'
 import * as fs from 'fs'
 import * as path from 'path'
-import { register, transfer, balance, shop, info, buy, player, mypacks, open, github, myplayers, sell } from './functions/functions.export'
+import { register, transfer, balance, shop, info, buy, player, mypacks, open, github, myplayers, sell, unsetchannel, setchannel } from './functions/functions.export'
 import { channelList, updateUserPacks, usersList } from './database/dbQuerys'
 
 dotenv.config()
@@ -17,7 +17,7 @@ const client = new Client({
 
 client.commands = new Collection()
 
-const commandsPath = path.join(__dirname, "slashcommands")
+const commandsPath = path.join(__dirname, 'slashcommands')
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'))
 
 for (const file of commandFiles) {
@@ -46,7 +46,7 @@ setInterval(async () => {
             console.error('Erro ao atualizar pacotes', err)
         }
     }
-}, 60000)
+}, 10000)
 
 client.once('ready', () => {
     console.log(`Bot online como ${client.user?.tag}`)
@@ -63,6 +63,11 @@ client.on('interactionCreate', async (interaction: Interaction) => {
     }
 
     try {
+        if ((!interaction.guild?.id || !interaction.channel?.id || !(await canBotSendMessage(interaction.guild.id, interaction.channel.id))) && interaction.commandName !== 'unsetchannel' && interaction.commandName !== 'setchannel') {
+            interaction.reply("I can't send messages in this channel :x:")
+            return
+        }
+
         await command.execute(interaction)
     } catch (error) {
         console.error('Error on executing command', error)
@@ -93,7 +98,9 @@ const messageCommands: Record<string, Function> = {
     '&myplayers': myplayers,
     '&mpl': myplayers,
     '&sell': sell,
-    '&sl': sell
+    '&sl': sell,
+    '&setchannel': setchannel,
+    '&unsetchannel': unsetchannel
 }
 
 client.on('messageCreate', async (message: Message) => {
@@ -102,17 +109,27 @@ client.on('messageCreate', async (message: Message) => {
     const guild_id = message.guild?.id
     const channel_id = message.channel.id
 
-    if (!guild_id || !(await canBotSendMessage(guild_id, channel_id))) return
+    const [command, ...args] = message.content.trim().split(/\s+/)
 
-    const command = Object.keys(messageCommands).find(cmd => message.content.startsWith(cmd))
-    if (command) {
-        await messageCommands[command](message)
+    if (messageCommands[command]) {
+        if ((!guild_id || !channel_id || !(await canBotSendMessage(guild_id, channel_id))) 
+            && command !== '&unsetchannel' 
+            && command !== '&setchannel') {
+            message.reply("I can't send messages in this channel :x:")
+            return
+        }
+
+        try {
+            await messageCommands[command](message, args)
+        } catch (err) {
+            console.error(`Erro ao executar o comando ${command}:`, err)
+            message.reply('Houve um erro ao executar este comando :x:')
+        }
     }
 })
 
 async function canBotSendMessage(guild_id: string, channel_id: string): Promise<boolean> {
     const guildChannels = await channelList(guild_id)
-
     return guildChannels.some(channel => channel.channel_id === channel_id)
 }
 
