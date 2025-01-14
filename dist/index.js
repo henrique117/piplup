@@ -62,5 +62,9 @@ client.on('messageCreate', async (interaction) => {
         await (0, functions_export_1.open)(interaction);
     if (interaction.content === '&github' || interaction.content === '&git')
         await (0, functions_export_1.github)(interaction);
+    if (interaction.content.startsWith('&myplayers') || interaction.content.startsWith('&mpl'))
+        await (0, functions_export_1.myplayers)(interaction);
+    if (interaction.content.startsWith('&sell') || interaction.content.startsWith('&sl'))
+        await (0, functions_export_1.sell)(interaction);
 });
 client.login(process.env.DISCORD_TOKEN);

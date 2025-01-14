@@ -15,7 +15,7 @@ export default async function info(interaction: CommandInteraction | Message): P
         }
 
         const id_regex = /^\d+/
-        const name_regex = /^"([a-zA-Z\s\d]+)"$/
+        const name_regex = /^"(.+)"$/
 
         if(!id_regex.exec(query) && !name_regex.exec(query)) {
             interaction.reply({ content: 'Type a valid ID or use " " to search by name', flags: MessageFlags.Ephemeral})
@@ -53,7 +53,7 @@ export default async function info(interaction: CommandInteraction | Message): P
         }
 
         const id_regex = /^.+\s\d+$/
-        const name_regex = /^.+\s"([a-zA-Z\s\d]+)"$/
+        const name_regex = /^.+\s"(.+)"$/
 
         if(!id_regex.exec(query) && !name_regex.exec(query)) {
             interaction.reply('Type a valid ID or use " " to search by name')

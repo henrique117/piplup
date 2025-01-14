@@ -166,6 +166,21 @@ export const itemsList = async (): Promise<ItemInterface[]> => {
     })
 }
 
+export const myPlayersList = async (user_id: string): Promise<PlayerInterface[]> => {
+    const query = `SELECT * FROM Players WHERE user_id = ? ORDER BY player_rank`
+
+    return new Promise((resolve, reject) => {
+        db.all(query, [user_id], (err, rows: PlayerInterface[]) => {
+            if(err) {
+                console.error(`Error fetching items: ${err.message}`)
+                reject(err)
+            } else {
+                resolve(rows)
+            }
+        })
+    })
+}
+
 export const updateUserCoins = async (user_id: string, new_coins: number): Promise<void> => {
     const query = `UPDATE Users SET user_coins = ? WHERE user_id = ?`
 

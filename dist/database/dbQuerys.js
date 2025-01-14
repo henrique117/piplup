@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPlayersForPack = exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updatePlayerStatus = exports.updateUserPacks = exports.updateUserCoins = exports.itemsList = exports.findItem = exports.findUser = exports.findPlayerById = exports.findPlayer = exports.newPurchase = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
+exports.getPlayersForPack = exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updatePlayerStatus = exports.updateUserPacks = exports.updateUserCoins = exports.myPlayersList = exports.itemsList = exports.findItem = exports.findUser = exports.findPlayerById = exports.findPlayer = exports.newPurchase = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
 const createDatabase_1 = require("./createDatabase");
 const insertPlayer = async (player_name, player_rank, player_pfp, player_flag) => {
     const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, user_id)
@@ -163,6 +163,21 @@ const itemsList = async () => {
     });
 };
 exports.itemsList = itemsList;
+const myPlayersList = async (user_id) => {
+    const query = `SELECT * FROM Players WHERE user_id = ? ORDER BY player_rank`;
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.all(query, [user_id], (err, rows) => {
+            if (err) {
+                console.error(`Error fetching items: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve(rows);
+            }
+        });
+    });
+};
+exports.myPlayersList = myPlayersList;
 const updateUserCoins = async (user_id, new_coins) => {
     const query = `UPDATE Users SET user_coins = ? WHERE user_id = ?`;
     return new Promise((resolve, reject) => {
