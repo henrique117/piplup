@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPlayersForPack = exports.deleteChannel = exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updatePlayerStatus = exports.updateUserPacks = exports.updateUserCoins = exports.channelList = exports.usersList = exports.myPlayersList = exports.itemsList = exports.findChannel = exports.findItem = exports.findUser = exports.findPlayerById = exports.findPlayer = exports.newChannel = exports.newPurchase = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
 const createDatabase_1 = require("./createDatabase");
 const insertPlayer = async (player_name, player_rank, player_pfp, player_flag) => {
-    const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, user_id)
+    const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, player_weight, player_flag, user_id)
                    VALUES (?, ?, ?, ?, ?, ?, NULL)`;
     const player_cost = (1700 / Math.pow(player_rank, 0.1727) - 178) + (-0.0020500205002 * player_rank + 205);
     const player_weight = Math.exp(player_cost / 72.7);
