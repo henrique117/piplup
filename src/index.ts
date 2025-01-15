@@ -2,7 +2,7 @@ import { Client, Collection, GatewayIntentBits, Interaction, Message } from 'dis
 import * as dotenv from 'dotenv'
 import * as fs from 'fs'
 import * as path from 'path'
-import { register, transfer, balance, shop, info, buy, player, mypacks, open, github, myplayers, sell, unsetchannel, setchannel, help } from './functions/functions.export'
+import { register, transfer, balance, shop, info, buy, player, mypacks, open, github, myplayers, sell, unsetchannel, setchannel, help, sellall } from './functions/functions.export'
 import { channelList, updateUserPacks, usersList } from './database/dbQuerys'
 
 dotenv.config()
@@ -102,7 +102,9 @@ const messageCommands: Record<string, Function> = {
     '&setchannel': setchannel,
     '&unsetchannel': unsetchannel,
     '&help': help,
-    '&h': help
+    '&h': help,
+    '&sellall': sellall,
+    '&sa': sellall
 }
 
 client.on('messageCreate', async (message: Message) => {

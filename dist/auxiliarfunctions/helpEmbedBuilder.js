@@ -17,7 +17,8 @@ async function helpEmbedBuilder() {
                          **&open {Pack type} | &o** - Open a pack if you have one\n\n**PLAYERS:**\n
                          **&player {Player ID | "Player name"} | &p** - Show infos about any player\n
                          **&myplayers [Mention] | &mpl** - Show your players (Mention someone to see their players)\n
-                         **&sell {Player ID | "Player name"} | &sl** - Sell a player\n\n**SERVER CONFIGS: (ADMIN ONLY)**\n
+                         **&sell {Player ID | "Player name"} | &sl** - Sell a player\n
+                         **&sellall | &sa** - Sell all of your players\n\n**SERVER CONFIGS: (ADMIN ONLY)**\n
                          **&setchannel** - Enable messages on this channel\n
                          **&unsetchannel** - Disable messages on this channel\n\n**OTHERS:**
                          **&github | &git** - Send informations about my Github repository\n

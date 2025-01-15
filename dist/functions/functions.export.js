@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.help = exports.unsetchannel = exports.setchannel = exports.addpacks = exports.sell = exports.myplayers = exports.github = exports.open = exports.mypacks = exports.player = exports.buy = exports.info = exports.shop = exports.deleteplayer = exports.balance = exports.deleteitem = exports.newitem = exports.deleteU = exports.insert = exports.transfer = exports.remove = exports.add = exports.register = void 0;
+exports.sellall = exports.help = exports.unsetchannel = exports.setchannel = exports.addpacks = exports.sell = exports.myplayers = exports.github = exports.open = exports.mypacks = exports.player = exports.buy = exports.info = exports.shop = exports.deleteplayer = exports.balance = exports.deleteitem = exports.newitem = exports.deleteU = exports.insert = exports.transfer = exports.remove = exports.add = exports.register = void 0;
 var register_1 = require("./register");
 Object.defineProperty(exports, "register", { enumerable: true, get: function () { return register_1.default; } });
 var add_1 = require("./add");
@@ -47,3 +47,5 @@ var unsetchannel_1 = require("./unsetchannel");
 Object.defineProperty(exports, "unsetchannel", { enumerable: true, get: function () { return unsetchannel_1.default; } });
 var help_1 = require("./help");
 Object.defineProperty(exports, "help", { enumerable: true, get: function () { return help_1.default; } });
+var sellall_1 = require("./sellall");
+Object.defineProperty(exports, "sellall", { enumerable: true, get: function () { return sellall_1.default; } });
