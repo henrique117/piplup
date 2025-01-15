@@ -5,7 +5,7 @@ import { findPlayer } from '../database/dbQuerys'
 export default async function playerEmbedBuilder(player: PlayerInterface): Promise<EmbedBuilder> {
 
     const player_db = await findPlayer(player.player_name)
-    const owner = player_db.user_id ? player.user_id : 'No one'
+    const owner = player_db.user_id ? player_db.user_id : 'No one'
 
     return new EmbedBuilder()
         .setColor('Aqua')
