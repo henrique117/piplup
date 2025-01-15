@@ -26,6 +26,14 @@ export default async function sellall(interaction: CommandInteraction | Message)
             return
         }
 
+        const player_list = await myPlayersList(user)
+
+        if(!player_list) {
+            if(interaction instanceof CommandInteraction) interaction.reply({ content: "You don't have any players to sell!", flags: MessageFlags.Ephemeral})
+            if(interaction instanceof Message) interaction.reply("You don't have any players to sell!")
+            return
+        }
+
         interaction.reply('Are you sure you wanna sell everything? (y/n)')
 
         const collector = channel.createMessageCollector({ filter, time: 30000 })
@@ -33,7 +41,6 @@ export default async function sellall(interaction: CommandInteraction | Message)
         collector.on('collect', async (m: Message) => {
             if(m.content.toLocaleLowerCase() === 'y') {
 
-                const player_list = await myPlayersList(user)
                 let sellValue: number = 0
 
                 for(const player of player_list) {

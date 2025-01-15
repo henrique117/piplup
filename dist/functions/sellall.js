@@ -26,11 +26,18 @@ async function sellall(interaction) {
                 interaction.reply("Channel not found! Use a valid channel!!");
             return;
         }
+        const player_list = await (0, dbQuerys_1.myPlayersList)(user);
+        if (!player_list) {
+            if (interaction instanceof discord_js_1.CommandInteraction)
+                interaction.reply({ content: "You don't have any players to sell!", flags: discord_js_1.MessageFlags.Ephemeral });
+            if (interaction instanceof discord_js_1.Message)
+                interaction.reply("You don't have any players to sell!");
+            return;
+        }
         interaction.reply('Are you sure you wanna sell everything? (y/n)');
         const collector = channel.createMessageCollector({ filter, time: 30000 });
         collector.on('collect', async (m) => {
             if (m.content.toLocaleLowerCase() === 'y') {
-                const player_list = await (0, dbQuerys_1.myPlayersList)(user);
                 let sellValue = 0;
                 for (const player of player_list) {
                     try {
