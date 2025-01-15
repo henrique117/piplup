@@ -44,7 +44,7 @@ async function sell(interaction) {
             if (player_db.player_id && player_db.player_cost) {
                 await (0, dbQuerys_1.updatePlayerStatus)(player_db.player_id, 'NULL');
                 await (0, dbQuerys_1.updateUserCoins)(user_db.user_id, user_db.user_coins + player_db.player_cost);
-                interaction.reply({ content: `Player **${player_db.player_name}** selled and is now available to get again! Selled for **${player_db.player_cost}** :coin:` });
+                interaction.reply({ content: `Player **${player_db.player_name}** sold and is now available to get again! Sold for **${player_db.player_cost}** :coin:` });
             }
             return;
         }
@@ -65,38 +65,49 @@ async function sell(interaction) {
         try {
             const id_regex = /^.+\s\d+$/;
             const name_regex = /^.+\s"(.+)"$/;
-            if (!id_regex.exec(query) && !name_regex.exec(query)) {
-                interaction.reply('Type a valid ID or use " " to sell player using the name');
-                return;
-            }
-            let player_db;
-            if (id_regex.exec(query) && !name_regex.exec(query)) {
-                player_db = await (0, dbQuerys_1.findPlayerById)(parseInt(query.split(' ')[1]));
-            }
-            else if (!id_regex.exec(query) && name_regex.exec(query)) {
-                player_db = await (0, dbQuerys_1.findPlayer)(query.split('"')[1]);
-            }
-            else {
-                player_db = null;
-            }
             const user_db = await (0, dbQuerys_1.findUser)(user);
             if (!user_db) {
                 interaction.reply("You have to register yourself to get and sell players");
                 return;
             }
-            if (!player_db) {
-                interaction.reply("Player not found! Type a valid ID");
+            if (!id_regex.exec(query) && !name_regex.exec(query)) {
+                interaction.reply('Type a valid ID or use " " to sell player using the name');
                 return;
             }
-            if (player_db.user_id != user_db.user_id) {
-                interaction.reply("You can't sell this player!");
-                return;
+            const playersToSell = query.split(' ');
+            playersToSell.shift();
+            const players_db = [];
+            for (const player of playersToSell) {
+                let player_db;
+                if (id_regex.exec('&sell ' + player) && !name_regex.exec('&sell ' + player)) {
+                    player_db = await (0, dbQuerys_1.findPlayerById)(parseInt(player));
+                }
+                else if (!id_regex.exec('&sell ' + player) && name_regex.exec('&sell ' + player)) {
+                    player_db = await (0, dbQuerys_1.findPlayer)(player.split('"')[1]);
+                }
+                else {
+                    player_db = null;
+                }
+                players_db.push(player_db);
             }
-            if (player_db.player_id && player_db.player_cost) {
-                await (0, dbQuerys_1.updatePlayerStatus)(player_db.player_id, 'NULL');
-                await (0, dbQuerys_1.updateUserCoins)(user_db.user_id, user_db.user_coins + player_db.player_cost);
-                interaction.reply(`Player **${player_db.player_name}** selled and is now available to get again! Selled for **${player_db.player_cost}** :coin:`);
+            let sellValue = 0;
+            for (const player_db of players_db) {
+                if (!player_db) {
+                    interaction.reply("Player not found! Type a valid parameter");
+                    return;
+                }
+                if (player_db.user_id != user_db.user_id) {
+                    interaction.reply("You can't sell this player!");
+                    return;
+                }
+                if (player_db.player_id && player_db.player_cost) {
+                    await (0, dbQuerys_1.updatePlayerStatus)(player_db.player_id, 'NULL');
+                    await (0, dbQuerys_1.updateUserCoins)(user_db.user_id, user_db.user_coins + player_db.player_cost);
+                    sellValue += player_db.player_cost;
+                }
             }
+            const names_string = players_db.map(player => player?.player_name ? player.player_name : 'Error').join(', ');
+            interaction.reply(`Player **${names_string}** are now available to get again! Sold for **${sellValue}** :coin:`);
         }
         catch (err) {
             interaction.reply(`Error fetching user: ${user}`);
