@@ -13,7 +13,7 @@ export default async function helpEmbedBuilder(): Promise<EmbedBuilder> {
                          **&info {Item ID} | &i** - Show infos about an item in the shop\n
                          **&buy {Item ID}** - To buy any item in the shop\n\n**PACKS:**\n 
                          **&mypacks | &mp** - Show how many packs do you have\n
-                         **&open {Pack type} | &o** - Open a pack if you have one\n\n**PLAYERS:**\n
+                         **&open {Pack type} [Number] | &o** - Open a pack if you have one (Add a number to open more than once)\n\n**PLAYERS:**\n
                          **&player {Player ID | "Player name"} | &p** - Show infos about any player\n
                          **&myplayers [Mention] | &mpl** - Show your players (Mention someone to see their players)\n
                          **&sell {Player ID | "Player name"} | &sl** - Sell a player\n

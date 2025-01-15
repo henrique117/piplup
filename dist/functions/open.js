@@ -117,31 +117,31 @@ async function open(interaction) {
         switch (pack_type) {
             case 'common':
                 if (user_db.user_commonPacks < pack_number) {
-                    interaction.reply(`You don't have any ${pack_type} packs!`);
+                    interaction.reply(`You don't have enough ${pack_type} packs!`);
                     return;
                 }
                 break;
             case 'rare':
                 if (user_db.user_rarePacks < pack_number) {
-                    interaction.reply(`You don't have any ${pack_type} packs!`);
+                    interaction.reply(`You don't have enough ${pack_type} packs!`);
                     return;
                 }
                 break;
             case 'epic':
                 if (user_db.user_epicPacks < pack_number) {
-                    interaction.reply(`You don't have any ${pack_type} packs!`);
+                    interaction.reply(`You don't have enough ${pack_type} packs!`);
                     return;
                 }
                 break;
             case 'legendary':
                 if (user_db.user_legendaryPacks < pack_number) {
-                    interaction.reply(`You don't have any ${pack_type} packs!`);
+                    interaction.reply(`You don't have enough ${pack_type} packs!`);
                     return;
                 }
                 break;
             case 'ultimate':
                 if (user_db.user_ultimatePacks < pack_number) {
-                    interaction.reply(`You don't have any ${pack_type} packs!`);
+                    interaction.reply(`You don't have enough ${pack_type} packs!`);
                     return;
                 }
                 break;
