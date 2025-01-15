@@ -2,7 +2,7 @@ import db from './createDatabase'
 import { ChannelInterface, ItemInterface, PlayerInterface, UserInterface } from '../interfaces/interfaces.export'
 
 export const insertPlayer = async (player_name: string, player_rank: number, player_pfp: string, player_flag: string): Promise<void> => {
-    const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, user_id)
+    const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, player_weight, player_flag, user_id)
                    VALUES (?, ?, ?, ?, ?, ?, NULL)`
 
     const player_cost = (1700 / Math.pow(player_rank, 0.1727) - 178) + (-0.0020500205002 * player_rank + 205)
