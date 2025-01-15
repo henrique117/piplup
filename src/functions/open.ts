@@ -96,7 +96,7 @@ export default async function open(interaction: CommandInteraction | Message) {
 
         } catch (err) {
             interaction.reply({ content: 'Error on open function', flags: MessageFlags.Ephemeral })
-            console.error('Error on open function:', interaction.user.id)
+            console.error('Error on open function:', interaction.user.id, err)
             return
         }
     }

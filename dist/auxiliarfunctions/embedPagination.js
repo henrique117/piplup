@@ -57,10 +57,6 @@ async function embedPagination(interaction, pages, string, disapear = false, tim
                 prev.setDisabled(index === 0);
                 next.setDisabled(index === pages.length - 1);
                 last.setDisabled(index === pages.length - 1);
-                if (i.deferred) {
-                    await i.followUp({ content: "The timer for this interaction expired", ephemeral: true });
-                    return;
-                }
                 await msg.edit({ content: string, embeds: [pages[index].data], components: [buttons] }).catch(console.log);
                 collector.resetTimer();
             });
@@ -134,10 +130,6 @@ async function embedPagination(interaction, pages, string, disapear = false, tim
                 prev.setDisabled(index === 0);
                 next.setDisabled(index === pages.length - 1);
                 last.setDisabled(index === pages.length - 1);
-                if (i.deferred) {
-                    await i.followUp({ content: "The timer for this interaction expired", ephemeral: true });
-                    return;
-                }
                 await msg.edit({ content: string, embeds: [pages[index].data], components: [buttons] }).catch(console.log);
                 collector.resetTimer();
             });

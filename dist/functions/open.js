@@ -92,7 +92,7 @@ async function open(interaction) {
         }
         catch (err) {
             interaction.reply({ content: 'Error on open function', flags: discord_js_1.MessageFlags.Ephemeral });
-            console.error('Error on open function:', interaction.user.id);
+            console.error('Error on open function:', interaction.user.id, err);
             return;
         }
     }
