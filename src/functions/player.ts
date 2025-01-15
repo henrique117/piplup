@@ -27,7 +27,7 @@ export default async function info(interaction: CommandInteraction | Message): P
         if(id_regex.exec(query) && !name_regex.exec(query)) {
             player_db = await findPlayerById(parseInt(query))
         } else if(!id_regex.exec(query) && name_regex.exec(query)) {
-            player_db = await findPlayer(query.split('"')[1])
+            player_db = await findPlayer(query.split('"')[1].toLowerCase())
         } else {
             player_db = null
         }
@@ -65,7 +65,7 @@ export default async function info(interaction: CommandInteraction | Message): P
         if(id_regex.exec(query) && !name_regex.exec(query)) {
             player_db = await findPlayerById(parseInt(query.split(' ')[1]))
         } else if(!id_regex.exec(query) && name_regex.exec(query)) {
-            player_db = await findPlayer(query.split('"')[1])
+            player_db = await findPlayer(query.split('"')[1].toLowerCase())
         } else {
             player_db = null
         }

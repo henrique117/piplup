@@ -30,7 +30,7 @@ export default async function sell(interaction: CommandInteraction | Message): P
             if(id_regex.exec(query) && !name_regex.exec(query)) {
                 player_db = await findPlayerById(parseInt(query))
             } else if(!id_regex.exec(query) && name_regex.exec(query)) {
-                player_db = await findPlayer(query.split('"')[1])
+                player_db = await findPlayer(query.split('"')[1].toLowerCase())
             } else {
                 player_db = null
             }
@@ -107,7 +107,7 @@ export default async function sell(interaction: CommandInteraction | Message): P
                 if(id_regex.exec('&sell ' + player) && !name_regex.exec('&sell ' + player)) {
                     player_db = await findPlayerById(parseInt(player))
                 } else if(!id_regex.exec('&sell ' + player) && name_regex.exec('&sell ' + player)) {
-                    player_db = await findPlayer(player.split('"')[1])
+                    player_db = await findPlayer(player.split('"')[1].toLowerCase())
                 } else {
                     player_db = null
                 }

@@ -9,6 +9,8 @@ async function help(interaction) {
         await dmChannel.send({ embeds: [helpEmbed] });
         if (interaction instanceof discord_js_1.Message)
             interaction.react('👍');
+        if (interaction instanceof discord_js_1.CommandInteraction)
+            interaction.reply({ content: '👍', flags: discord_js_1.MessageFlags.Ephemeral });
         return;
     }
     catch (err) {

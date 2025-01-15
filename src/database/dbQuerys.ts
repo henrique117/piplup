@@ -108,7 +108,7 @@ export const newChannel = async (channel_id: string, guild_id: string): Promise<
 }
 
 export const findPlayer = async (player_name: string): Promise<PlayerInterface> => {
-    const query = `SELECT * FROM Players WHERE player_name = ?`
+    const query = `SELECT * FROM Players WHERE LOWER(player_name) = ?`
 
     return new Promise((resolve, reject) => {
         db.get(query, [player_name], (err, row: PlayerInterface) => {

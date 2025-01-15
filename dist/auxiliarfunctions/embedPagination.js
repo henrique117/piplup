@@ -139,6 +139,7 @@ async function embedPagination(interaction, pages, string, disapear = false, tim
                 }
                 else {
                     await msg.delete();
+                    interaction.delete();
                 }
             });
             return msg;

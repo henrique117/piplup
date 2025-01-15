@@ -22,7 +22,7 @@ async function info(interaction) {
             player_db = await (0, dbQuerys_1.findPlayerById)(parseInt(query));
         }
         else if (!id_regex.exec(query) && name_regex.exec(query)) {
-            player_db = await (0, dbQuerys_1.findPlayer)(query.split('"')[1]);
+            player_db = await (0, dbQuerys_1.findPlayer)(query.split('"')[1].toLowerCase());
         }
         else {
             player_db = null;
@@ -53,7 +53,7 @@ async function info(interaction) {
             player_db = await (0, dbQuerys_1.findPlayerById)(parseInt(query.split(' ')[1]));
         }
         else if (!id_regex.exec(query) && name_regex.exec(query)) {
-            player_db = await (0, dbQuerys_1.findPlayer)(query.split('"')[1]);
+            player_db = await (0, dbQuerys_1.findPlayer)(query.split('"')[1].toLowerCase());
         }
         else {
             player_db = null;

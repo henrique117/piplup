@@ -104,7 +104,7 @@ const newChannel = async (channel_id, guild_id) => {
 };
 exports.newChannel = newChannel;
 const findPlayer = async (player_name) => {
-    const query = `SELECT * FROM Players WHERE player_name = ?`;
+    const query = `SELECT * FROM Players WHERE LOWER(player_name) = ?`;
     return new Promise((resolve, reject) => {
         createDatabase_1.default.get(query, [player_name], (err, row) => {
             if (err) {

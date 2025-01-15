@@ -161,6 +161,7 @@ export default async function embedPagination(interaction: CommandInteraction | 
                     await msg.edit({ embeds: [pages[index].data], components: [] })
                 } else {
                     await msg.delete()
+                    interaction.delete()
                 }
             })
     

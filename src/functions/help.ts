@@ -1,4 +1,4 @@
-import { CommandInteraction, Message } from 'discord.js'
+import { CommandInteraction, Message, MessageFlags } from 'discord.js'
 import { helpEmbedBuilder } from '../auxiliarfunctions/auxiliarfunctions.export'
 
 export default async function help(interaction: CommandInteraction | Message): Promise<void> {
@@ -9,6 +9,7 @@ export default async function help(interaction: CommandInteraction | Message): P
         await dmChannel.send({ embeds: [helpEmbed] })
 
         if(interaction instanceof Message) interaction.react('👍')
+        if(interaction instanceof CommandInteraction) interaction.reply({ content: '👍', flags: MessageFlags.Ephemeral })
 
         return
 
