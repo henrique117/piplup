@@ -10,6 +10,8 @@ export default async function myplayers(interaction: CommandInteraction | Messag
         const option = interaction.options.get('user')
         let user: string | undefined
 
+        const thumbnail = option?.user ? option.user.displayAvatarURL({ extension: 'png' }) : interaction.user.displayAvatarURL({ extension: 'png' })
+
         if(option?.user) {
             user = option.user.id
         } else {
@@ -30,7 +32,7 @@ export default async function myplayers(interaction: CommandInteraction | Messag
             const user_players = await myPlayersList(user_db.user_id)
 
             if(user_players.length / 10 <= 1) {
-                const playersEmbed = await myplayersEmbedBuilder(user_players, user_db, interaction.user.displayAvatarURL({ extension: 'png' }))
+                const playersEmbed = await myplayersEmbedBuilder(user_players, user_db, thumbnail)
                 await interaction.reply({ embeds: [playersEmbed] })
                 return
             }
@@ -44,7 +46,7 @@ export default async function myplayers(interaction: CommandInteraction | Messag
             const playerEmbedPagination = []
 
             for(const playerChunk of chunks) {
-                playerEmbedPagination.push(await myplayersEmbedBuilder(playerChunk, user_db, interaction.user.displayAvatarURL({ extension: 'png' })))
+                playerEmbedPagination.push(await myplayersEmbedBuilder(playerChunk, user_db, thumbnail))
             }
 
             await embedPagination(interaction, playerEmbedPagination)
@@ -69,6 +71,8 @@ export default async function myplayers(interaction: CommandInteraction | Messag
             return
         }
 
+        const thumbnail = option.displayAvatarURL({ extension: 'png' })
+
         user = option.id
         
         try {
@@ -85,7 +89,7 @@ export default async function myplayers(interaction: CommandInteraction | Messag
             const user_players = await myPlayersList(user_db.user_id)
 
             if(user_players.length / 10 <= 1) {
-                const playersEmbed = await myplayersEmbedBuilder(user_players, user_db, interaction.author.displayAvatarURL({ extension: 'png' }))
+                const playersEmbed = await myplayersEmbedBuilder(user_players, user_db, thumbnail)
                 await interaction.reply({ embeds: [playersEmbed] })
                 return
             }
@@ -99,7 +103,7 @@ export default async function myplayers(interaction: CommandInteraction | Messag
             const playerEmbedPagination = []
 
             for(const playerChunk of chunks) {
-                playerEmbedPagination.push(await myplayersEmbedBuilder(playerChunk, user_db, interaction.author.displayAvatarURL({ extension: 'png' })))
+                playerEmbedPagination.push(await myplayersEmbedBuilder(playerChunk, user_db, thumbnail))
             }
 
             await embedPagination(interaction, playerEmbedPagination)

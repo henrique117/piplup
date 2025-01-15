@@ -7,6 +7,7 @@ async function myplayers(interaction) {
     if (interaction instanceof discord_js_1.CommandInteraction) {
         const option = interaction.options.get('user');
         let user;
+        const thumbnail = option?.user ? option.user.displayAvatarURL({ extension: 'png' }) : interaction.user.displayAvatarURL({ extension: 'png' });
         if (option?.user) {
             user = option.user.id;
         }
@@ -22,7 +23,7 @@ async function myplayers(interaction) {
             }
             const user_players = await (0, dbQuerys_1.myPlayersList)(user_db.user_id);
             if (user_players.length / 10 <= 1) {
-                const playersEmbed = await (0, auxiliarfunctions_export_1.myplayersEmbedBuilder)(user_players, user_db, interaction.user.displayAvatarURL({ extension: 'png' }));
+                const playersEmbed = await (0, auxiliarfunctions_export_1.myplayersEmbedBuilder)(user_players, user_db, thumbnail);
                 await interaction.reply({ embeds: [playersEmbed] });
                 return;
             }
@@ -33,7 +34,7 @@ async function myplayers(interaction) {
             }
             const playerEmbedPagination = [];
             for (const playerChunk of chunks) {
-                playerEmbedPagination.push(await (0, auxiliarfunctions_export_1.myplayersEmbedBuilder)(playerChunk, user_db, interaction.user.displayAvatarURL({ extension: 'png' })));
+                playerEmbedPagination.push(await (0, auxiliarfunctions_export_1.myplayersEmbedBuilder)(playerChunk, user_db, thumbnail));
             }
             await (0, auxiliarfunctions_export_1.embedPagination)(interaction, playerEmbedPagination);
         }
@@ -51,6 +52,7 @@ async function myplayers(interaction) {
             interaction.reply('Something went wrong... Sorry');
             return;
         }
+        const thumbnail = option.displayAvatarURL({ extension: 'png' });
         user = option.id;
         try {
             const string = interaction.author.id != user ? 'User mentioned not found in database! Ask them to register first!!' : "You have to register yourself to see your players";
@@ -61,7 +63,7 @@ async function myplayers(interaction) {
             }
             const user_players = await (0, dbQuerys_1.myPlayersList)(user_db.user_id);
             if (user_players.length / 10 <= 1) {
-                const playersEmbed = await (0, auxiliarfunctions_export_1.myplayersEmbedBuilder)(user_players, user_db, interaction.author.displayAvatarURL({ extension: 'png' }));
+                const playersEmbed = await (0, auxiliarfunctions_export_1.myplayersEmbedBuilder)(user_players, user_db, thumbnail);
                 await interaction.reply({ embeds: [playersEmbed] });
                 return;
             }
@@ -72,7 +74,7 @@ async function myplayers(interaction) {
             }
             const playerEmbedPagination = [];
             for (const playerChunk of chunks) {
-                playerEmbedPagination.push(await (0, auxiliarfunctions_export_1.myplayersEmbedBuilder)(playerChunk, user_db, interaction.author.displayAvatarURL({ extension: 'png' })));
+                playerEmbedPagination.push(await (0, auxiliarfunctions_export_1.myplayersEmbedBuilder)(playerChunk, user_db, thumbnail));
             }
             await (0, auxiliarfunctions_export_1.embedPagination)(interaction, playerEmbedPagination);
         }
