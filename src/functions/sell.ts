@@ -130,10 +130,11 @@ export default async function sell(interaction: CommandInteraction | Message): P
     
                 if(player_db.player_id && player_db.player_cost) {
                     await updatePlayerStatus(player_db.player_id, 'NULL')
-                    await updateUserCoins(user_db.user_id, user_db.user_coins + player_db.player_cost)
                     sellValue += player_db.player_cost
                 }
             }
+
+            await updateUserCoins(user_db.user_id, user_db.user_coins + sellValue)
 
             const names_string = players_db.map(player => player?.player_name ? player.player_name : 'Error').join(', ')
 

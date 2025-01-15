@@ -102,10 +102,10 @@ async function sell(interaction) {
                 }
                 if (player_db.player_id && player_db.player_cost) {
                     await (0, dbQuerys_1.updatePlayerStatus)(player_db.player_id, 'NULL');
-                    await (0, dbQuerys_1.updateUserCoins)(user_db.user_id, user_db.user_coins + player_db.player_cost);
                     sellValue += player_db.player_cost;
                 }
             }
+            await (0, dbQuerys_1.updateUserCoins)(user_db.user_id, user_db.user_coins + sellValue);
             const names_string = players_db.map(player => player?.player_name ? player.player_name : 'Error').join(', ');
             interaction.reply(`Player **${names_string}** are now available to get again! Sold for **${sellValue}** :coin:`);
         }
