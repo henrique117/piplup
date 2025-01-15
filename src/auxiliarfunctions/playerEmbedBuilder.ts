@@ -1,10 +1,11 @@
 import { EmbedBuilder } from 'discord.js'
 import { PlayerInterface } from '../interfaces/interfaces.export'
-import { findUser } from '../database/dbQuerys'
+import { findPlayer } from '../database/dbQuerys'
 
-export default async function shopEmbedBuilder(player: PlayerInterface): Promise<EmbedBuilder> {
+export default async function playerEmbedBuilder(player: PlayerInterface): Promise<EmbedBuilder> {
 
-    const owner = player.user_id ? (await findUser(player.user_id)).user_username : 'No one'
+    const player_db = await findPlayer(player.player_name)
+    const owner = player_db.user_id ? player.user_id : 'No one'
 
     return new EmbedBuilder()
         .setColor('Aqua')
