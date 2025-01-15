@@ -66,6 +66,11 @@ export default async function embedPagination(interaction: CommandInteraction | 
                 prev.setDisabled(index === 0)
                 next.setDisabled(index === pages.length - 1)
                 last.setDisabled(index === pages.length - 1)
+
+                if (i.deferred) {
+                    await i.followUp({ content: "The timer for this interaction expired", ephemeral: true })
+                    return
+                }
     
                 await msg.edit({ content: string, embeds: [pages[index].data], components: [buttons] }).catch(console.log)
                 collector.resetTimer()
@@ -151,6 +156,11 @@ export default async function embedPagination(interaction: CommandInteraction | 
                 prev.setDisabled(index === 0)
                 next.setDisabled(index === pages.length - 1)
                 last.setDisabled(index === pages.length - 1)
+
+                if (i.deferred) {
+                    await i.followUp({ content: "The timer for this interaction expired", ephemeral: true })
+                    return
+                }
     
                 await msg.edit({ content: string, embeds: [pages[index].data], components: [buttons] }).catch(console.log)
                 collector.resetTimer()
@@ -161,7 +171,7 @@ export default async function embedPagination(interaction: CommandInteraction | 
                     await msg.edit({ embeds: [pages[index].data], components: [] })
                 } else {
                     await msg.delete()
-                    interaction.delete()
+                    await interaction.delete()
                 }
             })
     
