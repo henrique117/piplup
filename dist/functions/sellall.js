@@ -27,7 +27,7 @@ async function sellall(interaction) {
             return;
         }
         const player_list = await (0, dbQuerys_1.myPlayersList)(user);
-        if (!player_list) {
+        if (player_list.length < 1) {
             if (interaction instanceof discord_js_1.CommandInteraction)
                 interaction.reply({ content: "You don't have any players to sell!", flags: discord_js_1.MessageFlags.Ephemeral });
             if (interaction instanceof discord_js_1.Message)

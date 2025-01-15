@@ -28,7 +28,7 @@ export default async function sellall(interaction: CommandInteraction | Message)
 
         const player_list = await myPlayersList(user)
 
-        if(!player_list) {
+        if(player_list.length < 1) {
             if(interaction instanceof CommandInteraction) interaction.reply({ content: "You don't have any players to sell!", flags: MessageFlags.Ephemeral})
             if(interaction instanceof Message) interaction.reply("You don't have any players to sell!")
             return
