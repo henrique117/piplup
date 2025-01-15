@@ -97,12 +97,13 @@ async function open(interaction) {
         }
     }
     if (interaction instanceof discord_js_1.Message) {
-        const regex = /^.+\s[a-zA-z]+$/;
+        const regex = /^.+\s[a-zA-z]+(\s\d+)?$/;
         if (!regex.exec(interaction.content)) {
             interaction.reply('Invalid command input');
             return;
         }
         const pack_type = interaction.content.split(' ')[1].toLowerCase();
+        const pack_number = interaction.content.split(' ')[2] ? parseInt(interaction.content.split(' ')[2]) : 1;
         const user_db = await (0, dbQuerys_1.findUser)(interaction.author.id);
         if (!pack_type) {
             interaction.reply('Bruh');
@@ -115,85 +116,109 @@ async function open(interaction) {
         }
         switch (pack_type) {
             case 'common':
-                if (user_db.user_commonPacks < 1) {
+                if (user_db.user_commonPacks < pack_number) {
                     interaction.reply(`You don't have any ${pack_type} packs!`);
                     return;
-                }
-                else {
-                    await (0, dbQuerys_1.updateUserPacks)(user_db.user_id, `user_${pack_type}Packs`, false);
                 }
                 break;
             case 'rare':
-                if (user_db.user_rarePacks < 1) {
+                if (user_db.user_rarePacks < pack_number) {
                     interaction.reply(`You don't have any ${pack_type} packs!`);
                     return;
-                }
-                else {
-                    await (0, dbQuerys_1.updateUserPacks)(user_db.user_id, `user_${pack_type}Packs`, false);
                 }
                 break;
             case 'epic':
-                if (user_db.user_epicPacks < 1) {
+                if (user_db.user_epicPacks < pack_number) {
                     interaction.reply(`You don't have any ${pack_type} packs!`);
                     return;
-                }
-                else {
-                    await (0, dbQuerys_1.updateUserPacks)(user_db.user_id, `user_${pack_type}Packs`, false);
                 }
                 break;
             case 'legendary':
-                if (user_db.user_legendaryPacks < 1) {
+                if (user_db.user_legendaryPacks < pack_number) {
                     interaction.reply(`You don't have any ${pack_type} packs!`);
                     return;
-                }
-                else {
-                    await (0, dbQuerys_1.updateUserPacks)(user_db.user_id, `user_${pack_type}Packs`, false);
                 }
                 break;
             case 'ultimate':
-                if (user_db.user_ultimatePacks < 1) {
+                if (user_db.user_ultimatePacks < pack_number) {
                     interaction.reply(`You don't have any ${pack_type} packs!`);
                     return;
-                }
-                else {
-                    await (0, dbQuerys_1.updateUserPacks)(user_db.user_id, `user_${pack_type}Packs`, false);
                 }
                 break;
             default:
                 interaction.reply('Write a valid pack type!!');
                 return;
         }
-        try {
-            const players = await (0, dbQuerys_1.getPlayersForPack)(pack_type);
-            players.sort((a, b) => b.player_rank - a.player_rank);
-            const packEmbeds = [];
-            let repeatedCardsValue = 0;
-            for (const player of players) {
-                const playerEmbed = await (0, auxiliarfunctions_export_1.playerEmbedBuilder)(player);
-                packEmbeds.push(playerEmbed);
-                if (!player.player_id || !player.player_cost) {
-                    interaction.reply('Bruh that condition is impossible');
-                    return;
-                }
-                if (!player.user_id) {
-                    await (0, dbQuerys_1.updatePlayerStatus)(player.player_id, user_db.user_id);
-                }
-                else {
-                    await (0, dbQuerys_1.updateUserCoins)(user_db.user_id, user_db.user_coins + player.player_cost);
-                    repeatedCardsValue += player.player_cost;
-                }
-            }
-            await (0, auxiliarfunctions_export_1.embedPagination)(interaction, packEmbeds, `Your ${pack_type} pack was opened! Check what is inside:`, true);
-            if (repeatedCardsValue > 0) {
-                if (interaction.channel.isSendable())
-                    await interaction.channel.send(`Some cards of your pack already has an owner... so you get their value: **+${repeatedCardsValue}** :coin:`);
-            }
-            return;
+        for (let i = 0; i < pack_number; i++) {
+            await (0, dbQuerys_1.updateUserPacks)(user_db.user_id, `user_${pack_type}Packs`, false);
         }
-        catch (err) {
-            interaction.reply('Error on open function');
-            console.error('Error on open function:', interaction.author.id);
-            return;
+        const packEmbeds = [];
+        let repeatedCardsValue = 0;
+        if (pack_number == 1) {
+            try {
+                const players = await (0, dbQuerys_1.getPlayersForPack)(pack_type);
+                players.sort((a, b) => b.player_rank - a.player_rank);
+                for (const player of players) {
+                    const playerEmbed = await (0, auxiliarfunctions_export_1.playerEmbedBuilder)(player);
+                    packEmbeds.push(playerEmbed);
+                    if (!player.player_id || !player.player_cost) {
+                        interaction.reply('Bruh that condition is impossible');
+                        return;
+                    }
+                    if (!player.user_id) {
+                        await (0, dbQuerys_1.updatePlayerStatus)(player.player_id, user_db.user_id);
+                    }
+                    else {
+                        await (0, dbQuerys_1.updateUserCoins)(user_db.user_id, user_db.user_coins + player.player_cost);
+                        repeatedCardsValue += player.player_cost;
+                    }
+                }
+                await (0, auxiliarfunctions_export_1.embedPagination)(interaction, packEmbeds, `Your ${pack_type} pack was opened! Check what is inside:`, true);
+                if (repeatedCardsValue > 0) {
+                    if (interaction.channel.isSendable())
+                        await interaction.channel.send(`Some cards of your pack already has an owner... so you get their value: **+${repeatedCardsValue}** :coin:`);
+                }
+                return;
+            }
+            catch (err) {
+                interaction.reply('Error on open function');
+                console.error('Error on open function:', interaction.author.id, err);
+                return;
+            }
+        }
+        else {
+            try {
+                for (let i = 0; i < pack_number; i++) {
+                    const players = await (0, dbQuerys_1.getPlayersForPack)(pack_type);
+                    players.sort((a, b) => b.player_rank - a.player_rank);
+                    const packEmbed = await (0, auxiliarfunctions_export_1.openmultiplepacksEmbedBuilder)(players, user_db, i + 1, interaction.author.avatarURL());
+                    packEmbeds.push(packEmbed);
+                    for (const player of players) {
+                        if (!player.player_id || !player.player_cost) {
+                            interaction.reply('Bruh that condition is impossible');
+                            return;
+                        }
+                        if (!player.user_id) {
+                            await (0, dbQuerys_1.updatePlayerStatus)(player.player_id, user_db.user_id);
+                        }
+                        else {
+                            repeatedCardsValue += player.player_cost;
+                        }
+                    }
+                }
+                await (0, auxiliarfunctions_export_1.embedPagination)(interaction, packEmbeds, `Your ${pack_type} packs were opened! Check what is inside of them:`, true);
+                if (repeatedCardsValue > 0) {
+                    await (0, dbQuerys_1.updateUserCoins)(user_db.user_id, user_db.user_coins + repeatedCardsValue);
+                    if (interaction.channel.isSendable())
+                        await interaction.channel.send(`Some cards of your pack already has an owner... so you get their value: **+${repeatedCardsValue}** :coin:`);
+                }
+                return;
+            }
+            catch (err) {
+                interaction.reply('Error on open function');
+                console.error('Error on open function:', interaction.author.id, err);
+                return;
+            }
         }
     }
 }
