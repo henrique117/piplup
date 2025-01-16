@@ -7,7 +7,8 @@ async function playerEmbedBuilder(player) {
     let owner = 'No one';
     if (player_db && player_db.user_id) {
         const user_db = await (0, dbQuerys_1.findUser)(player_db.user_id);
-        owner = user_db.user_globalName ? user_db.user_globalName : user_db.user_username;
+        if (user_db)
+            owner = user_db.user_globalName ? user_db.user_globalName : user_db.user_username;
     }
     return new discord_js_1.EmbedBuilder()
         .setColor('Aqua')
