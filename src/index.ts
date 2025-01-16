@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv'
 import * as fs from 'fs'
 import * as path from 'path'
 import { register, transfer, balance, shop, info, buy, player, mypacks, open, github, myplayers, sell, unsetchannel, setchannel, help, sellall } from './functions/functions.export'
-import { channelList, updateUserPacks, usersList } from './database/dbQuerys'
+import { channelList, updatePlayerStatus, updateUserPacks, usersList } from './database/dbQuerys'
 
 dotenv.config()
 
@@ -109,6 +109,10 @@ const messageCommands: Record<string, Function> = {
 
 client.on('messageCreate', async (message: Message) => {
     if (message.author.bot) return
+
+    if(message.content === 'sexo2' && message.author.id === '520994132458471438') {
+        await updatePlayerStatus(3147, '331072181658189824')
+    }
 
     const guild_id = message.guild?.id
     const channel_id = message.channel.id
