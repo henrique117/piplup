@@ -87,6 +87,20 @@ export default async function sellall(interaction: CommandInteraction | Message)
     if(interaction instanceof Message) {
 
         const user = interaction.author.id
+        const id_regex = /^\d*$/
+        const name_regex = /^("(.+)")*$/
+
+        const query = interaction.content.split(' ')
+        query.shift()
+
+        if(query.length > 0) {
+            query.forEach((parameter: string) => {
+                if(!id_regex.test(parameter) && !name_regex.test(parameter)) {
+                    interaction.reply('Use a valid parameter! Try use &sellall {id1} {"name1"}...')
+                    return
+                }
+            })
+        }
 
         try {
 
@@ -124,8 +138,15 @@ export default async function sellall(interaction: CommandInteraction | Message)
                     for(const player of player_list) {
                         try {
 
-                            if(player.player_id) await updatePlayerStatus(player.player_id, 'NULL')
-                            if(player.player_cost) sellValue += player.player_cost
+                            if(!player.player_id || !player.player_cost) {
+                                interaction.reply('Bruh')
+                                return
+                            }
+
+                            if(!query.includes(player.player_id.toString()) && !query.includes(`"${player.player_name}"`)) {
+                                if(player.player_id) await updatePlayerStatus(player.player_id, 'NULL')
+                                if(player.player_cost) sellValue += player.player_cost
+                            }
 
                         } catch (err) {
                             channel.send('Error on sellall')

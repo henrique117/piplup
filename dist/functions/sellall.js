@@ -76,6 +76,18 @@ async function sellall(interaction) {
     }
     if (interaction instanceof discord_js_1.Message) {
         const user = interaction.author.id;
+        const id_regex = /^\d*$/;
+        const name_regex = /^("(.+)")*$/;
+        const query = interaction.content.split(' ');
+        query.shift();
+        if (query.length > 0) {
+            query.forEach((parameter) => {
+                if (!id_regex.test(parameter) && !name_regex.test(parameter)) {
+                    interaction.reply('Use a valid parameter! Try use &sellall {id1} {"name1"}...');
+                    return;
+                }
+            });
+        }
         try {
             const user_db = await (0, dbQuerys_1.findUser)(user);
             if (!user_db) {
@@ -100,10 +112,16 @@ async function sellall(interaction) {
                     let sellValue = 0;
                     for (const player of player_list) {
                         try {
-                            if (player.player_id)
-                                await (0, dbQuerys_1.updatePlayerStatus)(player.player_id, 'NULL');
-                            if (player.player_cost)
-                                sellValue += player.player_cost;
+                            if (!player.player_id || !player.player_cost) {
+                                interaction.reply('Bruh');
+                                return;
+                            }
+                            if (!query.includes(player.player_id.toString()) && !query.includes(`"${player.player_name}"`)) {
+                                if (player.player_id)
+                                    await (0, dbQuerys_1.updatePlayerStatus)(player.player_id, 'NULL');
+                                if (player.player_cost)
+                                    sellValue += player.player_cost;
+                            }
                         }
                         catch (err) {
                             channel.send('Error on sellall');
