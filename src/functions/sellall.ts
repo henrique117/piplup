@@ -90,7 +90,7 @@ export default async function sellall(interaction: CommandInteraction | Message)
         const id_regex = /^\d*$/
         const name_regex = /^("(.+)")*$/
 
-        const query = interaction.content.split(' ')
+        const query = interaction.content.toLowerCase().split(' ')
         query.shift()
 
         if(query.length > 0) {
@@ -153,7 +153,7 @@ export default async function sellall(interaction: CommandInteraction | Message)
                                 return
                             }
 
-                            if(!query.includes(player.player_id.toString()) && !query.includes(`"${player.player_name}"`)) {
+                            if(!query.includes(player.player_id.toString()) && !query.includes(`"${player.player_name.toLowerCase()}"`)) {
                                 if(player.player_id) await updatePlayerStatus(player.player_id, 'NULL')
                                 if(player.player_cost) sellValue += player.player_cost
                             }

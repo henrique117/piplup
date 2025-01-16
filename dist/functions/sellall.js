@@ -78,7 +78,7 @@ async function sellall(interaction) {
         const user = interaction.author.id;
         const id_regex = /^\d*$/;
         const name_regex = /^("(.+)")*$/;
-        const query = interaction.content.split(' ');
+        const query = interaction.content.toLowerCase().split(' ');
         query.shift();
         if (query.length > 0) {
             query.forEach((parameter) => {
@@ -127,7 +127,7 @@ async function sellall(interaction) {
                                 interaction.reply('Bruh');
                                 return;
                             }
-                            if (!query.includes(player.player_id.toString()) && !query.includes(`"${player.player_name}"`)) {
+                            if (!query.includes(player.player_id.toString()) && !query.includes(`"${player.player_name.toLowerCase()}"`)) {
                                 if (player.player_id)
                                     await (0, dbQuerys_1.updatePlayerStatus)(player.player_id, 'NULL');
                                 if (player.player_cost)
