@@ -165,12 +165,12 @@ async function open(interaction) {
                         interaction.reply('Bruh that condition is impossible');
                         return;
                     }
-                    if (!player.user_id) {
-                        await (0, dbQuerys_1.updatePlayerStatus)(player.player_id, user_db.user_id);
-                    }
-                    else {
+                    if (player.user_id) {
                         await (0, dbQuerys_1.updateUserCoins)(user_db.user_id, user_db.user_coins + player.player_cost);
                         repeatedCardsValue += player.player_cost;
+                    }
+                    else {
+                        await (0, dbQuerys_1.updatePlayerStatus)(player.player_id, user_db.user_id);
                     }
                 }
                 await (0, auxiliarfunctions_export_1.embedPagination)(interaction, packEmbeds, `Your ${pack_type} pack was opened! Check what is inside:`, false);
@@ -198,11 +198,11 @@ async function open(interaction) {
                             interaction.reply('Bruh that condition is impossible');
                             return;
                         }
-                        if (!player.user_id) {
-                            await (0, dbQuerys_1.updatePlayerStatus)(player.player_id, user_db.user_id);
+                        if (player.user_id) {
+                            repeatedCardsValue += player.player_cost;
                         }
                         else {
-                            repeatedCardsValue += player.player_cost;
+                            await (0, dbQuerys_1.updatePlayerStatus)(player.player_id, user_db.user_id);
                         }
                     }
                 }

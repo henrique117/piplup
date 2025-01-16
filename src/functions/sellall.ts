@@ -75,7 +75,7 @@ export default async function sellall(interaction: CommandInteraction | Message)
                             }
 
                             if(!query.includes(player.player_id.toString()) && !query.includes(`"${player.player_name.toLowerCase()}"`)) {
-                                if(player.player_id) await updatePlayerStatus(player.player_id, 'NULL')
+                                if(player.player_id) await updatePlayerStatus(player.player_id, null)
                                 if(player.player_cost) sellValue += player.player_cost
                             }
 
@@ -193,7 +193,7 @@ export default async function sellall(interaction: CommandInteraction | Message)
                             }
 
                             if(!query.includes(player.player_id.toString()) && !query.includes(`"${player.player_name.toLowerCase()}"`)) {
-                                if(player.player_id) await updatePlayerStatus(player.player_id, 'NULL')
+                                if(player.player_id) await updatePlayerStatus(player.player_id, null)
                                 if(player.player_cost) sellValue += player.player_cost
                             }
 

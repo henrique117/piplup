@@ -42,7 +42,7 @@ async function sell(interaction) {
                 return;
             }
             if (player_db.player_id && player_db.player_cost) {
-                await (0, dbQuerys_1.updatePlayerStatus)(player_db.player_id, 'NULL');
+                await (0, dbQuerys_1.updatePlayerStatus)(player_db.player_id, null);
                 await (0, dbQuerys_1.updateUserCoins)(user_db.user_id, user_db.user_coins + player_db.player_cost);
                 interaction.reply({ content: `Player **${player_db.player_name}** sold and is now available to get again! Sold for **${player_db.player_cost}** :coin:` });
             }
@@ -101,7 +101,7 @@ async function sell(interaction) {
                     return;
                 }
                 if (player_db.player_id && player_db.player_cost) {
-                    await (0, dbQuerys_1.updatePlayerStatus)(player_db.player_id, 'NULL');
+                    await (0, dbQuerys_1.updatePlayerStatus)(player_db.player_id, null);
                     sellValue += player_db.player_cost;
                 }
             }

@@ -60,7 +60,7 @@ async function sellall(interaction) {
                             }
                             if (!query.includes(player.player_id.toString()) && !query.includes(`"${player.player_name.toLowerCase()}"`)) {
                                 if (player.player_id)
-                                    await (0, dbQuerys_1.updatePlayerStatus)(player.player_id, 'NULL');
+                                    await (0, dbQuerys_1.updatePlayerStatus)(player.player_id, null);
                                 if (player.player_cost)
                                     sellValue += player.player_cost;
                             }
@@ -162,7 +162,7 @@ async function sellall(interaction) {
                             }
                             if (!query.includes(player.player_id.toString()) && !query.includes(`"${player.player_name.toLowerCase()}"`)) {
                                 if (player.player_id)
-                                    await (0, dbQuerys_1.updatePlayerStatus)(player.player_id, 'NULL');
+                                    await (0, dbQuerys_1.updatePlayerStatus)(player.player_id, null);
                                 if (player.player_cost)
                                     sellValue += player.player_cost;
                             }

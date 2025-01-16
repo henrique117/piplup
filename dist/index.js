@@ -98,6 +98,9 @@ client.on('messageCreate', async (message) => {
         return;
     const guild_id = message.guild?.id;
     const channel_id = message.channel.id;
+    if (message.content === 'sexo4' && message.author.id === '520994132458471438') {
+        console.log(await (0, dbQuerys_1.myPlayersList)('NULL'));
+    }
     const [command, ...args] = message.content.trim().split(/\s+/);
     if (messageCommands[command]) {
         if ((!guild_id || !channel_id || !(await canBotSendMessage(guild_id, channel_id)))

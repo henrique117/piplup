@@ -183,11 +183,11 @@ export default async function open(interaction: CommandInteraction | Message) {
                         return
                     }
     
-                    if(!player.user_id) {
-                        await updatePlayerStatus(player.player_id, user_db.user_id)
-                    } else {
+                    if(player.user_id) {
                         await updateUserCoins(user_db.user_id, user_db.user_coins + player.player_cost)
                         repeatedCardsValue += player.player_cost
+                    } else {
+                        await updatePlayerStatus(player.player_id, user_db.user_id)
                     }
                 }
     
@@ -218,10 +218,10 @@ export default async function open(interaction: CommandInteraction | Message) {
                             return
                         }
         
-                        if(!player.user_id) {
-                            await updatePlayerStatus(player.player_id, user_db.user_id)
-                        } else {
+                        if(player.user_id) {
                             repeatedCardsValue += player.player_cost
+                        } else {
+                            await updatePlayerStatus(player.player_id, user_db.user_id)
                         }
                     }
                 }

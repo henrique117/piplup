@@ -285,7 +285,7 @@ export const updateUserPacks = async (user_id: string, pack_type: string, increa
     })
 }
 
-export const updatePlayerStatus = async (player_id: number, user_id: string): Promise<void> => {
+export const updatePlayerStatus = async (player_id: number, user_id: string | null): Promise<void> => {
     const query = `UPDATE Players SET user_id = ? WHERE player_id = ?`
 
     return new Promise<void>((resolve, reject) => {
