@@ -98,11 +98,6 @@ client.on('messageCreate', async (message) => {
         return;
     const guild_id = message.guild?.id;
     const channel_id = message.channel.id;
-    if (message.content === 'sexo4' && message.author.id === '520994132458471438') {
-        await (0, dbQuerys_1.consertar)();
-        console.log(await (0, dbQuerys_1.myPlayersList)('NULL'));
-        await (0, dbQuerys_1.updatePlayerStatus)(55131, '520994132458471438');
-    }
     const [command, ...args] = message.content.trim().split(/\s+/);
     if (messageCommands[command]) {
         if ((!guild_id || !channel_id || !(await canBotSendMessage(guild_id, channel_id)))

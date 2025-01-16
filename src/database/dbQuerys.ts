@@ -300,19 +300,6 @@ export const updatePlayerStatus = async (player_id: number, user_id: string | nu
     })
 }
 
-export const consertar = async () => {
-    return new Promise<void>((resolve, reject) => {
-        db.run('UPDATE Players SET user_id = ? WHERE user_id = "NULL"', [null], (err) => {
-            if(err) {
-                console.error(`Error updating user: ${err.message}`)
-                reject(err)
-            } else {
-                resolve()
-            }
-        })
-    })
-}
-
 export const deleteUser = async (user_id: string) => {
     const query = [
         `UPDATE Players SET user_id = NULL WHERE user_id = ?`,
