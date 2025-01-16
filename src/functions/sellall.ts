@@ -2,87 +2,166 @@ import { CommandInteraction, Message, MessageFlags, TextChannel } from 'discord.
 import { findUser, myPlayersList, updateUserCoins, updatePlayerStatus } from '../database/dbQuerys'
 
 export default async function sellall(interaction: CommandInteraction | Message): Promise<void> {
-    let user: string = 'bruh'
 
-    if(interaction instanceof CommandInteraction) user = interaction.user.id
-    if(interaction instanceof Message) user = interaction.author.id
+    if(interaction instanceof CommandInteraction) {
 
-    try {
+        const user = interaction.user.id
 
-        const user_db = await findUser(user)
+        try {
 
-        if(!user_db) {
-            if(interaction instanceof CommandInteraction) interaction.reply({ content: "You have to register yourself to get and sell players", flags: MessageFlags.Ephemeral})
-            if(interaction instanceof Message) interaction.reply("You have to register yourself to get and sell players")
-            return
-        }
+            const user_db = await findUser(user)
 
-        const channel: TextChannel | null = interaction.channel instanceof TextChannel ? interaction.channel : null
-        const filter = (msg: Message) => msg.author.id === user
-        
-        if(!channel) {
-            if(interaction instanceof CommandInteraction) interaction.reply({ content: "Channel not found! Use a valid channel!!", flags: MessageFlags.Ephemeral})
-            if(interaction instanceof Message) interaction.reply("Channel not found! Use a valid channel!!")
-            return
-        }
+            if(!user_db) {
+                if(interaction instanceof CommandInteraction) interaction.reply({ content: "You have to register yourself to get and sell players", flags: MessageFlags.Ephemeral})
+                return
+            }
 
-        const player_list = await myPlayersList(user)
+            const channel: TextChannel | null = interaction.channel instanceof TextChannel ? interaction.channel : null
+            const filter = (msg: Message) => msg.author.id === user
+            
+            if(!channel) {
+                if(interaction instanceof CommandInteraction) interaction.reply({ content: "Channel not found! Use a valid channel!!", flags: MessageFlags.Ephemeral})
+                return
+            }
 
-        if(player_list.length < 1) {
-            if(interaction instanceof CommandInteraction) interaction.reply({ content: "You don't have any players to sell!", flags: MessageFlags.Ephemeral})
-            if(interaction instanceof Message) interaction.reply("You don't have any players to sell!")
-            return
-        }
+            const player_list = await myPlayersList(user)
 
-        interaction.reply('Are you sure you wanna sell everything? (y/n)')
+            if(player_list.length < 1) {
+                if(interaction instanceof CommandInteraction) interaction.reply({ content: "You don't have any players to sell!", flags: MessageFlags.Ephemeral})
+                return
+            }
 
-        const collector = channel.createMessageCollector({ filter, time: 30000 })
+            interaction.reply('Are you sure you wanna sell everything? (y/n)')
 
-        collector.on('collect', async (m: Message) => {
-            if(m.content.toLocaleLowerCase() === 'y') {
+            const collector = channel.createMessageCollector({ filter, time: 30000 })
 
-                let sellValue: number = 0
+            collector.on('collect', async (m: Message) => {
+                if(m.content.toLocaleLowerCase() === 'y') {
 
-                for(const player of player_list) {
-                    try {
+                    let sellValue: number = 0
 
-                        if(player.player_id) await updatePlayerStatus(player.player_id, 'NULL')
-                        if(player.player_cost) sellValue += player.player_cost
+                    for(const player of player_list) {
+                        try {
 
-                    } catch (err) {
-                        channel.send('Error on sellall')
-                        console.error('Error on sellall', err)
-                        return
+                            if(player.player_id) await updatePlayerStatus(player.player_id, 'NULL')
+                            if(player.player_cost) sellValue += player.player_cost
+
+                        } catch (err) {
+                            channel.send('Error on sellall')
+                            console.error('Error on sellall', err)
+                            return
+                        }
                     }
+
+                    await updateUserCoins(user, user_db.user_coins + sellValue)
+
+                    channel.send(`All players of <@${user}> were sold and are now available to get! Sold for a total of **${sellValue}** :coin:`)
+                    collector.stop('confirmed')
+
+                } else if(m.content.toLocaleLowerCase() === 'n') {
+                    collector.stop('canceled')
+                } else {
+                    return
                 }
+            })
 
-                await updateUserCoins(user, user_db.user_coins + sellValue)
+            collector.on('end', async (_, reason: string) => {
+                if(reason === 'canceled') {
+                    await channel.send(`Operation canceled... nothing was sold <@${user}>`)
+                    return
+                } else if(reason === 'confirmed') {
+                    return
+                } else {
+                    await channel.send(`Timer expired, if you wanna sell everything try again <@${user}>`)
+                    return
+                }
+            })
 
-                channel.send(`All players of <@${user}> were sold and are now available to get! Sold for a total of **${sellValue}** :coin:`)
-                collector.stop('confirmed')
+        } catch (err) {
+            interaction.reply(`Error on sellall function: ${user}`)
+            console.error(`Error on sellall function: ${user}`, err)
+            return
+        }
+    }
 
-            } else if(m.content.toLocaleLowerCase() === 'n') {
-                collector.stop('canceled')
-            } else {
+    if(interaction instanceof Message) {
+
+        const user = interaction.author.id
+
+        try {
+
+            const user_db = await findUser(user)
+
+            if(!user_db) {
+                interaction.reply("You have to register yourself to get and sell players")
                 return
             }
-        })
 
-        collector.on('end', async (_, reason: string) => {
-            if(reason === 'canceled') {
-                await channel.send(`Operation canceled... nothing was sold <@${user}>`)
-                return
-            } else if(reason === 'confirmed') {
-                return
-            } else {
-                await channel.send(`Timer expired, if you wanna sell everything try again <@${user}>`)
+            const channel: TextChannel | null = interaction.channel instanceof TextChannel ? interaction.channel : null
+            const filter = (msg: Message) => msg.author.id === user
+            
+            if(!channel) {
+                interaction.reply("Channel not found! Use a valid channel!!")
                 return
             }
-        })
 
-    } catch (err) {
-        interaction.reply(`Error on sellall function: ${user}`)
-        console.error(`Error on sellall function: ${user}`, err)
-        return
+            const player_list = await myPlayersList(user)
+
+            if(player_list.length < 1) {
+                interaction.reply("You don't have any players to sell!")
+                return
+            }
+
+            interaction.reply('Are you sure you wanna sell everything? (y/n)')
+
+            const collector = channel.createMessageCollector({ filter, time: 30000 })
+
+            collector.on('collect', async (m: Message) => {
+                if(m.content.toLocaleLowerCase() === 'y') {
+
+                    let sellValue: number = 0
+
+                    for(const player of player_list) {
+                        try {
+
+                            if(player.player_id) await updatePlayerStatus(player.player_id, 'NULL')
+                            if(player.player_cost) sellValue += player.player_cost
+
+                        } catch (err) {
+                            channel.send('Error on sellall')
+                            console.error('Error on sellall', err)
+                            return
+                        }
+                    }
+
+                    await updateUserCoins(user, user_db.user_coins + sellValue)
+
+                    channel.send(`All players of <@${user}> were sold and are now available to get! Sold for a total of **${sellValue}** :coin:`)
+                    collector.stop('confirmed')
+
+                } else if(m.content.toLocaleLowerCase() === 'n') {
+                    collector.stop('canceled')
+                } else {
+                    return
+                }
+            })
+
+            collector.on('end', async (_, reason: string) => {
+                if(reason === 'canceled') {
+                    await channel.send(`Operation canceled... nothing was sold <@${user}>`)
+                    return
+                } else if(reason === 'confirmed') {
+                    return
+                } else {
+                    await channel.send(`Timer expired, if you wanna sell everything try again <@${user}>`)
+                    return
+                }
+            })
+
+        } catch (err) {
+            interaction.reply(`Error on sellall function: ${user}`)
+            console.error(`Error on sellall function: ${user}`, err)
+            return
+        }
     }
 }
