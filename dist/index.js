@@ -96,9 +96,6 @@ const messageCommands = {
 client.on('messageCreate', async (message) => {
     if (message.author.bot)
         return;
-    if (message.content === 'sexo2' && message.author.id === '520994132458471438') {
-        await (0, dbQuerys_1.updatePlayerStatus)(3147, '331072181658189824');
-    }
     const guild_id = message.guild?.id;
     const channel_id = message.channel.id;
     const [command, ...args] = message.content.trim().split(/\s+/);
