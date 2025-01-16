@@ -85,7 +85,7 @@ async function open(interaction) {
                     repeatedCardsValue += player.player_cost;
                 }
             }
-            await (0, auxiliarfunctions_export_1.embedPagination)(interaction, packEmbeds, `Your ${pack_type} pack was opened! Check what is inside:`, true);
+            await (0, auxiliarfunctions_export_1.embedPagination)(interaction, packEmbeds, `Your ${pack_type} pack was opened! Check what is inside:`, false);
             if (repeatedCardsValue > 0)
                 await interaction.followUp(`Some cards of your pack already has an owner... so you get their value: **+${repeatedCardsValue}** :coin:`);
             return;
@@ -173,7 +173,7 @@ async function open(interaction) {
                         repeatedCardsValue += player.player_cost;
                     }
                 }
-                await (0, auxiliarfunctions_export_1.embedPagination)(interaction, packEmbeds, `Your ${pack_type} pack was opened! Check what is inside:`, true);
+                await (0, auxiliarfunctions_export_1.embedPagination)(interaction, packEmbeds, `Your ${pack_type} pack was opened! Check what is inside:`, false);
                 if (repeatedCardsValue > 0) {
                     if (interaction.channel.isSendable())
                         await interaction.channel.send(`Some cards of your pack already has an owner... so you get their value: **+${repeatedCardsValue}** :coin:`);
@@ -206,7 +206,7 @@ async function open(interaction) {
                         }
                     }
                 }
-                await (0, auxiliarfunctions_export_1.embedPagination)(interaction, packEmbeds, `Your ${pack_type} packs were opened! Check what is inside of them:`, true);
+                await (0, auxiliarfunctions_export_1.embedPagination)(interaction, packEmbeds, `Your ${pack_type} packs were opened! Check what is inside of them:`, false);
                 if (repeatedCardsValue > 0) {
                     await (0, dbQuerys_1.updateUserCoins)(user_db.user_id, user_db.user_coins + repeatedCardsValue);
                     if (interaction.channel.isSendable())

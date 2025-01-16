@@ -1,5 +1,5 @@
 import { CommandInteraction, Message, MessageFlags, TextChannel } from 'discord.js'
-import { findUser, myPlayersList, updateUserCoins, updatePlayerStatus } from '../database/dbQuerys'
+import { findUser, myPlayersList, updateUserCoins, updatePlayerStatus, findPlayer, findPlayerById } from '../database/dbQuerys'
 
 export default async function sellall(interaction: CommandInteraction | Message): Promise<void> {
 
@@ -126,7 +126,17 @@ export default async function sellall(interaction: CommandInteraction | Message)
                 return
             }
 
-            interaction.reply('Are you sure you wanna sell everything? (y/n)')
+            if(query.length > 0) {
+                const player_names = []
+                for(const param of query) {
+                    const player_db = param.startsWith('"') ? await findPlayer(param.split('"')[1].toLowerCase()) : await findPlayerById(parseInt(param))
+                    player_names.push(player_db.player_name)
+                }
+                const string = player_names.join(', ')
+                interaction.reply(`Are you sure you wanna sell everything except for **${string}**? (y/n)`)
+            } else {
+                interaction.reply('Are you sure you wanna sell everything? (y/n)')
+            }
 
             const collector = channel.createMessageCollector({ filter, time: 30000 })
 
@@ -153,6 +163,12 @@ export default async function sellall(interaction: CommandInteraction | Message)
                             console.error('Error on sellall', err)
                             return
                         }
+                    }
+
+                    if(sellValue < 1) {
+                        channel.send(`Nice <@${user}>, you sold nothing dumb bitch!!!!!!!!!!!`)
+                        collector.stop('confirmed')
+                        return
                     }
 
                     await updateUserCoins(user, user_db.user_coins + sellValue)

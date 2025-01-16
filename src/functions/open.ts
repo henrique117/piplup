@@ -90,7 +90,7 @@ export default async function open(interaction: CommandInteraction | Message) {
                 }
             }
 
-            await embedPagination(interaction, packEmbeds, `Your ${pack_type} pack was opened! Check what is inside:`, true)
+            await embedPagination(interaction, packEmbeds, `Your ${pack_type} pack was opened! Check what is inside:`, false)
             if(repeatedCardsValue > 0) await interaction.followUp(`Some cards of your pack already has an owner... so you get their value: **+${repeatedCardsValue}** :coin:`)
             return
 
@@ -191,7 +191,7 @@ export default async function open(interaction: CommandInteraction | Message) {
                     }
                 }
     
-                await embedPagination(interaction, packEmbeds, `Your ${pack_type} pack was opened! Check what is inside:`, true)
+                await embedPagination(interaction, packEmbeds, `Your ${pack_type} pack was opened! Check what is inside:`, false)
                 if(repeatedCardsValue > 0) {
                     if(interaction.channel.isSendable()) await interaction.channel.send(`Some cards of your pack already has an owner... so you get their value: **+${repeatedCardsValue}** :coin:`)
                 }
@@ -226,7 +226,7 @@ export default async function open(interaction: CommandInteraction | Message) {
                     }
                 }
     
-                await embedPagination(interaction, packEmbeds, `Your ${pack_type} packs were opened! Check what is inside of them:`, true)
+                await embedPagination(interaction, packEmbeds, `Your ${pack_type} packs were opened! Check what is inside of them:`, false)
                 if(repeatedCardsValue > 0) {
                     await updateUserCoins(user_db.user_id, user_db.user_coins + repeatedCardsValue)
                     if(interaction.channel.isSendable()) await interaction.channel.send(`Some cards of your pack already has an owner... so you get their value: **+${repeatedCardsValue}** :coin:`)

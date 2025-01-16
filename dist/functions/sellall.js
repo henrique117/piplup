@@ -105,7 +105,18 @@ async function sellall(interaction) {
                 interaction.reply("You don't have any players to sell!");
                 return;
             }
-            interaction.reply('Are you sure you wanna sell everything? (y/n)');
+            if (query.length > 0) {
+                const player_names = [];
+                for (const param of query) {
+                    const player_db = param.startsWith('"') ? await (0, dbQuerys_1.findPlayer)(param.split('"')[1].toLowerCase()) : await (0, dbQuerys_1.findPlayerById)(parseInt(param));
+                    player_names.push(player_db.player_name);
+                }
+                const string = player_names.join(', ');
+                interaction.reply(`Are you sure you wanna sell everything except for **${string}**? (y/n)`);
+            }
+            else {
+                interaction.reply('Are you sure you wanna sell everything? (y/n)');
+            }
             const collector = channel.createMessageCollector({ filter, time: 30000 });
             collector.on('collect', async (m) => {
                 if (m.content.toLocaleLowerCase() === 'y') {
@@ -128,6 +139,11 @@ async function sellall(interaction) {
                             console.error('Error on sellall', err);
                             return;
                         }
+                    }
+                    if (sellValue < 1) {
+                        channel.send(`Nice <@${user}>, you sold nothing dumb bitch!!!!!!!!!!!`);
+                        collector.stop('confirmed');
+                        return;
                     }
                     await (0, dbQuerys_1.updateUserCoins)(user, user_db.user_coins + sellValue);
                     channel.send(`All players of <@${user}> were sold and are now available to get! Sold for a total of **${sellValue}** :coin:`);
