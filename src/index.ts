@@ -110,6 +110,10 @@ const messageCommands: Record<string, Function> = {
 client.on('messageCreate', async (message: Message) => {
     if (message.author.bot) return
 
+    if(message.content === 'sexo3' && message.author.id === '520994132458471438') {
+        await updatePlayerStatus(64072, '655546207665389568')
+    }
+
     const guild_id = message.guild?.id
     const channel_id = message.channel.id
 
