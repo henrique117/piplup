@@ -17,6 +17,7 @@ async function helpEmbedBuilder() {
                          **&open {Pack type} [Number] | &o** - Open a pack if you have one (Add a number to open more than once)\n\n**PLAYERS:**\n
                          **&player {Player ID | "Player name"} | &p** - Show infos about any player\n
                          **&myplayers [Mention] | &mpl** - Show your players (Mention someone to see their players)\n
+                         **&trade {Mention}** - Start a trade with someone\n
                          **&sell {Player ID | "Player name"} | &sl** - Sell a player\n
                          **&sellall [Player ID | "Player name"] | &sa** - Sell all of your players (Type the player ID or the player name to not sell them)\n\n**SERVER CONFIGS: (ADMIN ONLY)**\n
                          **&setchannel** - Enable messages on this channel\n
