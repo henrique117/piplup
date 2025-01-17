@@ -10,7 +10,7 @@ export class TaskQueue {
     private queue: Task[] = []
     private MAX_WORKERS = 4
     private activeTasks = 0
-    private workerPath = path.resolve(__dirname, 'classes', 'worker.js')
+    private workerPath = path.resolve(__dirname, 'worker.js')
 
     public addTask(task: Task) {
         this.queue.push(task)

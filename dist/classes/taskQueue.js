@@ -7,7 +7,7 @@ class TaskQueue {
     queue = [];
     MAX_WORKERS = 4;
     activeTasks = 0;
-    workerPath = path.resolve(__dirname, 'classes', 'worker.js');
+    workerPath = path.resolve(__dirname, 'worker.js');
     addTask(task) {
         this.queue.push(task);
         this.processQueue();
