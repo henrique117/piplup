@@ -6,6 +6,7 @@ const fs = require("fs");
 const path = require("path");
 const functions_export_1 = require("./functions/functions.export");
 const dbQuerys_1 = require("./database/dbQuerys");
+const taskQueue_1 = require("./classes/taskQueue");
 dotenv.config();
 const client = new discord_js_1.Client({
     intents: [
@@ -22,6 +23,7 @@ for (const file of commandFiles) {
     client.commands.set(command.data.name, command);
 }
 let lastHour = new Date().getUTCHours();
+const taskQueue = new taskQueue_1.TaskQueue();
 setInterval(async () => {
     const currentHour = new Date().getUTCHours();
     if (currentHour !== lastHour) {
@@ -50,17 +52,29 @@ client.on('interactionCreate', async (interaction) => {
         console.error(`Command not found: ${interaction.commandName}`);
         return;
     }
-    try {
-        if ((!interaction.guild?.id || !interaction.channel?.id || !(await canBotSendMessage(interaction.guild.id, interaction.channel.id))) && interaction.commandName !== 'unsetchannel' && interaction.commandName !== 'setchannel') {
-            interaction.reply("I can't send messages in this channel :x:");
-            return;
+    taskQueue.addTask({
+        interaction,
+        execute: async (interaction) => {
+            if (interaction instanceof discord_js_1.CommandInteraction) {
+                if ((!interaction.guild?.id || !interaction.channel?.id ||
+                    !(await canBotSendMessage(interaction.guild.id, interaction.channel.id))) &&
+                    interaction.commandName !== 'unsetchannel' &&
+                    interaction.commandName !== 'setchannel') {
+                    await interaction.reply("I can't send messages in this channel :x:");
+                    return;
+                }
+                try {
+                    await command.execute(interaction);
+                }
+                catch (error) {
+                    console.error('Error on executing command', error);
+                    await interaction.reply({ content: 'Error on executing command', ephemeral: true });
+                }
+            }
+            else
+                return;
         }
-        await command.execute(interaction);
-    }
-    catch (error) {
-        console.error('Error on executing command', error);
-        await interaction.reply({ content: 'Error on executing command', ephemeral: true });
-    }
+    });
 });
 const messageCommands = {
     '&register': functions_export_1.register,
@@ -100,19 +114,25 @@ client.on('messageCreate', async (message) => {
     const channel_id = message.channel.id;
     const [command, ...args] = message.content.trim().split(/\s+/);
     if (messageCommands[command]) {
-        if ((!guild_id || !channel_id || !(await canBotSendMessage(guild_id, channel_id)))
-            && command !== '&unsetchannel'
-            && command !== '&setchannel') {
-            message.reply("I can't send messages in this channel :x:");
-            return;
-        }
-        try {
-            await messageCommands[command](message, args);
-        }
-        catch (err) {
-            console.error(`Erro ao executar o comando ${command}:`, err);
-            message.reply('Houve um erro ao executar este comando :x:');
-        }
+        taskQueue.addTask({
+            interaction: message,
+            execute: async (message) => {
+                if ((!guild_id || !channel_id ||
+                    !(await canBotSendMessage(guild_id, channel_id))) &&
+                    command !== '&unsetchannel' &&
+                    command !== '&setchannel') {
+                    await message.reply("I can't send messages in this channel :x:");
+                    return;
+                }
+                try {
+                    await messageCommands[command](message, args);
+                }
+                catch (err) {
+                    console.error(`Error executing command ${command}:`, err);
+                    await message.reply('Error executing command');
+                }
+            }
+        });
     }
 });
 async function canBotSendMessage(guild_id, channel_id) {

@@ -159,20 +159,22 @@ async function open(interaction) {
                 const players = await (0, dbQuerys_1.getPlayersForPack)(pack_type);
                 players.sort((a, b) => b.player_rank - a.player_rank);
                 for (const player of players) {
-                    const playerEmbed = await (0, auxiliarfunctions_export_1.playerEmbedBuilder)(player);
-                    packEmbeds.push(playerEmbed);
+                    console.log(`Processing player ID: ${player.player_id}, Current user ID: ${player.user_id}`);
                     if (!player.player_id || !player.player_cost) {
                         interaction.reply('Bruh that condition is impossible');
                         return;
                     }
                     if (player.user_id) {
-                        await (0, dbQuerys_1.updateUserCoins)(user_db.user_id, user_db.user_coins + player.player_cost);
                         repeatedCardsValue += player.player_cost;
                     }
                     else {
                         await (0, dbQuerys_1.updatePlayerStatus)(player.player_id, user_db.user_id);
                     }
+                    const updatedPlayer = await (0, dbQuerys_1.findPlayerById)(player.player_id);
+                    const playerEmbed = await (0, auxiliarfunctions_export_1.playerEmbedBuilder)(updatedPlayer);
+                    packEmbeds.push(playerEmbed);
                 }
+                await (0, dbQuerys_1.updateUserCoins)(user_db.user_id, user_db.user_coins + repeatedCardsValue);
                 await (0, auxiliarfunctions_export_1.embedPagination)(interaction, packEmbeds, `Your ${pack_type} pack was opened! Check what is inside:`, false);
                 if (repeatedCardsValue > 0) {
                     if (interaction.channel.isSendable())

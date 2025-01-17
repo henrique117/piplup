@@ -1,5 +1,5 @@
 import { CommandInteraction, EmbedBuilder, Message, MessageFlags } from 'discord.js'
-import { findUser, getPlayersForPack, updatePlayerStatus, updateUserCoins, updateUserPacks } from '../database/dbQuerys'
+import { findPlayer, findPlayerById, findUser, getPlayersForPack, updatePlayerStatus, updateUserCoins, updateUserPacks } from '../database/dbQuerys'
 import { embedPagination, playerEmbedBuilder, openmultiplepacksEmbedBuilder } from '../auxiliarfunctions/auxiliarfunctions.export'
 
 export default async function open(interaction: CommandInteraction | Message) {
@@ -170,33 +170,37 @@ export default async function open(interaction: CommandInteraction | Message) {
 
         if(pack_number == 1) {
             try {
-
                 const players = await getPlayersForPack(pack_type)
                 players.sort((a, b) => b.player_rank - a.player_rank)
-    
-                for(const player of players) {
-                    const playerEmbed = await playerEmbedBuilder(player)
-                    packEmbeds.push(playerEmbed)
-    
-                    if(!player.player_id || !player.player_cost) {
+            
+                for (const player of players) {
+                    console.log(`Processing player ID: ${player.player_id}, Current user ID: ${player.user_id}`)
+            
+                    if (!player.player_id || !player.player_cost) {
                         interaction.reply('Bruh that condition is impossible')
                         return
                     }
-    
-                    if(player.user_id) {
-                        await updateUserCoins(user_db.user_id, user_db.user_coins + player.player_cost)
+            
+                    if (player.user_id) {
                         repeatedCardsValue += player.player_cost
                     } else {
                         await updatePlayerStatus(player.player_id, user_db.user_id)
                     }
+            
+                    const updatedPlayer = await findPlayerById(player.player_id)
+                    const playerEmbed = await playerEmbedBuilder(updatedPlayer)
+                    packEmbeds.push(playerEmbed)
                 }
-    
+            
+                await updateUserCoins(user_db.user_id, user_db.user_coins + repeatedCardsValue)
+            
                 await embedPagination(interaction, packEmbeds, `Your ${pack_type} pack was opened! Check what is inside:`, false)
-                if(repeatedCardsValue > 0) {
-                    if(interaction.channel.isSendable()) await interaction.channel.send(`Some cards of your pack already has an owner... so you get their value: **+${repeatedCardsValue}** :coin:`)
+            
+                if (repeatedCardsValue > 0) {
+                    if (interaction.channel.isSendable())
+                        await interaction.channel.send(`Some cards of your pack already has an owner... so you get their value: **+${repeatedCardsValue}** :coin:`)
                 }
                 return
-    
             } catch (err) {
                 interaction.reply('Error on open function')
                 console.error('Error on open function:', interaction.author.id, err)

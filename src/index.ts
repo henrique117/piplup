@@ -1,9 +1,10 @@
-import { Client, Collection, GatewayIntentBits, Interaction, Message } from 'discord.js'
+import { Client, Collection, CommandInteraction, GatewayIntentBits, Interaction, Message } from 'discord.js'
 import * as dotenv from 'dotenv'
 import * as fs from 'fs'
 import * as path from 'path'
 import { register, transfer, balance, shop, info, buy, player, mypacks, open, github, myplayers, sell, unsetchannel, setchannel, help, sellall } from './functions/functions.export'
 import { channelList, updateUserPacks, usersList } from './database/dbQuerys'
+import { TaskQueue } from './classes/taskQueue'
 
 dotenv.config()
 
@@ -26,6 +27,8 @@ for (const file of commandFiles) {
 }
 
 let lastHour = new Date().getUTCHours()
+
+const taskQueue = new TaskQueue()
 
 setInterval(async () => {
     const currentHour = new Date().getUTCHours()
@@ -62,17 +65,27 @@ client.on('interactionCreate', async (interaction: Interaction) => {
         return
     }
 
-    try {
-        if ((!interaction.guild?.id || !interaction.channel?.id || !(await canBotSendMessage(interaction.guild.id, interaction.channel.id))) && interaction.commandName !== 'unsetchannel' && interaction.commandName !== 'setchannel') {
-            interaction.reply("I can't send messages in this channel :x:")
-            return
+    taskQueue.addTask({
+        interaction,
+        execute: async (interaction: CommandInteraction | Message) => {
+            if(interaction instanceof CommandInteraction) {
+                if ((!interaction.guild?.id || !interaction.channel?.id || 
+                    !(await canBotSendMessage(interaction.guild.id, interaction.channel.id))) &&
+                    interaction.commandName !== 'unsetchannel' &&
+                    interaction.commandName !== 'setchannel') {
+                    await interaction.reply("I can't send messages in this channel :x:")
+                    return
+                }
+    
+                try {
+                    await command.execute(interaction)
+                } catch (error) {
+                    console.error('Error on executing command', error)
+                    await interaction.reply({ content: 'Error on executing command', ephemeral: true })
+                }
+            } else return
         }
-
-        await command.execute(interaction)
-    } catch (error) {
-        console.error('Error on executing command', error)
-        await interaction.reply({ content: 'Error on executing command', ephemeral: true })
-    }
+    })
 })
 
 const messageCommands: Record<string, Function> = {
@@ -116,19 +129,25 @@ client.on('messageCreate', async (message: Message) => {
     const [command, ...args] = message.content.trim().split(/\s+/)
 
     if (messageCommands[command]) {
-        if ((!guild_id || !channel_id || !(await canBotSendMessage(guild_id, channel_id))) 
-            && command !== '&unsetchannel' 
-            && command !== '&setchannel') {
-            message.reply("I can't send messages in this channel :x:")
-            return
-        }
+        taskQueue.addTask({
+            interaction: message,
+            execute: async (message: CommandInteraction | Message) => {
+                if ((!guild_id || !channel_id || 
+                    !(await canBotSendMessage(guild_id, channel_id))) &&
+                    command !== '&unsetchannel' &&
+                    command !== '&setchannel') {
+                    await message.reply("I can't send messages in this channel :x:")
+                    return
+                }
 
-        try {
-            await messageCommands[command](message, args)
-        } catch (err) {
-            console.error(`Erro ao executar o comando ${command}:`, err)
-            message.reply('Houve um erro ao executar este comando :x:')
-        }
+                try {
+                    await messageCommands[command](message, args)
+                } catch (err) {
+                    console.error(`Error executing command ${command}:`, err)
+                    await message.reply('Error executing command')
+                }
+            }
+        })
     }
 })
 
