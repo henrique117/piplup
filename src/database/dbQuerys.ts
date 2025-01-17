@@ -227,21 +227,6 @@ export const usersList = async (): Promise<UserInterface[]> => {
     })
 }
 
-export const playersfudido = async (): Promise<PlayerInterface[]> => {
-    const query = `SELECT * FROM Players WHERE user_id IS NOT NULL`
-
-    return new Promise((resolve, reject) => {
-        db.all(query, [], (err, rows: PlayerInterface[]) => {
-            if(err) {
-                console.error(`Error fetching users: ${err.message}`)
-                reject(err)
-            } else {
-                resolve(rows)
-            }
-        })
-    })
-}
-
 export const channelList = async (guild_id: string): Promise<ChannelInterface[]> => {
     const query = `SELECT * FROM Channels WHERE guild_id = ?`
 
