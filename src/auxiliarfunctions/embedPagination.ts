@@ -1,6 +1,6 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction, ComponentType, EmbedBuilder, Message } from 'discord.js'
 
-export default async function embedPagination(interaction: CommandInteraction | Message, pages: EmbedBuilder[], string?: string, disapear: boolean = false, time: number = 20000) {
+export default async function embedPagination(interaction: CommandInteraction | Message, pages: EmbedBuilder[], string?: string, disapear: boolean = false, time: number = 40000) {
     if (interaction instanceof CommandInteraction) {
         try {
             if (!interaction || !pages || pages.length === 0) throw new Error('No pages found')

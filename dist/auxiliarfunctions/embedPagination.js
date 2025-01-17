@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
-async function embedPagination(interaction, pages, string, disapear = false, time = 20000) {
+async function embedPagination(interaction, pages, string, disapear = false, time = 40000) {
     if (interaction instanceof discord_js_1.CommandInteraction) {
         try {
             if (!interaction || !pages || pages.length === 0)
