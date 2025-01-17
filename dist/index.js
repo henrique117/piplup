@@ -12,7 +12,10 @@ const client = new discord_js_1.Client({
     intents: [
         discord_js_1.GatewayIntentBits.Guilds,
         discord_js_1.GatewayIntentBits.GuildMessages,
-        discord_js_1.GatewayIntentBits.MessageContent
+        discord_js_1.GatewayIntentBits.MessageContent,
+        discord_js_1.GatewayIntentBits.GuildMessageReactions,
+        discord_js_1.GatewayIntentBits.DirectMessages,
+        discord_js_1.GatewayIntentBits.DirectMessageReactions
     ]
 });
 client.commands = new discord_js_1.Collection();
@@ -93,7 +96,8 @@ const messageCommands = {
     '&help': functions_export_1.help,
     '&h': functions_export_1.help,
     '&sellall': functions_export_1.sellall,
-    '&sa': functions_export_1.sellall
+    '&sa': functions_export_1.sellall,
+    '&trade': functions_export_1.trade
 };
 client.on('messageCreate', async (message) => {
     if (message.author.bot)
