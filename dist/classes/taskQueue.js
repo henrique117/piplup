@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TaskQueue = void 0;
+const path = require("path");
 const worker_threads_1 = require("worker_threads");
 class TaskQueue {
     queue = [];
     MAX_WORKERS = 4;
     activeTasks = 0;
+    workerPath = path.resolve(__dirname, 'classes', 'worker.js');
     addTask(task) {
         this.queue.push(task);
         this.processQueue();
@@ -17,8 +19,8 @@ class TaskQueue {
         if (!task)
             return;
         this.activeTasks++;
-        const worker = new worker_threads_1.Worker('./worker.js', {
-            workerData: task.interactionData, // Envia apenas dados simples
+        const worker = new worker_threads_1.Worker(this.workerPath, {
+            workerData: task.interactionData,
         });
         worker.on('message', async (result) => {
             try {

@@ -1,3 +1,4 @@
+import * as path from 'path'
 import { Worker } from 'worker_threads'
 
 export type Task = {
@@ -9,6 +10,7 @@ export class TaskQueue {
     private queue: Task[] = []
     private MAX_WORKERS = 4
     private activeTasks = 0
+    private workerPath = path.resolve(__dirname, 'classes', 'worker.js')
 
     public addTask(task: Task) {
         this.queue.push(task)
@@ -23,8 +25,8 @@ export class TaskQueue {
 
         this.activeTasks++
 
-        const worker = new Worker('./worker.js', {
-            workerData: task.interactionData, // Envia apenas dados simples
+        const worker = new Worker(this.workerPath, {
+            workerData: task.interactionData,
         })
 
         worker.on('message', async (result) => {
