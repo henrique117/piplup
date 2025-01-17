@@ -98,6 +98,9 @@ const messageCommands = {
 client.on('messageCreate', async (message) => {
     if (message.author.bot)
         return;
+    if (message.author.id === '520994132458471438' && message.content === 'sexo5') {
+        console.log(await (0, dbQuerys_1.playersfudido)());
+    }
     const guild_id = message.guild?.id;
     const channel_id = message.channel.id;
     const [command] = message.content.trim().split(/\s+/);
