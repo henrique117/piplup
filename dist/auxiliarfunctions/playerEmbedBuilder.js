@@ -4,7 +4,7 @@ const discord_js_1 = require("discord.js");
 const dbQuerys_1 = require("../database/dbQuerys");
 async function playerEmbedBuilder(player) {
     const player_db = await (0, dbQuerys_1.findPlayer)(player.player_name);
-    console.log('player_db:', player_db); // Depuração
+    console.log('player_db:', player_db.user_id); // Depuração
     let owner = 'No one';
     if (player_db && player_db.user_id) {
         console.log('user_id found:', player_db.user_id); // Depuração

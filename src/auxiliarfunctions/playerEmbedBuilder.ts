@@ -5,7 +5,7 @@ import { findPlayer, findUser } from '../database/dbQuerys'
 export default async function playerEmbedBuilder(player: PlayerInterface): Promise<EmbedBuilder> {
 
     const player_db = await findPlayer(player.player_name)
-    console.log('player_db:', player_db); // Depuração
+    console.log('player_db:', player_db.user_id); // Depuração
 
     let owner: string = 'No one'
 
