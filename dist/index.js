@@ -53,26 +53,25 @@ client.on('interactionCreate', async (interaction) => {
         return;
     }
     taskQueue.addTask({
-        interaction,
-        execute: async (interaction) => {
-            if (interaction instanceof discord_js_1.CommandInteraction) {
-                if ((!interaction.guild?.id || !interaction.channel?.id ||
-                    !(await canBotSendMessage(interaction.guild.id, interaction.channel.id))) &&
-                    interaction.commandName !== 'unsetchannel' &&
-                    interaction.commandName !== 'setchannel') {
-                    await interaction.reply("I can't send messages in this channel :x:");
-                    return;
-                }
-                try {
-                    await command.execute(interaction);
-                }
-                catch (error) {
-                    console.error('Error on executing command', error);
-                    await interaction.reply({ content: 'Error on executing command', ephemeral: true });
-                }
-            }
-            else
+        interactionData: {
+            commandName: interaction.commandName,
+            guildId: interaction.guild?.id,
+            channelId: interaction.channel?.id,
+            userId: interaction.user?.id,
+        },
+        execute: async (data) => {
+            if (!data.guildId || !data.channelId ||
+                !(await canBotSendMessage(data.guildId, data.channelId))) {
+                await interaction.reply("I can't send messages in this channel :x:");
                 return;
+            }
+            try {
+                await command.execute(interaction);
+            }
+            catch (error) {
+                console.error('Error on executing command', error);
+                await interaction.reply({ content: 'Error on executing command', ephemeral: true });
+            }
         }
     });
 });
@@ -110,17 +109,22 @@ const messageCommands = {
 client.on('messageCreate', async (message) => {
     if (message.author.bot)
         return;
-    const guild_id = message.guild?.id;
-    const channel_id = message.channel.id;
     const [command, ...args] = message.content.trim().split(/\s+/);
     if (messageCommands[command]) {
+        const guild_id = message.guild?.id;
+        const channel_id = message.channel.id;
         taskQueue.addTask({
-            interaction: message,
-            execute: async (message) => {
-                if ((!guild_id || !channel_id ||
-                    !(await canBotSendMessage(guild_id, channel_id))) &&
-                    command !== '&unsetchannel' &&
-                    command !== '&setchannel') {
+            interactionData: {
+                command,
+                args,
+                guildId: guild_id,
+                channelId: channel_id,
+                userId: message.author.id,
+            },
+            execute: async (data) => {
+                if ((!data.guildId || !data.channelId ||
+                    !(await canBotSendMessage(data.guildId, data.channelId))) &&
+                    command !== '&unsetchannel' && command !== '&setchannel') {
                     await message.reply("I can't send messages in this channel :x:");
                     return;
                 }
@@ -128,8 +132,8 @@ client.on('messageCreate', async (message) => {
                     await messageCommands[command](message, args);
                 }
                 catch (err) {
-                    console.error(`Error executing command ${command}:`, err);
-                    await message.reply('Error executing command');
+                    console.error(`Erro ao executar o comando ${command}:`, err);
+                    await message.reply('Houve um erro ao executar este comando :x:');
                 }
             }
         });

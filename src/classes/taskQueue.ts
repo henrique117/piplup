@@ -1,15 +1,13 @@
-import { CommandInteraction, Message } from 'discord.js'
 import { Worker } from 'worker_threads'
 
 export type Task = {
-    interaction: CommandInteraction | Message
-    execute: (interaction: CommandInteraction | Message) => Promise<void>
+    interactionData: any,
+    execute: (interactionData: any) => Promise<void>
 }
 
 export class TaskQueue {
     private queue: Task[] = []
     private MAX_WORKERS = 4
-    private workers: Worker[] = []
     private activeTasks = 0
 
     public addTask(task: Task) {
@@ -25,14 +23,17 @@ export class TaskQueue {
 
         this.activeTasks++
 
-        const worker = new Worker('./worker.js')
-        this.workers.push(worker)
+        const worker = new Worker('./worker.js', {
+            workerData: task.interactionData, // Envia apenas dados simples
+        })
 
-        worker.postMessage(task)
-
-        worker.on('message', () => {
-            this.activeTasks--
-            this.processQueue()
+        worker.on('message', async (result) => {
+            try {
+                await task.execute(result)
+            } finally {
+                this.activeTasks--
+                this.processQueue()
+            }
         })
 
         worker.on('error', (err) => {

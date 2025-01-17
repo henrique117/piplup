@@ -5,7 +5,6 @@ const worker_threads_1 = require("worker_threads");
 class TaskQueue {
     queue = [];
     MAX_WORKERS = 4;
-    workers = [];
     activeTasks = 0;
     addTask(task) {
         this.queue.push(task);
@@ -18,12 +17,17 @@ class TaskQueue {
         if (!task)
             return;
         this.activeTasks++;
-        const worker = new worker_threads_1.Worker('./worker.js');
-        this.workers.push(worker);
-        worker.postMessage(task);
-        worker.on('message', () => {
-            this.activeTasks--;
-            this.processQueue();
+        const worker = new worker_threads_1.Worker('./worker.js', {
+            workerData: task.interactionData, // Envia apenas dados simples
+        });
+        worker.on('message', async (result) => {
+            try {
+                await task.execute(result);
+            }
+            finally {
+                this.activeTasks--;
+                this.processQueue();
+            }
         });
         worker.on('error', (err) => {
             console.error('Erro no worker:', err);
