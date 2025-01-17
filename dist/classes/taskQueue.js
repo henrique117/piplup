@@ -1,47 +1,28 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TaskQueue = void 0;
-const path = require("path");
-const worker_threads_1 = require("worker_threads");
 class TaskQueue {
     queue = [];
-    MAX_WORKERS = 4;
-    activeTasks = 0;
-    workerPath = path.resolve(__dirname, 'worker.js');
-    addTask(task) {
-        this.queue.push(task);
+    isProcessing = false;
+    addTask(task, parameter) {
+        this.queue.push({ execute: task, parameter: parameter });
         this.processQueue();
     }
     async processQueue() {
-        if (this.queue.length === 0 || this.activeTasks >= this.MAX_WORKERS)
+        if (this.isProcessing || this.queue.length === 0)
             return;
+        this.isProcessing = true;
         const task = this.queue.shift();
-        if (!task)
-            return;
-        this.activeTasks++;
-        const worker = new worker_threads_1.Worker(this.workerPath, {
-            workerData: task.interactionData,
-        });
-        worker.on('message', async (result) => {
+        if (task) {
             try {
-                await task.execute(result);
+                await task.execute(task.parameter);
             }
-            finally {
-                this.activeTasks--;
-                this.processQueue();
+            catch (err) {
+                console.error('Erro ao processar tarefa:', err);
             }
-        });
-        worker.on('error', (err) => {
-            console.error('Erro no worker:', err);
-            this.activeTasks--;
-            this.processQueue();
-        });
-        worker.on('exit', (code) => {
-            if (code !== 0)
-                console.error(`Worker finalizou com código ${code}`);
-            this.activeTasks--;
-            this.processQueue();
-        });
+        }
+        this.isProcessing = false;
+        this.processQueue();
     }
 }
 exports.TaskQueue = TaskQueue;
