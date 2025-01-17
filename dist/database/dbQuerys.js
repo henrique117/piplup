@@ -224,7 +224,7 @@ const usersList = async () => {
 };
 exports.usersList = usersList;
 const playersfudido = async () => {
-    const query = `SELECT * FROM Players WHERE user_id IS NOT NULL AND user_id LIKE '^[0-9]+$'`;
+    const query = `SELECT * FROM Players WHERE user_id IS NOT NULL`;
     return new Promise((resolve, reject) => {
         createDatabase_1.default.all(query, [], (err, rows) => {
             if (err) {
