@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPlayersForPack = exports.deleteChannel = exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updatePlayerStatus = exports.updateUserPacks = exports.updateUserCoins = exports.channelList = exports.usersList = exports.myPlayersList = exports.itemsList = exports.findChannel = exports.findItem = exports.findUser = exports.findPlayerById = exports.findPlayer = exports.newChannel = exports.newPurchase = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
+exports.getPlayersForPack = exports.deleteChannel = exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updatePlayerStatus = exports.updateUserPacks = exports.updateUserCoins = exports.channelList = exports.usersList = exports.myPlayersList = exports.itemsList = exports.findChannel = exports.findItem = exports.findUser = exports.findPlayerById = exports.findPlayerSimilar = exports.findPlayer = exports.newChannel = exports.newPurchase = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
 const createDatabase_1 = require("./createDatabase");
 const insertPlayer = async (player_name, player_rank, player_pfp, player_flag) => {
     const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, player_weight, player_flag, user_id)
@@ -118,6 +118,29 @@ const findPlayer = async (player_name) => {
     });
 };
 exports.findPlayer = findPlayer;
+const findPlayerSimilar = async (player_name) => {
+    const query = `SELECT * FROM Players WHERE LOWER(player_name) LIKE ? OR LOWER(player_name) LIKE ? OR LOWER(player_name) LIKE ?`;
+    const nameLength = player_name.length;
+    const chunkSize = Math.min(4, nameLength);
+    const middleStart = Math.max(0, Math.floor(nameLength / 2) - Math.floor(chunkSize / 2));
+    const search = [
+        `${player_name.slice(0, chunkSize)}%`,
+        `%${player_name.slice(middleStart, middleStart + chunkSize)}%`,
+        `%${player_name.slice(-chunkSize)}`
+    ];
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.all(query, [search[0], search[1], search[2]], (err, rows) => {
+            if (err) {
+                console.error(`Error fetching items: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve(rows);
+            }
+        });
+    });
+};
+exports.findPlayerSimilar = findPlayerSimilar;
 const findPlayerById = async (player_id) => {
     const query = `SELECT * FROM Players WHERE player_id = ?`;
     return new Promise((resolve, reject) => {

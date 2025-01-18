@@ -1,6 +1,6 @@
 import { CommandInteraction, Message, MessageFlags } from 'discord.js'
 import { playerEmbedBuilder } from '../auxiliarfunctions/auxiliarfunctions.export'
-import { findPlayerById, findPlayer } from '../database/dbQuerys'
+import { findPlayerById, findPlayer, findPlayerSimilar } from '../database/dbQuerys'
 import { PlayerInterface } from '../interfaces/interfaces.export'
 
 export default async function info(interaction: CommandInteraction | Message): Promise<void> {
@@ -9,7 +9,7 @@ export default async function info(interaction: CommandInteraction | Message): P
         const query = interaction.options.get('query', true).value?.toString()
 
         if(!query) {
-            interaction.reply({ content: 'Bruh', flags: MessageFlags.Ephemeral})
+            await interaction.reply({ content: 'Bruh', flags: MessageFlags.Ephemeral})
             console.error('Bruh')
             return
         }
@@ -18,7 +18,7 @@ export default async function info(interaction: CommandInteraction | Message): P
         const name_regex = /^"(.+)"$/
 
         if(!id_regex.exec(query) && !name_regex.exec(query)) {
-            interaction.reply({ content: 'Type a valid ID or use " " to search by name', flags: MessageFlags.Ephemeral})
+            await interaction.reply({ content: 'Type a valid ID or use " " to search by name', flags: MessageFlags.Ephemeral})
             return
         }
 
@@ -32,14 +32,24 @@ export default async function info(interaction: CommandInteraction | Message): P
             player_db = null
         }
 
+        let string: string = `Player **${query}** not found...`
+
         if(!player_db) {
-            interaction.reply({ content: 'Player not found...', flags: MessageFlags.Ephemeral})
+            if(name_regex.exec(query)) {
+                const playersSimilar = await findPlayerSimilar(query.split('"')[1].toLowerCase())
+                const playersSimilarString = playersSimilar.map((player: PlayerInterface) => `**${player.player_name} (#${player.player_rank})**`).join('\n')
+
+                if(playersSimilar.length > 0) {
+                    string += `\n\nAre you searching for one of those:\n\n${playersSimilarString}`
+                }
+            }
+            await interaction.reply({ content: string })
             return
         }
 
         const playerEmbed = await playerEmbedBuilder(player_db)
 
-        interaction.reply({ embeds: [playerEmbed] })
+        await interaction.reply({ embeds: [playerEmbed] })
         return
     }
 
@@ -70,8 +80,18 @@ export default async function info(interaction: CommandInteraction | Message): P
             player_db = null
         }
 
+        let string: string = `Player **${query}** not found...`
+
         if(!player_db) {
-            interaction.reply('Player not found...')
+            if(name_regex.exec(query)) {
+                const playersSimilar = await findPlayerSimilar(query.split('"')[1].toLowerCase())
+                const playersSimilarString = playersSimilar.map((player: PlayerInterface) => `**${player.player_name} (#${player.player_rank})**`).join('\n')
+
+                if(playersSimilar.length > 0) {
+                    string += `\n\nAre you searching for one of those:\n\n${playersSimilarString}`
+                }
+            }
+            await interaction.reply(string )
             return
         }
 

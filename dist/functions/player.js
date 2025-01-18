@@ -7,14 +7,14 @@ async function info(interaction) {
     if (interaction instanceof discord_js_1.CommandInteraction) {
         const query = interaction.options.get('query', true).value?.toString();
         if (!query) {
-            interaction.reply({ content: 'Bruh', flags: discord_js_1.MessageFlags.Ephemeral });
+            await interaction.reply({ content: 'Bruh', flags: discord_js_1.MessageFlags.Ephemeral });
             console.error('Bruh');
             return;
         }
         const id_regex = /^\d+/;
         const name_regex = /^"(.+)"$/;
         if (!id_regex.exec(query) && !name_regex.exec(query)) {
-            interaction.reply({ content: 'Type a valid ID or use " " to search by name', flags: discord_js_1.MessageFlags.Ephemeral });
+            await interaction.reply({ content: 'Type a valid ID or use " " to search by name', flags: discord_js_1.MessageFlags.Ephemeral });
             return;
         }
         let player_db;
@@ -27,12 +27,20 @@ async function info(interaction) {
         else {
             player_db = null;
         }
+        let string = `Player **${query}** not found...`;
         if (!player_db) {
-            interaction.reply({ content: 'Player not found...', flags: discord_js_1.MessageFlags.Ephemeral });
+            if (name_regex.exec(query)) {
+                const playersSimilar = await (0, dbQuerys_1.findPlayerSimilar)(query.split('"')[1].toLowerCase());
+                const playersSimilarString = playersSimilar.map((player) => `**${player.player_name} (#${player.player_rank})**`).join('\n');
+                if (playersSimilar.length > 0) {
+                    string += `\n\nAre you searching for one of those:\n\n${playersSimilarString}`;
+                }
+            }
+            await interaction.reply({ content: string });
             return;
         }
         const playerEmbed = await (0, auxiliarfunctions_export_1.playerEmbedBuilder)(player_db);
-        interaction.reply({ embeds: [playerEmbed] });
+        await interaction.reply({ embeds: [playerEmbed] });
         return;
     }
     if (interaction instanceof discord_js_1.Message) {
@@ -58,8 +66,16 @@ async function info(interaction) {
         else {
             player_db = null;
         }
+        let string = `Player **${query}** not found...`;
         if (!player_db) {
-            interaction.reply('Player not found...');
+            if (name_regex.exec(query)) {
+                const playersSimilar = await (0, dbQuerys_1.findPlayerSimilar)(query.split('"')[1].toLowerCase());
+                const playersSimilarString = playersSimilar.map((player) => `**${player.player_name} (#${player.player_rank})**`).join('\n');
+                if (playersSimilar.length > 0) {
+                    string += `\n\nAre you searching for one of those:\n\n${playersSimilarString}`;
+                }
+            }
+            await interaction.reply(string);
             return;
         }
         const playerEmbed = await (0, auxiliarfunctions_export_1.playerEmbedBuilder)(player_db);

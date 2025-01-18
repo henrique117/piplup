@@ -122,6 +122,31 @@ export const findPlayer = async (player_name: string): Promise<PlayerInterface> 
     })
 }
 
+export const findPlayerSimilar = async (player_name: string): Promise<PlayerInterface[]> => {
+    const query = `SELECT * FROM Players WHERE LOWER(player_name) LIKE ? OR LOWER(player_name) LIKE ? OR LOWER(player_name) LIKE ?`
+
+    const nameLength: number = player_name.length
+    const chunkSize: number = Math.min(4, nameLength)
+    const middleStart: number = Math.max(0, Math.floor(nameLength / 2) - Math.floor(chunkSize / 2))
+
+    const search = [
+        `${player_name.slice(0, chunkSize)}%`,
+        `%${player_name.slice(middleStart, middleStart + chunkSize)}%`,
+        `%${player_name.slice(-chunkSize)}`
+    ]
+
+    return new Promise((resolve, reject) => {
+        db.all(query, [search[0], search[1], search[2]], (err, rows: PlayerInterface[]) => {
+            if(err) {
+                console.error(`Error fetching items: ${err.message}`)
+                reject(err)
+            } else {
+                resolve(rows)
+            }
+        })
+    })
+}
+
 export const findPlayerById = async (player_id: number): Promise<PlayerInterface> => {
     const query = `SELECT * FROM Players WHERE player_id = ?`
 
