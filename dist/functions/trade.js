@@ -113,7 +113,7 @@ async function collectPlayersOnDM(channel, user_db, target_db, interaction, user
         const dmCollector = channel.createMessageCollector({ filter: dm_filter, time: 90000 });
         const id_regex = /^\d+$/;
         const name_regex = /^"(.+)"$/;
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _) => {
             dmCollector.on('collect', async (dm_message) => {
                 if (dm_message.content === 'done') {
                     dm_message.react('👍');
@@ -159,7 +159,7 @@ async function collectPlayersOnDM(channel, user_db, target_db, interaction, user
             dmCollector.on('end', async (_, reason) => {
                 if (reason !== 'done') {
                     await channel.send('Timer expired. Your trade was sent in the current state.');
-                    reject('Time expired');
+                    resolve();
                     return;
                 }
                 resolve();
