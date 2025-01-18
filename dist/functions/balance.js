@@ -18,7 +18,7 @@ async function balance(interaction) {
             return;
         }
         const name = user_db.user_globalName ? user_db.user_globalName : user_db.user_globalName;
-        interaction.reply({ content: `User ${name} has **${user_db.user_coins} coins**`, flags: discord_js_1.MessageFlags.Ephemeral });
+        interaction.reply({ content: `User **${name}** has **${user_db.user_coins}** :coin:`, flags: discord_js_1.MessageFlags.Ephemeral });
         return;
     }
     if (interaction instanceof discord_js_1.Message) {
@@ -35,7 +35,7 @@ async function balance(interaction) {
             return;
         }
         const name = user_db.user_globalName ? user_db.user_globalName : user_db.user_globalName;
-        interaction.reply(`User ${name} has **${user_db.user_coins} coins**`);
+        interaction.reply(`User **${name}** has **${user_db.user_coins}** :coin:`);
     }
 }
 exports.default = balance;

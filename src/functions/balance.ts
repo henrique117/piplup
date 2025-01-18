@@ -23,7 +23,7 @@ export default async function balance(interaction: CommandInteraction | Message)
 
         const name = user_db.user_globalName ? user_db.user_globalName : user_db.user_globalName
 
-        interaction.reply({ content: `User ${name} has **${user_db.user_coins} coins**`, flags: MessageFlags.Ephemeral})
+        interaction.reply({ content: `User **${name}** has **${user_db.user_coins}** :coin:`, flags: MessageFlags.Ephemeral})
 
         return
     }
@@ -50,6 +50,6 @@ export default async function balance(interaction: CommandInteraction | Message)
 
         const name = user_db.user_globalName ? user_db.user_globalName : user_db.user_globalName
 
-        interaction.reply(`User ${name} has **${user_db.user_coins} coins**`)
+        interaction.reply(`User **${name}** has **${user_db.user_coins}** :coin:`)
     }
 }
