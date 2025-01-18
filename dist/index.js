@@ -97,7 +97,10 @@ const messageCommands = {
     '&h': functions_export_1.help,
     '&sellall': functions_export_1.sellall,
     '&sa': functions_export_1.sellall,
-    '&trade': functions_export_1.trade
+    '&trade': functions_export_1.trade,
+    '&tr': functions_export_1.trade,
+    '&myplayersimage': functions_export_1.myplayersimage,
+    '&mpli': functions_export_1.myplayersimage
 };
 client.on('messageCreate', async (message) => {
     if (message.author.bot)

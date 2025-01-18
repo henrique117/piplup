@@ -222,7 +222,7 @@ async function confirmTrade(channel: TextChannel, user_db: UserInterface, target
         return
     }
 
-    const finalTrade = await channel.send(`Trade ended! <@${user_db.user_id}> <@${target_db.user_id}>\n\n## ${user_db.user_globalName ? user_db.user_globalName : user_db.user_username}'s offer:\n${userString}\n\n**${target_db.user_globalName ? target_db.user_globalName : target_db.user_username}'s offer:**\n${targetString}\n\nReact both to this message with ✅ to confirm the trade or react with ❌ to decline the trade`)
+    const finalTrade = await channel.send(`Trade ended! <@${user_db.user_id}> <@${target_db.user_id}>\n\n## ${user_db.user_globalName ? user_db.user_globalName : user_db.user_username}'s offer:\n${userString}\n\n## ${target_db.user_globalName ? target_db.user_globalName : target_db.user_username}'s offer:\n${targetString}\n\nReact both to this message with ✅ to confirm the trade or react with ❌ to decline the trade`)
 
     await finalTrade.react('✅')
     await finalTrade.react('❌')

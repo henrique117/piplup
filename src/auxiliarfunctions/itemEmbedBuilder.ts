@@ -1,7 +1,7 @@
 import { EmbedBuilder } from 'discord.js'
 import { ItemInterface } from '../interfaces/interfaces.export'
 
-export default async function shopEmbedBuilder(item: ItemInterface): Promise<EmbedBuilder> {
+export default async function itemEmbedBuilder(item: ItemInterface): Promise<EmbedBuilder> {
 
     return new EmbedBuilder()
         .setColor('Aqua')

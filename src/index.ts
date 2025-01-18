@@ -2,7 +2,7 @@ import { Client, Collection, CommandInteraction, GatewayIntentBits, Interaction,
 import * as dotenv from 'dotenv'
 import * as fs from 'fs'
 import * as path from 'path'
-import { register, transfer, balance, shop, info, buy, player, mypacks, open, github, myplayers, sell, unsetchannel, setchannel, help, sellall, trade } from './functions/functions.export'
+import { register, transfer, balance, shop, info, buy, player, mypacks, open, github, myplayers, sell, unsetchannel, setchannel, help, sellall, trade, myplayersimage } from './functions/functions.export'
 import { channelList, updateUserPacks, usersList } from './database/dbQuerys'
 import { TaskQueue } from './classes/taskQueue'
 
@@ -113,7 +113,10 @@ const messageCommands: Record<string, CommandFunction> = {
     '&h': help,
     '&sellall': sellall,
     '&sa': sellall,
-    '&trade': trade
+    '&trade': trade,
+    '&tr' : trade,
+    '&myplayersimage': myplayersimage,
+    '&mpli': myplayersimage
 }
 
 client.on('messageCreate', async (message: Message) => {
