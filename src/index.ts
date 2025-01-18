@@ -125,7 +125,7 @@ client.on('messageCreate', async (message: Message) => {
     const guild_id = message.guild?.id
     const channel_id = message.channel.id
 
-    if(message.content.toLowerCase() === 'que') {
+    if(message.content.toLowerCase().endsWith('que')) {
         message.reply('ijo')
         return
     }
