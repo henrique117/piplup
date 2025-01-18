@@ -119,7 +119,7 @@ const findPlayer = async (player_name) => {
 };
 exports.findPlayer = findPlayer;
 const findPlayerSimilar = async (player_name) => {
-    const query = `SELECT * FROM Players WHERE LOWER(player_name) LIKE ? OR LOWER(player_name) LIKE ? OR LOWER(player_name) LIKE ?`;
+    const query = `SELECT * FROM Players WHERE LOWER(player_name) LIKE ? OR LOWER(player_name) LIKE ? OR LOWER(player_name) LIKE ? ORDER BY player_rank LIMIT 10`;
     const nameLength = player_name.length;
     const chunkSize = Math.min(4, nameLength);
     const middleStart = Math.max(0, Math.floor(nameLength / 2) - Math.floor(chunkSize / 2));

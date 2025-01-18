@@ -123,7 +123,7 @@ export const findPlayer = async (player_name: string): Promise<PlayerInterface> 
 }
 
 export const findPlayerSimilar = async (player_name: string): Promise<PlayerInterface[]> => {
-    const query = `SELECT * FROM Players WHERE LOWER(player_name) LIKE ? OR LOWER(player_name) LIKE ? OR LOWER(player_name) LIKE ?`
+    const query = `SELECT * FROM Players WHERE LOWER(player_name) LIKE ? OR LOWER(player_name) LIKE ? OR LOWER(player_name) LIKE ? ORDER BY player_rank LIMIT 10`
 
     const nameLength: number = player_name.length
     const chunkSize: number = Math.min(4, nameLength)
