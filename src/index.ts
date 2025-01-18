@@ -120,10 +120,15 @@ const messageCommands: Record<string, CommandFunction> = {
 }
 
 client.on('messageCreate', async (message: Message) => {
-    if (message.author.bot) return
+    if(message.author.bot) return
 
     const guild_id = message.guild?.id
     const channel_id = message.channel.id
+
+    if(message.content.toLowerCase() === 'que') {
+        message.reply('ijo')
+        return
+    }
 
     const [command] = message.content.trim().split(/\s+/)
 

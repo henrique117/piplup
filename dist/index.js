@@ -107,6 +107,10 @@ client.on('messageCreate', async (message) => {
         return;
     const guild_id = message.guild?.id;
     const channel_id = message.channel.id;
+    if (message.content.toLowerCase() === 'que') {
+        message.reply('ijo');
+        return;
+    }
     const [command] = message.content.trim().split(/\s+/);
     if (messageCommands[command]) {
         if ((!guild_id || !channel_id || !(await canBotSendMessage(guild_id, channel_id)))

@@ -1,5 +1,5 @@
 import { CommandInteraction, Message, MessageFlags } from 'discord.js'
-import { playerEmbedBuilder } from '../auxiliarfunctions/auxiliarfunctions.export'
+import { escapeFormatting, playerEmbedBuilder } from '../auxiliarfunctions/auxiliarfunctions.export'
 import { findPlayerById, findPlayer, findPlayerSimilar } from '../database/dbQuerys'
 import { PlayerInterface } from '../interfaces/interfaces.export'
 
@@ -37,7 +37,7 @@ export default async function info(interaction: CommandInteraction | Message): P
         if(!player_db) {
             if(name_regex.exec(query)) {
                 const playersSimilar = await findPlayerSimilar(query.split('"')[1].toLowerCase())
-                const playersSimilarString = playersSimilar.map((player: PlayerInterface) => `**${player.player_name} (#${player.player_rank})**`).join('\n')
+                const playersSimilarString = playersSimilar.map(async (player: PlayerInterface) => `**${await escapeFormatting(player.player_name)} (#${player.player_rank})**`).join('\n')
 
                 if(playersSimilar.length > 0) {
                     string += `\n\nAre you searching for one of those:\n\n${playersSimilarString}`
@@ -85,7 +85,7 @@ export default async function info(interaction: CommandInteraction | Message): P
         if(!player_db) {
             if(name_regex.exec(query)) {
                 const playersSimilar = await findPlayerSimilar(query.split('"')[1].toLowerCase())
-                const playersSimilarString = playersSimilar.map((player: PlayerInterface) => `**${player.player_name} (#${player.player_rank})**`).join('\n')
+                const playersSimilarString = playersSimilar.map(async (player: PlayerInterface) => `**${await escapeFormatting(player.player_name)} (#${player.player_rank})**`).join('\n')
 
                 if(playersSimilar.length > 0) {
                     string += `\n\nAre you searching for one of those:\n\n${playersSimilarString}`

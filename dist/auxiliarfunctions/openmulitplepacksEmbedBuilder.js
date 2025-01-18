@@ -1,7 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
+const auxiliarfunctions_export_1 = require("./auxiliarfunctions.export");
 async function openmultiplepacksEmbedBuilder(players, user, index, user_pfp) {
+    const playerSafeName = [];
+    for (const player of players) {
+        player.player_name = await (0, auxiliarfunctions_export_1.escapeFormatting)(player.player_name);
+        playerSafeName.push(player);
+    }
     const embedString = players.map(player => `${player.player_id} - **${player.player_name} (#${player.player_rank})** | ${player.player_cost} :coin:`).join('\n') || "You don't have any players! Go open some packs!!";
     return new discord_js_1.EmbedBuilder()
         .setColor('Aqua')
