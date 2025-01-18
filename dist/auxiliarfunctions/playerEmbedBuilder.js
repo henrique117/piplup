@@ -6,9 +6,7 @@ async function playerEmbedBuilder(player) {
     const player_db = await (0, dbQuerys_1.findPlayer)(player.player_name.toLowerCase());
     let owner = 'No one';
     if (player_db && player_db.user_id) {
-        console.log('user_id found:', player_db.user_id);
         const user_db = await (0, dbQuerys_1.findUser)(player_db.user_id);
-        console.log('user_db:', user_db);
         if (user_db) {
             owner = user_db.user_globalName ? user_db.user_globalName : user_db.user_username;
         }

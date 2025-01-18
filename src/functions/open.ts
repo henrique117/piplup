@@ -174,7 +174,6 @@ export default async function open(interaction: CommandInteraction | Message) {
                 players.sort((a, b) => b.player_rank - a.player_rank)
             
                 for (const player of players) {
-                    console.log(`Processing player ID: ${player.player_id}, Current user ID: ${player.user_id}`)
             
                     if (!player.player_id || !player.player_cost) {
                         interaction.reply('Bruh that condition is impossible')
