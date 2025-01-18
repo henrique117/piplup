@@ -1,5 +1,6 @@
 import { CommandInteraction, Message, MessageFlags, TextChannel } from 'discord.js'
 import { findUser, myPlayersList, updateUserCoins, updatePlayerStatus, findPlayer, findPlayerById } from '../database/dbQuerys'
+import { escapeFormatting } from '../auxiliarfunctions/auxiliarfunctions.export'
 
 export default async function sellall(interaction: CommandInteraction | Message): Promise<void> {
 
@@ -17,7 +18,7 @@ export default async function sellall(interaction: CommandInteraction | Message)
         if(query.length > 0) {
             query.forEach((parameter: string) => {
                 if(!id_regex.test(parameter) && !name_regex.test(parameter)) {
-                    interaction.reply({ content: 'Use a valid parameter! Try use &sellall {id1} {"name1"}...', flags: MessageFlags.Ephemeral })
+                    interaction.reply({ content: 'Use a valid parameter! Try use &sellall [id1] ["name1"]...', flags: MessageFlags.Ephemeral })
                     return
                 }
             })
@@ -51,7 +52,7 @@ export default async function sellall(interaction: CommandInteraction | Message)
                 const player_names = []
                 for(const param of query) {
                     const player_db = param.startsWith('"') ? await findPlayer(param.split('"')[1].toLowerCase()) : await findPlayerById(parseInt(param))
-                    player_names.push(player_db.player_name)
+                    player_names.push(await escapeFormatting(player_db.player_name))
                 }
                 const string = player_names.join(', ')
                 interaction.reply({ content: `Are you sure you wanna sell everything except for **${string}**? (y/n)`, flags: MessageFlags.Ephemeral })
@@ -135,7 +136,7 @@ export default async function sellall(interaction: CommandInteraction | Message)
         if(query.length > 0) {
             query.forEach((parameter: string) => {
                 if(!id_regex.test(parameter) && !name_regex.test(parameter)) {
-                    interaction.reply('Use a valid parameter! Try use &sellall {id1} {"name1"}...')
+                    interaction.reply('Use a valid parameter! Try use &sellall [id1] ["name1"]...')
                     return
                 }
             })
@@ -169,7 +170,7 @@ export default async function sellall(interaction: CommandInteraction | Message)
                 const player_names = []
                 for(const param of query) {
                     const player_db = param.startsWith('"') ? await findPlayer(param.split('"')[1].toLowerCase()) : await findPlayerById(parseInt(param))
-                    player_names.push(player_db.player_name)
+                    player_names.push(await escapeFormatting(player_db.player_name))
                 }
                 const string = player_names.join(', ')
                 interaction.reply(`Are you sure you wanna sell everything except for **${string}**? (y/n)`)

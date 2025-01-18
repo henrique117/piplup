@@ -1,6 +1,7 @@
 import { CommandInteraction, DMChannel, Message, MessageFlags, MessageReaction, TextChannel, User } from 'discord.js'
 import { PlayerInterface, UserInterface } from '../interfaces/interfaces.export'
 import { findPlayer, findPlayerById, findUser, updatePlayerStatus } from '../database/dbQuerys'
+import { escapeFormatting } from '../auxiliarfunctions/auxiliarfunctions.export'
 
 export default async function trade(interaction: CommandInteraction | Message) {
     
@@ -153,6 +154,8 @@ async function collectPlayersOnDM(channel: TextChannel, user_db: UserInterface, 
                             return
                         }
 
+                        player_db.player_name = await escapeFormatting(player_db.player_name)
+
                         if (player_db.user_id !== user.user_id) {
                             await dm_message.reply(`You can't trade the player: ${player_db.player_name}`)
                             return
@@ -166,7 +169,8 @@ async function collectPlayersOnDM(channel: TextChannel, user_db: UserInterface, 
                         const player_db = await findPlayer(player.split('"')[1].toLowerCase())
 
                         if (!player_db) {
-                            await dm_message.reply(`Player ${player} not found! Type a valid ID or a valid "name"`)
+                            const safeName = await escapeFormatting(player.split('"')[1])
+                            await dm_message.reply(`Player ${safeName} not found! Type a valid ID or a valid "name"`)
                             return
                         }
 
@@ -174,6 +178,8 @@ async function collectPlayersOnDM(channel: TextChannel, user_db: UserInterface, 
                             await dm_message.reply(`You can't trade the player: ${player_db.player_name}`)
                             return
                         }
+
+                        player_db.player_name = await escapeFormatting(player_db.player_name)
 
                         offer.push(player_db)
                         await dm_message.react('✅')

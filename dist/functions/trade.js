@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const dbQuerys_1 = require("../database/dbQuerys");
+const auxiliarfunctions_export_1 = require("../auxiliarfunctions/auxiliarfunctions.export");
 async function trade(interaction) {
     let user_id = 'bruh';
     let target_id = 'bruh';
@@ -128,6 +129,7 @@ async function collectPlayersOnDM(channel, user_db, target_db, interaction, user
                             await dm_message.reply(`Player ${player} not found! Type a valid ID or a valid "name"`);
                             return;
                         }
+                        player_db.player_name = await (0, auxiliarfunctions_export_1.escapeFormatting)(player_db.player_name);
                         if (player_db.user_id !== user.user_id) {
                             await dm_message.reply(`You can't trade the player: ${player_db.player_name}`);
                             return;
@@ -139,13 +141,15 @@ async function collectPlayersOnDM(channel, user_db, target_db, interaction, user
                         dmCollector.resetTimer();
                         const player_db = await (0, dbQuerys_1.findPlayer)(player.split('"')[1].toLowerCase());
                         if (!player_db) {
-                            await dm_message.reply(`Player ${player} not found! Type a valid ID or a valid "name"`);
+                            const safeName = await (0, auxiliarfunctions_export_1.escapeFormatting)(player.split('"')[1]);
+                            await dm_message.reply(`Player ${safeName} not found! Type a valid ID or a valid "name"`);
                             return;
                         }
                         if (player_db.user_id !== user.user_id) {
                             await dm_message.reply(`You can't trade the player: ${player_db.player_name}`);
                             return;
                         }
+                        player_db.player_name = await (0, auxiliarfunctions_export_1.escapeFormatting)(player_db.player_name);
                         offer.push(player_db);
                         await dm_message.react('✅');
                     }

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const dbQuerys_1 = require("../database/dbQuerys");
+const auxiliarfunctions_export_1 = require("../auxiliarfunctions/auxiliarfunctions.export");
 async function sellall(interaction) {
     if (interaction instanceof discord_js_1.CommandInteraction) {
         const user = interaction.user.id;
@@ -14,7 +15,7 @@ async function sellall(interaction) {
         if (query.length > 0) {
             query.forEach((parameter) => {
                 if (!id_regex.test(parameter) && !name_regex.test(parameter)) {
-                    interaction.reply({ content: 'Use a valid parameter! Try use &sellall {id1} {"name1"}...', flags: discord_js_1.MessageFlags.Ephemeral });
+                    interaction.reply({ content: 'Use a valid parameter! Try use &sellall [id1] ["name1"]...', flags: discord_js_1.MessageFlags.Ephemeral });
                     return;
                 }
             });
@@ -40,7 +41,7 @@ async function sellall(interaction) {
                 const player_names = [];
                 for (const param of query) {
                     const player_db = param.startsWith('"') ? await (0, dbQuerys_1.findPlayer)(param.split('"')[1].toLowerCase()) : await (0, dbQuerys_1.findPlayerById)(parseInt(param));
-                    player_names.push(player_db.player_name);
+                    player_names.push(await (0, auxiliarfunctions_export_1.escapeFormatting)(player_db.player_name));
                 }
                 const string = player_names.join(', ');
                 interaction.reply({ content: `Are you sure you wanna sell everything except for **${string}**? (y/n)`, flags: discord_js_1.MessageFlags.Ephemeral });
@@ -116,7 +117,7 @@ async function sellall(interaction) {
         if (query.length > 0) {
             query.forEach((parameter) => {
                 if (!id_regex.test(parameter) && !name_regex.test(parameter)) {
-                    interaction.reply('Use a valid parameter! Try use &sellall {id1} {"name1"}...');
+                    interaction.reply('Use a valid parameter! Try use &sellall [id1] ["name1"]...');
                     return;
                 }
             });
@@ -142,7 +143,7 @@ async function sellall(interaction) {
                 const player_names = [];
                 for (const param of query) {
                     const player_db = param.startsWith('"') ? await (0, dbQuerys_1.findPlayer)(param.split('"')[1].toLowerCase()) : await (0, dbQuerys_1.findPlayerById)(parseInt(param));
-                    player_names.push(player_db.player_name);
+                    player_names.push(await (0, auxiliarfunctions_export_1.escapeFormatting)(player_db.player_name));
                 }
                 const string = player_names.join(', ');
                 interaction.reply(`Are you sure you wanna sell everything except for **${string}**? (y/n)`);

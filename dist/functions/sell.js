@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const dbQuerys_1 = require("../database/dbQuerys");
+const auxiliarfunctions_export_1 = require("../auxiliarfunctions/auxiliarfunctions.export");
 async function sell(interaction) {
     if (interaction instanceof discord_js_1.CommandInteraction) {
         const query = interaction.options.get('query', true).value?.toString();
@@ -44,6 +45,7 @@ async function sell(interaction) {
             if (player_db.player_id && player_db.player_cost) {
                 await (0, dbQuerys_1.updatePlayerStatus)(player_db.player_id, null);
                 await (0, dbQuerys_1.updateUserCoins)(user_db.user_id, user_db.user_coins + player_db.player_cost);
+                player_db.player_name = await (0, auxiliarfunctions_export_1.escapeFormatting)(player_db.player_name);
                 interaction.reply({ content: `Player **${player_db.player_name}** sold and is now available to get again! Sold for **${player_db.player_cost}** :coin:` });
             }
             return;
@@ -104,6 +106,7 @@ async function sell(interaction) {
                     await (0, dbQuerys_1.updatePlayerStatus)(player_db.player_id, null);
                     sellValue += player_db.player_cost;
                 }
+                player_db.player_name = await (0, auxiliarfunctions_export_1.escapeFormatting)(player_db.player_name);
             }
             await (0, dbQuerys_1.updateUserCoins)(user_db.user_id, user_db.user_coins + sellValue);
             const names_string = players_db.map(player => player?.player_name ? player.player_name : 'Error').join(', ');
