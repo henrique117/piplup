@@ -44,7 +44,7 @@ export default async function info(interaction: CommandInteraction | Message): P
                     player.player_name = await escapeFormatting(player.player_name)
                 }
 
-                const playersSimilarString = playersSimilar.map(async (player: PlayerInterface) => `**${player.player_name} (#${player.player_rank})**`).join('\n')
+                const playersSimilarString = await playersSimilar.map((player: PlayerInterface) => `**${player.player_name} (#${player.player_rank})**`).join('\n')
                     string += `\n\nAre you searching for one of those:\n\n${playersSimilarString}`
                 }
             }
@@ -97,7 +97,7 @@ export default async function info(interaction: CommandInteraction | Message): P
                     player.player_name = await escapeFormatting(player.player_name)
                 }
 
-                const playersSimilarString = playersSimilar.map(async (player: PlayerInterface) => `**${player.player_name} (#${player.player_rank})**`).join('\n')
+                const playersSimilarString = await playersSimilar.map((player: PlayerInterface) => `**${player.player_name} (#${player.player_rank})**`).join('\n')
                     string += `\n\nAre you searching for one of those:\n\n${playersSimilarString}`
                 }
             }

@@ -35,7 +35,7 @@ async function info(interaction) {
                     for (const player of playersSimilar) {
                         player.player_name = await (0, auxiliarfunctions_export_1.escapeFormatting)(player.player_name);
                     }
-                    const playersSimilarString = playersSimilar.map(async (player) => `**${player.player_name} (#${player.player_rank})**`).join('\n');
+                    const playersSimilarString = await playersSimilar.map((player) => `**${player.player_name} (#${player.player_rank})**`).join('\n');
                     string += `\n\nAre you searching for one of those:\n\n${playersSimilarString}`;
                 }
             }
@@ -77,7 +77,7 @@ async function info(interaction) {
                     for (const player of playersSimilar) {
                         player.player_name = await (0, auxiliarfunctions_export_1.escapeFormatting)(player.player_name);
                     }
-                    const playersSimilarString = playersSimilar.map(async (player) => `**${player.player_name} (#${player.player_rank})**`).join('\n');
+                    const playersSimilarString = await playersSimilar.map((player) => `**${player.player_name} (#${player.player_rank})**`).join('\n');
                     string += `\n\nAre you searching for one of those:\n\n${playersSimilarString}`;
                 }
             }
