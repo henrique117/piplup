@@ -31,8 +31,11 @@ async function info(interaction) {
         if (!player_db) {
             if (name_regex.exec(query)) {
                 const playersSimilar = await (0, dbQuerys_1.findPlayerSimilar)(query.split('"')[1].toLowerCase());
-                const playersSimilarString = playersSimilar.map(async (player) => `**${player.player_name} (#${player.player_rank})**`).join('\n');
                 if (playersSimilar.length > 0) {
+                    for (const player of playersSimilar) {
+                        player.player_name = await (0, auxiliarfunctions_export_1.escapeFormatting)(player.player_name);
+                    }
+                    const playersSimilarString = playersSimilar.map(async (player) => `**${player.player_name} (#${player.player_rank})**`).join('\n');
                     string += `\n\nAre you searching for one of those:\n\n${playersSimilarString}`;
                 }
             }
@@ -70,8 +73,11 @@ async function info(interaction) {
         if (!player_db) {
             if (name_regex.exec(query)) {
                 const playersSimilar = await (0, dbQuerys_1.findPlayerSimilar)(query.split('"')[1].toLowerCase());
-                const playersSimilarString = playersSimilar.map(async (player) => `**${player.player_name} (#${player.player_rank})**`).join('\n');
                 if (playersSimilar.length > 0) {
+                    for (const player of playersSimilar) {
+                        player.player_name = await (0, auxiliarfunctions_export_1.escapeFormatting)(player.player_name);
+                    }
+                    const playersSimilarString = playersSimilar.map(async (player) => `**${player.player_name} (#${player.player_rank})**`).join('\n');
                     string += `\n\nAre you searching for one of those:\n\n${playersSimilarString}`;
                 }
             }

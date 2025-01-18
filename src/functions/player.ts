@@ -37,9 +37,14 @@ export default async function info(interaction: CommandInteraction | Message): P
         if(!player_db) {
             if(name_regex.exec(query)) {
                 const playersSimilar = await findPlayerSimilar(query.split('"')[1].toLowerCase())
-                const playersSimilarString = playersSimilar.map(async (player: PlayerInterface) => `**${player.player_name} (#${player.player_rank})**`).join('\n')
 
                 if(playersSimilar.length > 0) {
+
+                for(const player of playersSimilar) {
+                    player.player_name = await escapeFormatting(player.player_name)
+                }
+
+                const playersSimilarString = playersSimilar.map(async (player: PlayerInterface) => `**${player.player_name} (#${player.player_rank})**`).join('\n')
                     string += `\n\nAre you searching for one of those:\n\n${playersSimilarString}`
                 }
             }
@@ -85,9 +90,14 @@ export default async function info(interaction: CommandInteraction | Message): P
         if(!player_db) {
             if(name_regex.exec(query)) {
                 const playersSimilar = await findPlayerSimilar(query.split('"')[1].toLowerCase())
-                const playersSimilarString = playersSimilar.map(async (player: PlayerInterface) => `**${player.player_name} (#${player.player_rank})**`).join('\n')
 
                 if(playersSimilar.length > 0) {
+
+                for(const player of playersSimilar) {
+                    player.player_name = await escapeFormatting(player.player_name)
+                }
+
+                const playersSimilarString = playersSimilar.map(async (player: PlayerInterface) => `**${player.player_name} (#${player.player_rank})**`).join('\n')
                     string += `\n\nAre you searching for one of those:\n\n${playersSimilarString}`
                 }
             }
