@@ -1,9 +1,11 @@
 import { EmbedBuilder } from 'discord.js'
-import { ItemInterface } from '../interfaces/interfaces.export';
+import { ItemInterface, UserInterface } from '../interfaces/interfaces.export';
 
-export default async function shopEmbedBuilder(items: ItemInterface[]): Promise<EmbedBuilder> {
+export default async function shopEmbedBuilder(items: ItemInterface[], user?: UserInterface): Promise<EmbedBuilder> {
 
-    const embedString = items.map(item => `${item.item_id} - ${item.item_name} | ${item.item_cost} coins`).join('\n') || 'No items in the shop this moment'
+    let embedString = items.map(item => `${item.item_id} - ${item.item_name} | ${item.item_cost} coins`).join('\n') || 'No items in the shop this moment'
+
+    if(user) embedString += `\n\nYou have **${user.user_coins}** :coin:`
 
     return new EmbedBuilder()
         .setColor('Aqua')

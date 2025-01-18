@@ -5,7 +5,13 @@ const dbQuerys_1 = require("../database/dbQuerys");
 const auxiliarfunctions_export_1 = require("../auxiliarfunctions/auxiliarfunctions.export");
 async function shop(interaction) {
     try {
+        const user_db = await (0, dbQuerys_1.findUser)(interaction instanceof discord_js_1.CommandInteraction ? interaction.user.id : interaction.author.id);
         const items = await (0, dbQuerys_1.itemsList)();
+        if (user_db) {
+            const shopEmbed = await (0, auxiliarfunctions_export_1.shopEmbedBuilder)(items, user_db);
+            interaction.reply({ embeds: [shopEmbed] });
+            return;
+        }
         const shopEmbed = await (0, auxiliarfunctions_export_1.shopEmbedBuilder)(items);
         interaction.reply({ embeds: [shopEmbed] });
     }
