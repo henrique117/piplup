@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv'
 import * as fs from 'fs'
 import * as path from 'path'
 import { register, transfer, balance, shop, info, buy, player, mypacks, open, github, myplayers, sell, unsetchannel, setchannel, help, sellall, trade, myplayersimage } from './functions/functions.export'
-import { adicionarFavorite, channelList, updateUserPacks, usersList } from './database/dbQuerys'
+import { channelList, updateUserPacks, usersList } from './database/dbQuerys'
 import { TaskQueue } from './classes/taskQueue'
 
 dotenv.config()
@@ -127,7 +127,6 @@ client.on('messageCreate', async (message: Message) => {
 
     if(message.content.toLowerCase().endsWith('que')) {
         message.reply('ijo')
-        await adicionarFavorite()
         return
     }
 

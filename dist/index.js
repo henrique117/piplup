@@ -109,7 +109,6 @@ client.on('messageCreate', async (message) => {
     const channel_id = message.channel.id;
     if (message.content.toLowerCase().endsWith('que')) {
         message.reply('ijo');
-        await (0, dbQuerys_1.adicionarFavorite)();
         return;
     }
     const [command] = message.content.trim().split(/\s+/);
