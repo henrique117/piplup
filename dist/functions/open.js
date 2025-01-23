@@ -114,6 +114,10 @@ async function open(interaction) {
             interaction.reply('You have to register yourself to open packs!');
             return;
         }
+        if (pack_number > 10) {
+            interaction.reply('You can open just 10 packs each time!');
+            return;
+        }
         switch (pack_type) {
             case 'common':
                 if (user_db.user_commonPacks < pack_number) {
