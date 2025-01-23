@@ -8,7 +8,10 @@ module.exports = {
         .setDescription('Buy any item from the shop!')
         .addIntegerOption(option => option.setName('itemid')
         .setDescription('ID of the item')
-        .setRequired(true)),
+        .setRequired(true))
+        .addIntegerOption(option => option.setName('quantity')
+        .setDescription('How many items you wanna buy')
+        .setRequired(false)),
     async execute(interaction) {
         await (0, functions_export_1.buy)(interaction);
     }
