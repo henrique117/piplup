@@ -12,7 +12,7 @@ export default async function myplayersEmbedBuilder(players: PlayerInterface[], 
         playerSafeName.push(player)
     }
 
-    const embedString = playerSafeName.map(player => `${player.player_id} - ${player.player_name} | ${player.player_cost} :coin:`).join('\n') || "You don't have any players! Go open some packs!!"
+    const embedString = playerSafeName.map(player => player.player_fav ? `${player.player_id} - ${player.player_name} | ${player.player_cost} :coin: - :heart:` : `${player.player_id} - ${player.player_name} | ${player.player_cost} :coin:`).join('\n') || "You don't have any players! Go open some packs!!"
 
     return new EmbedBuilder()
         .setColor('Aqua')

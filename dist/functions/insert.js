@@ -24,7 +24,7 @@ async function insert(interaction) {
     }
     try {
         await (0, dbQuerys_1.insertPlayer)(player.player_name, player.player_rank, player.player_pfp, player.player_flag);
-        interaction.reply(`Player ${player.player_name} registered successfully!`);
+        interaction.reply(`Player **${player.player_name}** registered successfully!`);
     }
     catch (err) {
         console.error(`Error on inserting player: ${player.player_name}`, err);

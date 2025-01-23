@@ -100,14 +100,16 @@ const messageCommands = {
     '&trade': functions_export_1.trade,
     '&tr': functions_export_1.trade,
     '&myplayersimage': functions_export_1.myplayersimage,
-    '&mpli': functions_export_1.myplayersimage
+    '&mpli': functions_export_1.myplayersimage,
+    '&favorite': functions_export_1.favorite,
+    '&fv': functions_export_1.favorite
 };
 client.on('messageCreate', async (message) => {
     if (message.author.bot)
         return;
     const guild_id = message.guild?.id;
     const channel_id = message.channel.id;
-    if (message.content.toLowerCase().endsWith('que')) {
+    if (message.content.toLowerCase().endsWith(' que')) {
         message.reply('ijo');
         return;
     }

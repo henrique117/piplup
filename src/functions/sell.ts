@@ -1,5 +1,5 @@
 import { CommandInteraction, Message, MessageFlags } from 'discord.js'
-import { findPlayer, findPlayerById, findUser, updatePlayerStatus, updateUserCoins } from '../database/dbQuerys'
+import { findPlayer, findPlayerById, findUser, updatePlayerFav, updatePlayerStatus, updateUserCoins } from '../database/dbQuerys'
 import { PlayerInterface } from '../interfaces/interfaces.export'
 import { escapeFormatting } from '../auxiliarfunctions/auxiliarfunctions.export'
 
@@ -52,14 +52,13 @@ export default async function sell(interaction: CommandInteraction | Message): P
                 interaction.reply({ content: "You can't sell this player!", flags: MessageFlags.Ephemeral})
                 return
             }
+            
+            await updatePlayerStatus(player_db.player_id, null)
+            await updatePlayerFav(player_db.player_id, false)
+            await updateUserCoins(user_db.user_id, user_db.user_coins + player_db.player_cost)
 
-            if(player_db.player_id && player_db.player_cost) {
-                await updatePlayerStatus(player_db.player_id, null)
-                await updateUserCoins(user_db.user_id, user_db.user_coins + player_db.player_cost)
-
-                player_db.player_name = await escapeFormatting(player_db.player_name)
-                interaction.reply({ content: `Player **${player_db.player_name}** sold and is now available to get again! Sold for **${player_db.player_cost}** :coin:` })
-            }
+            player_db.player_name = await escapeFormatting(player_db.player_name)
+            interaction.reply({ content: `Player **${player_db.player_name}** sold and is now available to get again! Sold for **${player_db.player_cost}** :coin:` })
 
             return
 
@@ -130,10 +129,9 @@ export default async function sell(interaction: CommandInteraction | Message): P
                     return
                 }
     
-                if(player_db.player_id && player_db.player_cost) {
-                    await updatePlayerStatus(player_db.player_id, null)
-                    sellValue += player_db.player_cost
-                }
+                await updatePlayerStatus(player_db.player_id, null)
+                await updatePlayerFav(player_db.player_id, false)
+                sellValue += player_db.player_cost
 
                 player_db.player_name = await escapeFormatting(player_db.player_name)
             }

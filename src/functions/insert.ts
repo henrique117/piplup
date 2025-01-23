@@ -29,7 +29,7 @@ export default async function insert(interaction: CommandInteraction): Promise<v
 
     try {
         await insertPlayer(player.player_name, player.player_rank, player.player_pfp, player.player_flag)
-        interaction.reply(`Player ${player.player_name} registered successfully!`)
+        interaction.reply(`Player **${player.player_name}** registered successfully!`)
     } catch (err) {
         console.error(`Error on inserting player: ${player.player_name}`, err)
         interaction.reply({ content: 'Error on inserting player', flags: MessageFlags.Ephemeral })

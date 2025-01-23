@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPlayersForPack = exports.deleteChannel = exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updatePlayerStatus = exports.updateUserPacks = exports.updateUserCoins = exports.channelList = exports.usersList = exports.myPlayersList = exports.itemsList = exports.findChannel = exports.findItem = exports.findUser = exports.findPlayerById = exports.findPlayerSimilar = exports.findPlayer = exports.newChannel = exports.newPurchase = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
+exports.getPlayersForPack = exports.deleteChannel = exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updatePlayerFav = exports.updatePlayerStatus = exports.updateUserPacks = exports.updateUserCoins = exports.channelList = exports.usersList = exports.myPlayersList = exports.itemsList = exports.findChannel = exports.findItem = exports.findUser = exports.findPlayerById = exports.findPlayerSimilar = exports.findPlayer = exports.newChannel = exports.newPurchase = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
 const createDatabase_1 = require("./createDatabase");
 const insertPlayer = async (player_name, player_rank, player_pfp, player_flag) => {
     const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, player_weight, player_flag, user_id)
@@ -316,6 +316,22 @@ const updatePlayerStatus = async (player_id, user_id) => {
     });
 };
 exports.updatePlayerStatus = updatePlayerStatus;
+const updatePlayerFav = async (player_id, fav) => {
+    const query = `UPDATE Players SET player_fav = ? WHERE player_id = ?`;
+    const fav_status = fav ? 1 : 0;
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.run(query, [fav_status, player_id], (err) => {
+            if (err) {
+                console.error(`Error favoriting user: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve();
+            }
+        });
+    });
+};
+exports.updatePlayerFav = updatePlayerFav;
 const deleteUser = async (user_id) => {
     const query = [
         `UPDATE Players SET user_id = NULL WHERE user_id = ?`,

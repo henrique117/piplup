@@ -1,7 +1,6 @@
 import Axios from 'axios'
 import getAuthToken from './apiAuth'
 import { insertPlayersInArray } from '../database/dbQuerys'
-import { PlayerInterface } from '../interfaces/interfaces.export'
 
 export default class ApiCalls {
     public async updatePlayers(): Promise<void> {
@@ -26,7 +25,7 @@ export default class ApiCalls {
                         }
                     })
     
-                    const players: PlayerInterface[] = []
+                    const players: {player_name: string, player_rank: number, player_pfp: string, player_flag: string}[] = []
                     const data = response.data.ranking
     
                     data.forEach((player: any) => {
@@ -64,10 +63,10 @@ export default class ApiCalls {
         console.log('Process ended')
     }
 
-    public async getPlayerById(id: string): Promise<PlayerInterface | null> {
+    public async getPlayerById(id: string): Promise<{ player_name: string; player_rank: number; player_pfp: string; player_flag: string } | null> {
         const token = await getAuthToken()
 
-        let player: PlayerInterface
+        let player: {player_name: string, player_rank: number, player_pfp: string, player_flag: string}
 
         try {
 

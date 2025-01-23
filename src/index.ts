@@ -2,7 +2,7 @@ import { Client, Collection, CommandInteraction, GatewayIntentBits, Interaction,
 import * as dotenv from 'dotenv'
 import * as fs from 'fs'
 import * as path from 'path'
-import { register, transfer, balance, shop, info, buy, player, mypacks, open, github, myplayers, sell, unsetchannel, setchannel, help, sellall, trade, myplayersimage } from './functions/functions.export'
+import { register, transfer, balance, shop, info, buy, player, mypacks, open, github, myplayers, sell, unsetchannel, setchannel, help, sellall, trade, myplayersimage, favorite } from './functions/functions.export'
 import { channelList, updateUserPacks, usersList } from './database/dbQuerys'
 import { TaskQueue } from './classes/taskQueue'
 
@@ -116,7 +116,9 @@ const messageCommands: Record<string, CommandFunction> = {
     '&trade': trade,
     '&tr' : trade,
     '&myplayersimage': myplayersimage,
-    '&mpli': myplayersimage
+    '&mpli': myplayersimage,
+    '&favorite': favorite,
+    '&fv': favorite
 }
 
 client.on('messageCreate', async (message: Message) => {
@@ -125,7 +127,7 @@ client.on('messageCreate', async (message: Message) => {
     const guild_id = message.guild?.id
     const channel_id = message.channel.id
 
-    if(message.content.toLowerCase().endsWith('que')) {
+    if(message.content.toLowerCase().endsWith(' que')) {
         message.reply('ijo')
         return
     }

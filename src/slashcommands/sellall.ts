@@ -8,7 +8,7 @@ module.exports = {
         .addStringOption(option => 
             option.setName('query')
             .setDescription("IDs or names of the players you don't wanna sell")
-            .setRequired(true)
+            .setRequired(false)
         ),
 
     async execute(interaction: CommandInteraction) {

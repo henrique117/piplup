@@ -55,9 +55,9 @@ export default async function sellall(interaction: CommandInteraction | Message)
                     player_names.push(await escapeFormatting(player_db.player_name))
                 }
                 const string = player_names.join(', ')
-                interaction.reply({ content: `Are you sure you wanna sell everything except for **${string}**? (y/n)`, flags: MessageFlags.Ephemeral })
+                interaction.reply({ content: `Are you sure you wanna sell everything except for **${string}** and your favorites? (y/n)`})
             } else {
-                interaction.reply({ content: 'Are you sure you wanna sell everything? (y/n)', flags: MessageFlags.Ephemeral })
+                interaction.reply({ content: 'Are you sure you wanna sell everything except for your favorites? (y/n)'})
             }
 
             const collector = channel.createMessageCollector({ filter, time: 30000 })
@@ -75,9 +75,9 @@ export default async function sellall(interaction: CommandInteraction | Message)
                                 return
                             }
 
-                            if(!query.includes(player.player_id.toString()) && !query.includes(`"${player.player_name.toLowerCase()}"`)) {
-                                if(player.player_id) await updatePlayerStatus(player.player_id, null)
-                                if(player.player_cost) sellValue += player.player_cost
+                            if(!query.includes(player.player_id.toString()) && !query.includes(`"${player.player_name.toLowerCase()}"`) && player.player_fav != true) {
+                                await updatePlayerStatus(player.player_id, null)
+                                sellValue += player.player_cost
                             }
 
                         } catch (err) {
@@ -173,9 +173,9 @@ export default async function sellall(interaction: CommandInteraction | Message)
                     player_names.push(await escapeFormatting(player_db.player_name))
                 }
                 const string = player_names.join(', ')
-                interaction.reply(`Are you sure you wanna sell everything except for **${string}**? (y/n)`)
+                interaction.reply(`Are you sure you wanna sell everything except for **${string}** and your favorites? (y/n)`)
             } else {
-                interaction.reply('Are you sure you wanna sell everything? (y/n)')
+                interaction.reply('Are you sure you wanna sell everything except for your favorites? (y/n)')
             }
 
             const collector = channel.createMessageCollector({ filter, time: 30000 })
@@ -193,9 +193,9 @@ export default async function sellall(interaction: CommandInteraction | Message)
                                 return
                             }
 
-                            if(!query.includes(player.player_id.toString()) && !query.includes(`"${player.player_name.toLowerCase()}"`)) {
-                                if(player.player_id) await updatePlayerStatus(player.player_id, null)
-                                if(player.player_cost) sellValue += player.player_cost
+                            if(!query.includes(player.player_id.toString()) && !query.includes(`"${player.player_name.toLowerCase()}"`) && player.player_fav != true) {
+                                await updatePlayerStatus(player.player_id, null)
+                                sellValue += player.player_cost
                             }
 
                         } catch (err) {

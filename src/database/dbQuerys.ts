@@ -325,6 +325,22 @@ export const updatePlayerStatus = async (player_id: number, user_id: string | nu
     })
 }
 
+export const updatePlayerFav = async (player_id: number, fav: boolean): Promise<void> => {
+    const query = `UPDATE Players SET player_fav = ? WHERE player_id = ?`
+    const fav_status = fav ? 1 : 0
+
+    return new Promise<void>((resolve, reject) => {
+        db.run(query, [fav_status, player_id], (err) => {
+            if(err) {
+                console.error(`Error favoriting user: ${err.message}`)
+                reject(err)
+            } else {
+                resolve()
+            }
+        })
+    })
+}
+
 export const deleteUser = async (user_id: string) => {
     const query = [
         `UPDATE Players SET user_id = NULL WHERE user_id = ?`,

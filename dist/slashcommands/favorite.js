@@ -4,12 +4,12 @@ const discord_js_1 = require("discord.js");
 const functions_export_1 = require("../functions/functions.export");
 module.exports = {
     data: new discord_js_1.SlashCommandBuilder()
-        .setName('sellall')
-        .setDescription('Sell all of your players')
+        .setName('favorite')
+        .setDescription('Favorite your players')
         .addStringOption(option => option.setName('query')
-        .setDescription("IDs or names of the players you don't wanna sell")
-        .setRequired(false)),
+        .setDescription("IDs or names of the players you wanna favorite")
+        .setRequired(true)),
     async execute(interaction) {
-        await (0, functions_export_1.sellall)(interaction);
+        await (0, functions_export_1.favorite)(interaction);
     }
 };

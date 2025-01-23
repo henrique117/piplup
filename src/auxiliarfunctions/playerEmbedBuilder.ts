@@ -21,7 +21,7 @@ export default async function playerEmbedBuilder(player: PlayerInterface): Promi
 
     return new EmbedBuilder()
         .setColor('Aqua')
-        .setTitle(`:flag_${player.player_flag.toLowerCase()}: ${safeName} (#${player.player_rank})`)
+        .setTitle(player.player_fav ? `:flag_${player.player_flag.toLowerCase()}: ${safeName} (#${player.player_rank}) :heart:` : `:flag_${player.player_flag.toLowerCase()}: ${safeName} (#${player.player_rank})`)
         .setDescription(`**Value: ${player.player_cost}** :coin:\n\nOwner: ${owner}\nPlayer ID: ${player.player_id}`)
         .setImage(`${player.player_pfp}`)
 }

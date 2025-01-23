@@ -8,7 +8,7 @@ async function myplayersEmbedBuilder(players, user, user_pfp) {
         player.player_name = await (0, auxiliarfunctions_export_1.escapeFormatting)(player.player_name);
         playerSafeName.push(player);
     }
-    const embedString = playerSafeName.map(player => `${player.player_id} - ${player.player_name} | ${player.player_cost} :coin:`).join('\n') || "You don't have any players! Go open some packs!!";
+    const embedString = playerSafeName.map(player => player.player_fav ? `${player.player_id} - ${player.player_name} | ${player.player_cost} :coin: - :heart:` : `${player.player_id} - ${player.player_name} | ${player.player_cost} :coin:`).join('\n') || "You don't have any players! Go open some packs!!";
     return new discord_js_1.EmbedBuilder()
         .setColor('Aqua')
         .setTitle(`${user.user_globalName ? user.user_globalName : user.user_username}'s players`)
