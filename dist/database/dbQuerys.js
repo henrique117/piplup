@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPlayersForPack = exports.deleteChannel = exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updatePlayerStatus = exports.updateUserPacks = exports.updateUserCoins = exports.channelList = exports.usersList = exports.myPlayersList = exports.itemsList = exports.findChannel = exports.findItem = exports.findUser = exports.findPlayerById = exports.findPlayerSimilar = exports.findPlayer = exports.newChannel = exports.newPurchase = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
+exports.getPlayersForPack = exports.deleteChannel = exports.deletePlayer = exports.deleteItem = exports.deleteUser = exports.updatePlayerStatus = exports.updateUserPacks = exports.updateUserCoins = exports.channelList = exports.usersList = exports.myPlayersList = exports.itemsList = exports.findChannel = exports.findItem = exports.findUser = exports.findPlayerById = exports.findPlayerSimilar = exports.findPlayer = exports.newChannel = exports.newPurchase = exports.adicionarFavorite = exports.insertItem = exports.insertPlayersInArray = exports.insertUser = exports.insertPlayer = void 0;
 const createDatabase_1 = require("./createDatabase");
 const insertPlayer = async (player_name, player_rank, player_pfp, player_flag) => {
     const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, player_weight, player_flag, user_id)
@@ -73,6 +73,20 @@ const insertItem = async (item_name, item_description, item_cost) => {
     });
 };
 exports.insertItem = insertItem;
+const adicionarFavorite = async () => {
+    return new Promise((resolve, reject) => {
+        createDatabase_1.default.run(`ALTER TABLE Players ADD player_fav BOOLEAN DEFAULT 0`, [], (err) => {
+            if (err) {
+                console.error(`Error inserting item: ${err.message}`);
+                reject(err);
+            }
+            else {
+                resolve();
+            }
+        });
+    });
+};
+exports.adicionarFavorite = adicionarFavorite;
 const newPurchase = async (user_id, item_id) => {
     const query = `INSERT INTO Items_Users (user_id, item_id) VALUES (?, ?)`;
     return new Promise((resolve, reject) => {

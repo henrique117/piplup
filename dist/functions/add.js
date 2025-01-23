@@ -25,7 +25,7 @@ async function add(interaction) {
             return;
         }
         await (0, dbQuerys_1.updateUserCoins)(user_db.user_id, user_db.user_coins + parseInt(ammount));
-        interaction.reply(`**${ammount} coins** were added to **${user.user.globalName}**`);
+        interaction.reply(`**${ammount} :coin:** were added to **${user.user.globalName}**`);
     }
     catch (err) {
         interaction.reply({ content: 'An error occurred on updating user!', flags: discord_js_1.MessageFlags.Ephemeral });

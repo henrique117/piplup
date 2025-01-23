@@ -77,6 +77,19 @@ export const insertItem = async (item_name: string, item_description: string | n
     })
 }
 
+export const adicionarFavorite = async () => {
+    return new Promise<void>((resolve, reject) => {
+        db.run(`ALTER TABLE Players ADD player_fav BOOLEAN DEFAULT 0`, [], (err) => {
+            if(err) {
+                console.error(`Error inserting item: ${err.message}`)
+                reject(err)
+            } else {
+                resolve()
+            }
+        })
+    })
+}
+
 export const newPurchase = async (user_id: string, item_id: number): Promise<void> => {
     const query = `INSERT INTO Items_Users (user_id, item_id) VALUES (?, ?)`
 

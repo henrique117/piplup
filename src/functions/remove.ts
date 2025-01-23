@@ -33,7 +33,7 @@ export default async function remove(interaction: CommandInteraction): Promise<v
 
         await updateUserCoins(user_db.user_id, user_db.user_coins - parseInt(ammount))
 
-        interaction.reply(`**${ammount} coins** were removed from **${user.user.globalName}**`)
+        interaction.reply(`**${ammount} :coin:** were removed from **${user.user.globalName}**`)
 
     } catch (err) {
         interaction.reply({ content: 'An error occurred on updating user!', flags: MessageFlags.Ephemeral })

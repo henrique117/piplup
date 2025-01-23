@@ -33,7 +33,7 @@ export default async function add(interaction: CommandInteraction): Promise<void
 
         await updateUserCoins(user_db.user_id, user_db.user_coins + parseInt(ammount))
 
-        interaction.reply(`**${ammount} coins** were added to **${user.user.globalName}**`)
+        interaction.reply(`**${ammount} :coin:** were added to **${user.user.globalName}**`)
 
     } catch (err) {
         interaction.reply({ content: 'An error occurred on updating user!', flags: MessageFlags.Ephemeral })
