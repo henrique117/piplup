@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const dbQuerys_1 = require("../database/dbQuerys");
 const auxiliarfunctions_export_1 = require("../auxiliarfunctions/auxiliarfunctions.export");
-async function favorite(interaction) {
+async function unfavorite(interaction) {
     let user;
     if (interaction instanceof discord_js_1.CommandInteraction) {
         user = interaction.user.id;
@@ -11,15 +11,15 @@ async function favorite(interaction) {
     else {
         user = interaction.author.id;
     }
-    let players_to_fv = 0;
+    let players_to_unfv = 0;
     try {
         const user_db = await (0, dbQuerys_1.findUser)(user);
         if (!user_db) {
             if (interaction instanceof discord_js_1.CommandInteraction) {
-                interaction.reply({ content: 'You have to register yourself to favorite players!', flags: discord_js_1.MessageFlags.Ephemeral });
+                interaction.reply({ content: 'You have to register yourself to unfavorite players!', flags: discord_js_1.MessageFlags.Ephemeral });
             }
             else {
-                interaction.reply('You have to register yourself to favorite players!');
+                interaction.reply('You have to register yourself to unfavorite players!');
             }
             return;
         }
@@ -28,10 +28,10 @@ async function favorite(interaction) {
             query?.shift();
         if (!query || query.length < 1) {
             if (interaction instanceof discord_js_1.CommandInteraction) {
-                interaction.reply({ content: 'Use the command right: &favorite | &fv [id1] ["name1"]...', flags: discord_js_1.MessageFlags.Ephemeral });
+                interaction.reply({ content: 'Use the command right: &unfavorite | &unfv [id1] ["name1"]...', flags: discord_js_1.MessageFlags.Ephemeral });
             }
             else {
-                interaction.reply('Use the command right: &favorite | &fv [id1] ["name1"]...');
+                interaction.reply('Use the command right: &unfavorite | &unfv [id1] ["name1"]...');
             }
             return;
         }
@@ -59,9 +59,9 @@ async function favorite(interaction) {
                     }
                     return;
                 }
-                if (!player_db.player_fav) {
+                if (player_db.player_fav) {
                     player_db.player_name = await (0, auxiliarfunctions_export_1.escapeFormatting)(player_db.player_name);
-                    players_to_fv++;
+                    players_to_unfv++;
                     players_favorite.push(player_db);
                 }
             }
@@ -78,16 +78,16 @@ async function favorite(interaction) {
                 }
                 if (player_db.user_id != user_db.user_id) {
                     if (interaction instanceof discord_js_1.CommandInteraction) {
-                        await interaction.reply({ content: `You can't favorite the player: **${await (0, auxiliarfunctions_export_1.escapeFormatting)(player_db.player_name)}**!`, flags: discord_js_1.MessageFlags.Ephemeral });
+                        await interaction.reply({ content: `You can't unfavorite the player: **${await (0, auxiliarfunctions_export_1.escapeFormatting)(player_db.player_name)}**!`, flags: discord_js_1.MessageFlags.Ephemeral });
                     }
                     else {
-                        await interaction.reply(`You can't favorite the player: **${await (0, auxiliarfunctions_export_1.escapeFormatting)(player_db.player_name)}**!`);
+                        await interaction.reply(`You can't unfavorite the player: **${await (0, auxiliarfunctions_export_1.escapeFormatting)(player_db.player_name)}**!`);
                     }
                     return;
                 }
-                if (!player_db.player_fav) {
+                if (player_db.player_fav) {
                     player_db.player_name = await (0, auxiliarfunctions_export_1.escapeFormatting)(player_db.player_name);
-                    players_to_fv++;
+                    players_to_unfv++;
                     players_favorite.push(player_db);
                 }
             }
@@ -101,25 +101,25 @@ async function favorite(interaction) {
                 return;
             }
         }
-        if (players_to_fv < 1) {
-            interaction.reply('You favorited nothing!!');
+        if (players_to_unfv < 1) {
+            interaction.reply('You unfavorited nothing!!');
             return;
         }
         for (const player of players_favorite) {
-            await (0, dbQuerys_1.updatePlayerFav)(player.player_id, true);
+            await (0, dbQuerys_1.updatePlayerFav)(player.player_id, false);
         }
         const string = players_favorite.map(p => p.player_name).join(', ');
-        interaction.reply(`Players **${string}** favorited!`);
+        interaction.reply(`Players **${string}** unfavorited!`);
     }
     catch (err) {
         if (interaction instanceof discord_js_1.CommandInteraction) {
             interaction.reply({ content: `Error on favorite function`, flags: discord_js_1.MessageFlags.Ephemeral });
         }
         else {
-            interaction.reply(`Error on favorite function`);
+            interaction.reply(`Error on unfavorite function`);
         }
-        console.error('Error on favorite function', err);
+        console.error('Error on unfavorite function', err);
         return;
     }
 }
-exports.default = favorite;
+exports.default = unfavorite;

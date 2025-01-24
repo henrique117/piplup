@@ -11,59 +11,75 @@ export default async function sell(interaction: CommandInteraction | Message): P
         const user = interaction.user.id
         
         if(!query) {
-            interaction.reply({ content: 'Bruh', flags: MessageFlags.Ephemeral})
+            interaction.reply('Bruh')
             console.error('Bruh')
             return
         }
 
         try {
 
-            const id_regex = /^\d+/
-            const name_regex = /^"(.+)"$/
-
-            if(!id_regex.exec(query) && !name_regex.exec(query)) {
-                interaction.reply({ content: 'Type a valid ID or use " " to sell player using the name', flags: MessageFlags.Ephemeral})
-                return
-            }
-
-            let player_db: PlayerInterface | null
-
-            if(id_regex.exec(query) && !name_regex.exec(query)) {
-                player_db = await findPlayerById(parseInt(query))
-            } else if(!id_regex.exec(query) && name_regex.exec(query)) {
-                player_db = await findPlayer(query.split('"')[1].toLowerCase())
-            } else {
-                player_db = null
-            }
+            const id_regex = /^.+\s\d+$/
+            const name_regex = /^.+\s"(.+)"$/
 
             const user_db = await findUser(user)
 
             if(!user_db) {
-                interaction.reply({ content: "You have to register yourself to get and sell players", flags: MessageFlags.Ephemeral})
+                interaction.reply({ content: "You have to register yourself to get and sell players", flags: MessageFlags.Ephemeral })
                 return
             }
 
-            if(!player_db) {
-                interaction.reply({ content: "Player not found! Type a valid ID", flags: MessageFlags.Ephemeral})
+            if(!id_regex.exec(query) && !name_regex.exec(query)) {
+                interaction.reply('Type a valid ID or use " " to sell player using the name')
                 return
             }
 
-            if(player_db.user_id != user_db.user_id) {
-                interaction.reply({ content: "You can't sell this player!", flags: MessageFlags.Ephemeral})
-                return
+            const playersToSell = query.split(' ')
+            playersToSell.shift()
+
+            const players_db = []
+
+            for(const player of playersToSell) {
+                let player_db: PlayerInterface | null
+    
+                if(id_regex.exec('&sell ' + player) && !name_regex.exec('&sell ' + player)) {
+                    player_db = await findPlayerById(parseInt(player))
+                } else if(!id_regex.exec('&sell ' + player) && name_regex.exec('&sell ' + player)) {
+                    player_db = await findPlayer(player.split('"')[1].toLowerCase())
+                } else {
+                    player_db = null
+                }
+
+                players_db.push(player_db)
             }
-            
-            await updatePlayerStatus(player_db.player_id, null)
-            await updatePlayerFav(player_db.player_id, false)
-            await updateUserCoins(user_db.user_id, user_db.user_coins + player_db.player_cost)
 
-            player_db.player_name = await escapeFormatting(player_db.player_name)
-            interaction.reply({ content: `Player **${player_db.player_name}** sold and is now available to get again! Sold for **${player_db.player_cost}** :coin:` })
+            let sellValue: number = 0
 
-            return
+            for(const player_db of players_db) {
+                if(!player_db) {
+                    interaction.reply({ content: "Player not found! Type a valid parameter", flags: MessageFlags.Ephemeral })
+                    return
+                }
+    
+                if(player_db.user_id != user_db.user_id) {
+                    interaction.reply({ content: "You can't sell this player!", flags: MessageFlags.Ephemeral })
+                    return
+                }
+    
+                await updatePlayerStatus(player_db.player_id, null)
+                await updatePlayerFav(player_db.player_id, false)
+                sellValue += player_db.player_cost
+
+                player_db.player_name = await escapeFormatting(player_db.player_name)
+            }
+
+            await updateUserCoins(user_db.user_id, user_db.user_coins + sellValue)
+
+            const names_string = players_db.map(player => player?.player_name ? player.player_name : 'Error').join(', ')
+
+            interaction.reply(`Player **${names_string}** are now available to get again! Sold for **${sellValue}** :coin:`)
 
         } catch (err) {
-            interaction.reply({ content: `Error fetching user: ${user}`, flags: MessageFlags.Ephemeral })
+            interaction.reply(`Error fetching user: ${user}`)
             console.error(`Error fetching user: ${user}`)
             return
         }

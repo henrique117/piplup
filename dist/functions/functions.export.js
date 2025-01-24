@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.favorite = exports.myplayersimage = exports.trade = exports.sellall = exports.help = exports.unsetchannel = exports.setchannel = exports.addpacks = exports.sell = exports.myplayers = exports.github = exports.open = exports.mypacks = exports.player = exports.buy = exports.info = exports.shop = exports.deleteplayer = exports.balance = exports.deleteitem = exports.newitem = exports.deleteU = exports.insert = exports.transfer = exports.remove = exports.add = exports.register = void 0;
+exports.unfavorite = exports.favorite = exports.myplayersimage = exports.trade = exports.sellall = exports.help = exports.unsetchannel = exports.setchannel = exports.addpacks = exports.sell = exports.myplayers = exports.github = exports.open = exports.mypacks = exports.player = exports.buy = exports.info = exports.shop = exports.deleteplayer = exports.balance = exports.deleteitem = exports.newitem = exports.deleteU = exports.insert = exports.transfer = exports.remove = exports.add = exports.register = void 0;
 var register_1 = require("./register");
 Object.defineProperty(exports, "register", { enumerable: true, get: function () { return register_1.default; } });
 var add_1 = require("./add");
@@ -55,3 +55,5 @@ var myplayersimage_1 = require("./myplayersimage");
 Object.defineProperty(exports, "myplayersimage", { enumerable: true, get: function () { return myplayersimage_1.default; } });
 var favorite_1 = require("./favorite");
 Object.defineProperty(exports, "favorite", { enumerable: true, get: function () { return favorite_1.default; } });
+var unfavorite_1 = require("./unfavorite");
+Object.defineProperty(exports, "unfavorite", { enumerable: true, get: function () { return unfavorite_1.default; } });

@@ -102,7 +102,9 @@ const messageCommands = {
     '&myplayersimage': functions_export_1.myplayersimage,
     '&mpli': functions_export_1.myplayersimage,
     '&favorite': functions_export_1.favorite,
-    '&fv': functions_export_1.favorite
+    '&fv': functions_export_1.favorite,
+    '&unfavorite': functions_export_1.unfavorite,
+    '&unfv': functions_export_1.unfavorite
 };
 client.on('messageCreate', async (message) => {
     if (message.author.bot)
