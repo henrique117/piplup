@@ -1,6 +1,19 @@
 import db from './createDatabase'
 import { ChannelInterface, ItemInterface, PlayerInterface, UserInterface } from '../interfaces/interfaces.export'
 
+export const runQuery = async (query: string): Promise<string> => {
+    return new Promise<string>((resolve, reject) => {
+        db.run(query, (err) => {
+            if(err) {
+                console.error(`Error running query`)
+                reject(err)
+            } else {
+                resolve('Nice')
+            }
+        })
+    })
+}
+
 export const insertPlayer = async (player_name: string, player_rank: number, player_pfp: string, player_flag: string): Promise<void> => {
     const query = `INSERT INTO Players (player_name, player_rank, player_pfp, player_cost, player_weight, player_flag, user_id)
                    VALUES (?, ?, ?, ?, ?, ?, NULL)`
