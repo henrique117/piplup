@@ -104,7 +104,7 @@ const messageCommands = {
     '&favorite': functions_export_1.favorite,
     '&fv': functions_export_1.favorite,
     '&unfavorite': functions_export_1.unfavorite,
-    '&unfv': functions_export_1.unfavorite
+    '&unfv': functions_export_1.unfavorite,
 };
 client.on('messageCreate', async (message) => {
     if (message.author.bot)
@@ -113,6 +113,10 @@ client.on('messageCreate', async (message) => {
     const channel_id = message.channel.id;
     if (message.content.toLowerCase().endsWith(' que')) {
         message.reply('ijo');
+        return;
+    }
+    if (message.content.toLowerCase().trim().startsWith('&roll')) {
+        await (0, functions_export_1.roll)(message);
         return;
     }
     const [command] = message.content.trim().split(/\s+/);

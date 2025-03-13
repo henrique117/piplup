@@ -2,7 +2,7 @@ import { Client, Collection, CommandInteraction, GatewayIntentBits, Interaction,
 import * as dotenv from 'dotenv'
 import * as fs from 'fs'
 import * as path from 'path'
-import { register, transfer, balance, shop, info, buy, player, mypacks, open, github, myplayers, sell, unsetchannel, setchannel, help, sellall, trade, myplayersimage, favorite, unfavorite } from './functions/functions.export'
+import { register, transfer, balance, shop, info, buy, player, mypacks, open, github, myplayers, sell, unsetchannel, setchannel, help, sellall, trade, myplayersimage, favorite, unfavorite, roll } from './functions/functions.export'
 import { channelList, updateUserPacks, usersList } from './database/dbQuerys'
 import { TaskQueue } from './classes/taskQueue'
 
@@ -120,7 +120,7 @@ const messageCommands: Record<string, CommandFunction> = {
     '&favorite': favorite,
     '&fv': favorite,
     '&unfavorite': unfavorite,
-    '&unfv': unfavorite
+    '&unfv': unfavorite,
 }
 
 client.on('messageCreate', async (message: Message) => {
@@ -131,6 +131,11 @@ client.on('messageCreate', async (message: Message) => {
 
     if(message.content.toLowerCase().endsWith(' que')) {
         message.reply('ijo')
+        return
+    }
+
+    if(message.content.toLowerCase().trim().startsWith('&roll')) {
+        await roll(message)
         return
     }
 

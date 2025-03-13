@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.query = exports.unfavorite = exports.favorite = exports.myplayersimage = exports.trade = exports.sellall = exports.help = exports.unsetchannel = exports.setchannel = exports.addpacks = exports.sell = exports.myplayers = exports.github = exports.open = exports.mypacks = exports.player = exports.buy = exports.info = exports.shop = exports.deleteplayer = exports.balance = exports.deleteitem = exports.newitem = exports.deleteU = exports.insert = exports.transfer = exports.remove = exports.add = exports.register = void 0;
+exports.roll = exports.query = exports.unfavorite = exports.favorite = exports.myplayersimage = exports.trade = exports.sellall = exports.help = exports.unsetchannel = exports.setchannel = exports.addpacks = exports.sell = exports.myplayers = exports.github = exports.open = exports.mypacks = exports.player = exports.buy = exports.info = exports.shop = exports.deleteplayer = exports.balance = exports.deleteitem = exports.newitem = exports.deleteU = exports.insert = exports.transfer = exports.remove = exports.add = exports.register = void 0;
 var register_1 = require("./register");
 Object.defineProperty(exports, "register", { enumerable: true, get: function () { return register_1.default; } });
 var add_1 = require("./add");
@@ -59,3 +59,5 @@ var unfavorite_1 = require("./unfavorite");
 Object.defineProperty(exports, "unfavorite", { enumerable: true, get: function () { return unfavorite_1.default; } });
 var query_1 = require("./query");
 Object.defineProperty(exports, "query", { enumerable: true, get: function () { return query_1.default; } });
+var roll_1 = require("./roll");
+Object.defineProperty(exports, "roll", { enumerable: true, get: function () { return roll_1.default; } });
